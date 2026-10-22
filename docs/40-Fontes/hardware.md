@@ -21,11 +21,26 @@ Fatos confirmados em terasic.com.tw e nos manuais em [[40-Fontes]]. Não reident
 - CPLD: corte por `VBUS < 5,9 V` por 2 s ou `P > 65 W` por 0,2 s; INA230 cfg `0x4127`, cal 2560 (1 mA/LSB) ([[spider-cd/Motor_Board_MAXII_Power_Monitor/MAXII_Power_Monitor.v]]).
 - Comandos extras: `ATST`, `ATVR=?`, `ATJS=`.
 
-## Header LTC 2x7 (J17) — atenção ao multiplexador
-- Confirmado no `DE0_Nano_SoC_golden_top.v` do CD: `HPS_SPIM_*` = **spim1/SS0** (`/dev/spidev1.0`), `HPS_I2C1_*` = i2c1 (`/dev/i2c-1`), `HPS_LTC_GPIO` = **HPS GPIO40** (gpiochip198 + 11 = **gpio209** no sysfs).
-- A figura 3-27 do manual mostra um **TS3A5018 (U2)** cujo seletor é o próprio `HPS_LTC_GPIO`: ele escolhe se os pinos "MOSI_SDA"/"SCK_SCL" do header levam SPI ou I2C1. No esquemático da DE10-Nano (mesmo desenho, sheet 16): GPIO40 = 0 → SPI nos pinos 3/4/5/6; GPIO40 = 1 → I2C1 nos pinos 4/5; I2C1 também sai **direto** nos pinos 9/11 (0 Ω); pin 14 (GPIO) tem R105 **DNI**. `[INFERÊNCIA]` que a DE0-Nano-SoC é idêntica — **confirmar no esquemático do DE0-Nano-SoC CD-ROM** (login Terasic) e com multímetro.
-- Consequências: (1) o firmware deve fixar GPIO40 = 0 (saída) para ter SPI no header; (2) **não há GPIO livre no header** → o D/C do display vem do PCF8574; (3) sensores I2C nos pinos 9/11.
+## Header LTC 2x7 (J17) — pinagem confirmada no esquemático
+Fonte: `docs/40-Fontes/de0-nano-soc/de0-nano-soc-schematic-revC1.pdf` folha 16 (bloco idêntico nas revisões B0/C0, C1 e D0 — verificado por hash do texto); recorte em `ltc-j17-schematic.png`. Mapeamento HPS confirmado no `DE0_Nano_SoC_golden_top.v`: `HPS_SPIM_*` = spim1/SS0 → `/dev/spidev1.0`; `HPS_I2C1_*` = i2c1 → `/dev/i2c-1`; `HPS_LTC_GPIO` = HPS GPIO40 → **gpio209** (gpiochip198 + 11).
+
+| Pino | Sinal | Pino | Sinal |
+|---|---|---|---|
+| 1 | **VCC9 = 9 V** (boost LT3580) — não ligar sensores aqui | 2 | 3,3 V |
+| 3 | GND | 4 | **SCK/SCL** (mux) |
+| 5 | **MISO** (mux) | 6 | **CSn** (mux) |
+| 7 | **MOSI/SDA** (mux) | 8 | GND |
+| 9 | **I2C1 SDA** (direto, 0 Ω) | 10 | 3,3 V (0 Ω) |
+| 11 | **I2C1 SCL** (direto, 0 Ω) | 12 | GND |
+| 13 | GND | 14 | NC (`HPS_LTC_GPIO` via R105 **DNI**) |
+
+Mux **TS3A5018 (U2)**, seletor = `HPS_LTC_GPIO` (gpio209; pull-up R112 DNI → **flutua se não for configurado**):
+- gpio209 = **0** → pinos 4/5/6/7 = SPI1 (CLK, MISO, SS0, MOSI).
+- gpio209 = **1** → pino 4 = I2C1 SCL, 7 = I2C1 SDA, 5 aberto, 6 = 3,3 V.
+- Pinos 9/11 têm I2C1 **sempre** (independente do mux).
+
+Consequências para o projeto: o firmware exporta gpio209 como saída em 0 antes de abrir `/dev/spidev1.0`; **não há GPIO livre no header** → D/C e RST do display vêm do PCF8574; sensores I2C nos pinos 9/11 (pull-ups externos obrigatórios — [[30-Medicoes/dia-1]]).
 
 ## Ainda não verificado
-- Pinagem física exata do J17 na DE0-Nano-SoC (esquemático no CD-ROM da placa) e o que é "VCC9" no pino 1/2.
+- Revisão física da placa (serigrafia) — irrelevante para o J17, idêntico nas três.
 - Versão do BlueZ (`bluetoothd -v` não respondeu); avisos de DMA do dwc2 com o dongle (ver [[30-Medicoes/dia-1]] parte B).

@@ -30,7 +30,7 @@ Touch (uso futuro, fora dos critérios desta spec): estímulo tátil para o humo
 ## Critérios de aceite
 - [PC] `tests/face.cpp`: renderização por software para um buffer 320×240 e comparação pixel a pixel com PNGs de referência em `tests/ref/face_*.png` (gerados pelo mesmo `render.py`); quebra de linha do balão com 10 frases de teste.
 - [PC] `tools/face/render.py` reproduz os sprites de forma determinística (hash fixo).
-- [LAB] Loopback MISO↔MOSI em `/dev/spidev1.0` com gpio209 = 0: `spidev_test` cross-compilado devolve o padrão enviado → confirma pinos do header e o mux. Antes: esquemático da DE0-Nano-SoC (CD-ROM da placa) para a pinagem física do J17.
+- [LAB] Loopback J17 pino 5 (MISO) ↔ pino 7 (MOSI) em `/dev/spidev1.0` com gpio209 = 0: `spidev_test` cross-compilado devolve o padrão enviado → confirma o mux. Pinagem do J17 em [[40-Fontes/hardware]]. Ligação do display: pino 4 → CLK, 7 → MOSI, 6 → CS, 2 → VIN, 3 → GND; D/C e RST → PCF8574 (pinos 9/11 = SDA/SCL).
 - [LAB] Display ligado: 7 expressões + balão "Olá, eu sou a Jorge" fotografados a 1 m; texto legível por 3 pessoas.
 - [LAB] Tempo de atualização parcial (olhos) < 20 ms e quadro inteiro < 200 ms (320×240×2 B = 154 kB a ≥ 8 MHz), medidos com `clock_gettime` e logados.
 - [LAB] Estudo de reconhecimento (S00): ≥ 10 pessoas de fora, 6 opções, ≥ 70 % por expressão e p < 0,05 vs. 1/6 — só depois da cabeça montada (S06).
