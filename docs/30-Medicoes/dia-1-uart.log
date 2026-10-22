@@ -1,0 +1,675 @@
+
+U-Boot SPL 2013.01.01 (Dec 29 2014 - 15:29:15)
+BOARD : Terasic DE0_Nano_SoC Version-A  Board
+################################################################################
+##################################=                                           =#
+########=-=#######################=                                     --    =#
+######-   =#######################=                        ####-    =######   =#
+######-   ###############- -=##=##=                        ####-   ########   =#
+####=       =##-     -###       ##=   -#######    ######   ####-  #####-  -   =#
+####        ##   ###   ##      -##=   -=--=###=  ####==#   ####-  ####        =#
+######-   ###-  ##-  -###    =####=   =====###=  ####-     ####   ####        =#
+######-   ###      =#####    #####=  ####-=###=    -=###-  ####-  #####       =#
+######-    -#=     -  =##    #####=  #### -###=  #=-=####  ####-   ########-  ##
+#######    =##=        ##    #####=  -########=  #######   ####-    =######   =#
+#########==######====####==#######=     -         ---      --          ----   =#
+##################################=                                           =#
+################################################################################
+BOARD : Terasic  DE0_Nano_SoC Version-A Board
+CLOCK: EOSC1 clock 25000 KHz
+CLOCK: EOSC2 clock 25000 KHz
+CLOCK: F2S_SDR_REF clock 0 KHz
+CLOCK: F2S_PER_REF clock 0 KHz
+CLOCK: MPU clock 925 MHz
+CLOCK: DDR clock 400 MHz
+CLOCK: UART clock 100000 KHz
+CLOCK: MMC clock 50000 KHz
+CLOCK: QSPI clock 3613 KHz
+SDRAM: Initializing MMR registers
+SDRAM: Calibrating PHY
+SEQ.C: Preparing to start memory calibration
+SEQ.C: CALIBRATION PASSED
+SDRAM: 1024 MiB
+ALTERA DWMMC: 0
+
+
+U-Boot 2013.01.01 (Dec 30 2014 - 12:07:34)
+
+CPU   : Altera SOCFPGA Platform
+BOARD : Terasic DE0_Nano_SoC Version-A  Board
+################################################################################
+##################################=                                           =#
+########=-=#######################=                                     --    =#
+######-   =#######################=                        ####-    =######   =#
+######-   ###############- -=##=##=                        ####-   ########   =#
+####=       =##-     -###       ##=   -#######    ######   ####-  #####-  -   =#
+####        ##   ###   ##      -##=   -=--=###=  ####==#   ####-  ####        =#
+######-   ###-  ##-  -###    =####=   =====###=  ####-     ####   ####        =#
+######-   ###      =#####    #####=  ####-=###=    -=###-  ####-  #####       =#
+######-    -#=     -  =##    #####=  #### -###=  #=-=####  ####-   ########-  ##
+#######    =##=        ##    #####=  -########=  #######   ####-    =######   =#
+#########==######====####==#######=     -         ---      --          ----   =#
+##################################=                                           =#
+################################################################################
+BOARD : Terasic  DE0_Nano_SoC Version-A Board
+I2C:   ready
+DRAM:  1 GiB
+MMC:   ALTERA DWMMC: 0
+In:    serial
+Out:   serial
+Err:   serial
+Skipped ethaddr assignment due to invalid EMAC address in EEPROM
+Net:   mii0
+Warning: failed to set MAC address
+
+Hit any key to stop autoboot:  5  4  3  2  1  0 
+reading zImage
+4111208 bytes read in 369 ms (10.6 MiB/s)
+reading socfpga.dtb
+17900 bytes read in 7 ms (2.4 MiB/s)
+reading soc_system.rbf
+4244820 bytes read in 382 ms (10.6 MiB/s)
+## Starting application at 0x3FF7D52C ...
+## Application terminated, rc = 0x0
+## Flattened Device Tree blob at 00000100
+   Booting using the fdt blob at 0x00000100
+   Loading Device Tree to 03ff8000, end 03fff5eb ... OK
+
+Starting kernel ...
+
+Booting Linux on physical CPU 0x0
+Initializing cgroup subsys cpuset
+Linux version 3.13.0-00298-g3c7cbb9-dirty (root@matthew) (gcc version 4.6.3 (Sourcery CodeBench Lite 2012.03-57) ) #8 SMP Wed Jan 7 10:48:09 CST 2015
+CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=10c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+Machine model: Altera SOCFPGA Cyclone V SoC Development Kit
+cma: CMA: reserved 512 MiB at 20000000
+Memory policy: Data cache writealloc
+PERCPU: Embedded 8 pages/cpu @81067000 s11264 r8192 d13312 u32768
+Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 260096
+Kernel command line: console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait
+PID hash table entries: 4096 (order: 2, 16384 bytes)
+Dentry cache hash table entries: 131072 (order: 7, 524288 bytes)
+Inode-cache hash table entries: 65536 (order: 6, 262144 bytes)
+Memory: 505572K/1048576K available (6096K kernel code, 263K rwdata, 1512K rodata, 375K init, 261K bss, 543004K reserved)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xfff00000 - 0xfffe0000   ( 896 kB)
+    vmalloc : 0xc0800000 - 0xff000000   (1000 MB)
+    lowmem  : 0x80000000 - 0xc0000000   (1024 MB)
+    modules : 0x7f000000 - 0x80000000   (  16 MB)
+      .text : 0x80008000 - 0x80776570   (7610 kB)
+      .init : 0x80777000 - 0x807d4c00   ( 375 kB)
+      .data : 0x807d6000 - 0x80817ff8   ( 264 kB)
+       .bss : 0x80817ff8 - 0x80859434   ( 262 kB)
+SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+Hierarchical RCU implementation.
+NR_IRQS:16 nr_irqs:16 16
+sched_clock: 32 bits at 100MHz, resolution 10ns, wraps every 42949672950ns
+Console: colour dummy device 80x30
+Calibrating delay loop... 1836.64 BogoMIPS (lpj=9183232)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 512
+CPU: Testing write buffer coherency: ok
+ftrace: allocating 19140 entries in 57 pages
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x58a5b8 - 0x58a610
+CPU1: Booted secondary processor
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+Brought up 2 CPUs
+SMP: Total of 2 processors activated.
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+NET: Registered protocol family 16
+fpga bridge driver
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+L310 cache controller enabled
+l2x0: 8 ways, CACHE_ID 0x410030c9, AUX_CTRL 0x32460000, Cache size: 512 kB
+syscon fffef000.l2-cache: regmap [mem 0xfffef000-0xfffeffff] registered
+syscon ffd05000.rstmgr: regmap [mem 0xffd05000-0xffd05fff] registered
+syscon ffc25000.sdrctl: regmap [mem 0xffc25000-0xffc25fff] registered
+syscon ff800000.l3regs: regmap [mem 0xff800000-0xff800fff] registered
+syscon ffd08000.sysmgr: regmap [mem 0xffd08000-0xffd0bfff] registered
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+altera_hps2fpga_bridge fpgabridge.2: fpga bridge [hps2fpga] registered as device hps2fpga
+altera_hps2fpga_bridge fpgabridge.2: init-val not specified
+altera_hps2fpga_bridge fpgabridge.3: fpga bridge [lshps2fpga] registered as device lwhps2fpga
+altera_hps2fpga_bridge fpgabridge.3: init-val not specified
+altera_hps2fpga_bridge fpgabridge.4: fpga bridge [fpga2hps] registered as device fpga2hps
+altera_hps2fpga_bridge fpgabridge.4: init-val not specified
+bio: create slab <bio-0> at 0
+FPGA Mangager framework driver
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+Bluetooth: Core ver 2.17
+NET: Registered protocol family 31
+Bluetooth: HCI device and connection manager initialized
+Bluetooth: HCI socket layer initialized
+Bluetooth: L2CAP socket layer initialized
+Bluetooth: SCO socket layer initialized
+Switched to clocksource timer1
+NET: Registered protocol family 2
+TCP established hash table entries: 8192 (order: 3, 32768 bytes)
+TCP bind hash table entries: 8192 (order: 4, 65536 bytes)
+TCP: Hash tables configured (established 8192 bind 8192)
+TCP: reno registered
+UDP hash table entries: 512 (order: 2, 16384 bytes)
+UDP-Lite hash table entries: 512 (order: 2, 16384 bytes)
+NET: Registered protocol family 1
+RPC: Registered named UNIX socket transport module.
+RPC: Registered udp transport module.
+RPC: Registered tcp transport module.
+RPC: Registered tcp NFSv4.1 backchannel transport module.
+hw perfevents: enabled with ARMv7 Cortex-A9 PMU driver, 7 counters available
+arm-pmu arm-pmu: PMU:CTI successfully enabled for 2 cores
+NFS: Registering the id_resolver key type
+Key type id_resolver registered
+Key type id_legacy registered
+NTFS driver 2.1.30 [Flags: R/W].
+jffs2: version 2.2. (NAND) © 2001-2006 Red Hat, Inc.
+msgmni has been set to 2011
+io scheduler noop registered (default)
+Serial: 8250/16550 driver, 2 ports, IRQ sharing disabled
+ffc02000.serial0: ttyS0 at MMIO 0xffc02000 (irq = 194, base_baud = 6250000) is a 16550A
+console [ttyS0] enabled
+altera_fpga_manager ff706000.fpgamgr: fpga manager [Altera FPGA Manager] registered as minor 0
+brd: module loaded
+dw_spi_mmio fff01000.spi: master is unqueued, this is deprecated
+CAN device driver interface
+c_can_platform ffc00000.d_can: invalid resource
+c_can_platform ffc00000.d_can: control memory is not used for raminit
+c_can_platform ffc00000.d_can: c_can_platform device registered (regs=c089e000, irq=163)
+stmmac - user ID: 0x10, Synopsys ID: 0x37
+ Ring mode enabled
+ DMA HW capability register supported
+ Enhanced/Alternate descriptors
+	Enabled extended descriptors
+ RX Checksum Offload Engine supported (type 2)
+ TX Checksum insertion supported
+ Enable RX Mitigation via HW Watchdog Timer
+libphy: stmmac: probed
+eth0: PHY ID 00221622 at 1 IRQ POLL (stmmac-0:01) active
+dwc2 ffb40000.usb: unable to find phy
+dwc2 ffb40000.usb: EPs:15
+dwc2 ffb40000.usb: dedicated fifos
+dwc2 ffb40000.usb: 2560 invalid for host_rx_fifo_size. Check HW configuration.
+dwc2 ffb40000.usb: 2560 invalid for host_nperio_tx_fifo_size. Check HW configuration.
+dwc2 ffb40000.usb: DWC OTG Controller
+dwc2 ffb40000.usb: new USB bus registered, assigned bus number 1
+dwc2 ffb40000.usb: irq 160, io mem 0x00000000
+usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+usb usb1: Product: DWC OTG Controller
+usb usb1: Manufacturer: Linux 3.13.0-00298-g3c7cbb9-dirty dwc2_hsotg
+usb usb1: SerialNumber: ffb40000.usb
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+usbcore: registered new interface driver usb-storage
+mousedev: PS/2 mouse device common for all mice
+i2c /dev entries driver
+Bluetooth: Virtual HCI driver ver 1.4
+Bluetooth: HCI UART driver ver 2.2
+Bluetooth: HCI H4 protocol initialized
+Bluetooth: HCI BCSP protocol initialized
+Bluetooth: HCILL protocol initialized
+Bluetooth: HCIATH3K protocol initialized
+Bluetooth: HCI Three-wire UART (H5) protocol initialized
+usbcore: registered new interface driver bcm203x
+usbcore: registered new interface driver bpa10x
+usbcore: registered new interface driver bfusb
+usbcore: registered new interface driver btusb
+Bluetooth: Generic Bluetooth SDIO driver ver 0.1
+usbcore: registered new interface driver ath3k
+Synopsys Designware Multimedia Card Interface Driver
+dwmmc_socfpga ff704000.dwmmc0: Using internal DMA controller.
+dwmmc_socfpga ff704000.dwmmc0: Version ID is 240a
+dwmmc_socfpga ff704000.dwmmc0: DW MMC controller at irq 171, 32 bit host data width, 1024 deep fifo
+dwmmc_socfpga ff704000.dwmmc0: 1 slots initialized
+ledtrig-cpu: registered to indicate activity on CPUs
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+oprofile: using arm/armv7-ca9
+TCP: cubic registered
+NET: Registered protocol family 10
+sit: IPv6 over IPv4 tunneling driver
+NET: Registered protocol family 17
+NET: Registered protocol family 15
+can: controller area network core (rev 20120528 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20120528)
+can: broadcast manager protocol (rev 20120528 t)
+can: netlink gateway (rev 20130117) max_hops=1
+Bluetooth: RFCOMM TTY layer initialized
+Bluetooth: RFCOMM socket layer initialized
+Bluetooth: RFCOMM ver 1.11
+Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+Bluetooth: BNEP filters: protocol multicast
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+8021q: 802.1Q VLAN Support v1.8
+Key type dns_resolver registered
+ThumbEE CPU extension supported.
+Registering SWP/SWPB emulation handler
+Waiting for root device /dev/mmcblk0p2...
+mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 50000000Hz, actual 50000000HZ div = 0)
+mmc0: new high speed SDHC card at address 1388
+mmcblk0: mmc0:1388 USD00 7.32 GiB 
+ mmcblk0: p1 p2 p3
+kjournald starting.  Commit interval 5 seconds
+EXT3-fs (mmcblk0p2): using internal journal
+EXT3-fs (mmcblk0p2): recovery complete
+EXT3-fs (mmcblk0p2): mounted filesystem with ordered data mode
+VFS: Mounted root (ext3 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 372K (80777000 - 807d4000)
+INIT: version 2.88 booting
+usb 1-1: new full-speed USB device number 2 using dwc2
+Starting Bootlog daemon: usb 1-1: New USB device found, idVendor=0a12, idProduct=0001
+bootlogd.usb 1-1: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+
+usb 1-1: Product: CSR8510 A10
+Configuring network interfaces... eth0: device MAC address b2:fc:c6:aa:87:cd
+udhcpc (v1.20.2) started
+Sending discover...
+Sending discover...
+Sending discover...
+No lease, failing
+random: nonblocking pool is initialized
+Starting portmap daemon...
+Sat Sep 28 09:08:00 UTC 2013
+INIT: Entering runlevel: 5
+Starting OpenBSD Secure Shell server: sshd
+done.
+Starting syslogd/klogd: done
+Starting Lighttpd Web Server: lighttpd.
+Starting blinking LED server
+Stopping Bootlog daemon: bootlogd.
+Starting system message bus: dbus.
+
+root@socfpga:~# [CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+[CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+[CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+===== Spider Demo =====
+Spider Init & Standup
+Create Bluetooth Thread
+Listen Command...
+[BT]Start Service
+[BT]Lisen...
+[CBtSpp]listen...
+
+$ echo UARTOK
+echo UARTOK
+UARTOK
+root@socfpga:~# 
+$ uname -a; cat /proc/version
+uname -a; cat /proc/version
+Linux socfpga 3.13.0-00298-g3c7cbb9-dirty #8 SMP Wed Jan 7 10:48:09 CST 2015 armv7l GNU/Linux
+Linux version 3.13.0-00298-g3c7cbb9-dirty (root@matthew) (gcc version 4.6.3 (Sourcery CodeBench Lite 2012.03-57) ) #8 SMP Wed Jan 7 10:48:09 CST 2015
+root@socfpga:~# 
+$ cat /etc/issue; ldd --version | head -1; gcc --version 2>&1 | head -1; python --version 2>&1
+cat /etc/issue; ldd --version | head -1; gcc --version 2>&1 | he ad -1; python --version 2>&1
+Poky 8.0 (Yocto Project 1.3 Reference Distro) 1.3 
+ \l
+
+head: invalid option -- '1'
+BusyBox v1.20.2 (2013-09-27 23:27:54 CDT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+-sh: ldd: command not found
+head: invalid option -- '1'
+BusyBox v1.20.2 (2013-09-27 23:27:54 CDT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+-sh: python: command not found
+root@socfpga:~# 
+$ free -m; df -h; cat /proc/mounts
+free -m; df -h; cat /proc/mounts
+             total         used         free       shared      buffers
+Mem:       1030232        19948      1010284            0          760
+-/+ buffers:              19188      1011044
+Swap:            0            0            0
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root               975.9M    189.0M    735.7M  20% /
+devtmpfs                246.9M      4.0K    246.9M   0% /dev
+tmpfs                   503.0M     52.0K    503.0M   0% /var/volatile
+tmpfs                   503.0M         0    503.0M   0% /media/ram
+rootfs / rootfs rw 0 0
+/dev/root / ext3 rw,relatime,errors=continue,user_xattr,barrier=1,data=ordered 0 0
+devtmpfs /dev devtmpfs rw,relatime,size=252784k,nr_inodes=63196,mode=755 0 0
+proc /proc proc rw,relatime 0 0
+sysfs /sys sysfs rw,relatime 0 0
+debugfs /sys/kernel/debug debugfs rw,relatime 0 0
+tmpfs /var/volatile tmpfs rw,relatime 0 0
+tmpfs /media/ram tmpfs rw,relatime 0 0
+devpts /dev/pts devpts rw,relatime,gid=5,mode=620 0 0
+root@socfpga:~# 
+$ head -12 /proc/cpuinfo
+head -12 /proc/cpuinfo
+head: invalid option -- '1'
+BusyBox v1.20.2 (2013-09-27 23:27:54 CDT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+root@socfpga:~# 
+$ ls -l /dev/i2c* /dev/spidev* /dev/mem /dev/watchdog* /dev/ttyS* /dev/rfcomm* 2>&1
+ls -l /dev/i2c* /dev/spidev* /dev/mem /dev/watchdog* /dev/ttyS*  /dev/rfcomm* 2>&1
+ls: /dev/rfcomm*: No such file or directory
+crw-------    1 root     root       89,   0 Jan  1  1970 /dev/i2c-0
+crw-------    1 root     root       89,   1 Jan  1  1970 /dev/i2c-1
+crw-------    1 root     root        1,   1 Jan  1  1970 /dev/mem
+crw-------    1 root     root      153,   0 Jan  1  1970 /dev/spidev1.0
+crw-------    1 root     root        4,  64 Sep 28 09:09 /dev/ttyS0
+crw-------    1 root     root        4,  65 Jan  1  1970 /dev/ttyS1
+crw-------    1 root     root       10, 130 Jan  1  1970 /dev/watchdog
+root@socfpga:~# 
+$ ls /proc/device-tree/soc/; ls /sys/bus/i2c/devices/; ls /sys/bus/spi/devices/ 2>&1; ls /sys/class/gpio/
+ls /proc/device-tree/soc/; ls /sys/bus/i2c/devices/; ls /sys/bus /spi/devices/ 2>&1; ls /sys/class/gpio/
+#address-cells      fpgabridge@2        name                sram@ffff0000
+#size-cells         fpgamgr@0xff706000  nand@ff900000       sysmgr@ffd08000
+amba                gpio@ff708000       ocramedac@ffd08144  timer0@ffc08000
+clkmgr@ffd04000     gpio@ff709000       pmu                 timer1@ffc09000
+compatible          gpio@ff70a000       ranges              timer2@ffd00000
+d_can@ffc00000      i2c@ffc04000        rstmgr@ffd05000     timer3@ffd01000
+d_can@ffc01000      i2c@ffc05000        sdramedac@0         timer@fffec600
+device_type         i2c@ffc06000        sdrctl@0xffc25000   usb@ffb00000
+dwmmc0@ff704000     i2c@ffc07000        serial0@ffc02000    usb@ffb40000
+ethernet@ff700000   interrupt-parent    serial1@ffc03000    usbphy@0
+ethernet@ff702000   l2-cache@fffef000   spi@ff705000        wd@ffd02000
+fpgabridge@0        l2edac@xffd08140    spi@fff00000        wd@ffd03000
+fpgabridge@1        l3regs@0xff800000   spi@fff01000
+i2c-0  i2c-1
+spi1.0
+export       gpiochip171  gpiochip198  gpiochip227  unexport
+root@socfpga:~# 
+$ cat /proc/interrupts
+cat /proc/interrupts
+           CPU0       CPU1       
+ 29:       9404       9440       GIC  29  twd
+152:          0          0       GIC 152  eth0
+160:     165357          0       GIC 160  ffb40000.usb, dwc2_hsotg:usb1
+171:       2842          0       GIC 171  dw-mci
+187:          0          0       GIC 187  dw_spi1
+190:          0          0       GIC 190  ffc04000.i2c
+191:          0          0       GIC 191  ffc05000.i2c
+194:        133          0       GIC 194  serial
+199:          0          0       GIC 199  timer0
+207:          0          0       GIC 207  fpga-mgr
+IPI0:          0          0  CPU wakeup interrupts
+IPI1:          0          0  Timer broadcast interrupts
+IPI2:        708        525  Rescheduling interrupts
+IPI3:          0          0  Function call interrupts
+IPI4:          2          5  Single function call interrupts
+IPI5:          0          0  CPU stop interrupts
+IPI6:        102        190  IRQ work interrupts
+IPI7:          0          0  completion interrupts
+Err:          0
+root@socfpga:~# 
+$ ls -l /home/root; ps | head -40
+ls -l /home/root; ps | head -40
+-rwxr-xr-x    1 root     root         16848 Sep 28 04:39 bt_test
+-rw-r--r--    1 root     root          4676 Sep 28 04:39 bt_test.c
+-rwxrwxrwx    1 root     root      18567801 Sep 28 04:39 installBlueZ.run
+-rwxrwxrwx    1 root     root         89118 Sep 28 09:08 spider
+head: invalid option -- '4'
+BusyBox v1.20.2 (2013-09-27 23:27:54 CDT) multi-call binary.
+
+Usage: head [OPTIONS] [FILE]...
+
+root@socfpga:~# 
+$ lsusb 2>&1; hciconfig -a 2>&1; bluetoothd -v 2>&1
+lsusb 2>&1; hciconfig -a 2>&1; bluetoothd -v 2>&1
+Bus 001 Device 002: ID 0a12:0001 Cambridge Silicon Radio, Ltd Bluetooth Dongle (HCI mode)
+Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+ERROR: 256 KiB atomic DMA coherent pool is too small!
+Please increase it with coherent_pool= kernel parameter!
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+dwc2 ffb40000.usb: dwc2_assign_and_init_hc: Failed to allocate memory to handle non-dword aligned buffer
+hci0:	Type: BR/EDR  Bus: USB
+	BD Address: 00:1A:7D:DA:71:13  ACL MTU: 310:10  SCO MTU: 64:8
+	UP RUNNING PSCAN ISCAN 
+	RX bytes:1176 acl:0 sco:0 events:66 errors:0
+	TX bytes:1333 acl:0 sco:0 commands:66 errors:0
+	Features: 0xff 0xff 0x8f 0xfe 0xdb 0xff 0x5b 0x87
+	Packet type: DM1 DM3 DM5 DH1 DH3 DH5 HV1 HV2 HV3 
+	Link policy: RSWITCH HOLD SNIFF PARK 
+	Link mode: SLAVE ACCEPT 
+Can't read local name on hci0: Connection timed out (110)
+4.101
+root@socfpga:~# 
+$ i2cdetect -l 2>&1; ls /sys/class/watchdog 2>&1; cat /sys/class/misc/watchdog/dev 2>&1
+i2cdetect -l 2>&1; ls /sys/class/watchdog 2>&1; cat /sys/class/m isc/watchdog/dev 2>&1
+i2c-0	i2c       	Synopsys DesignWare I2C adapter 	I2C adapter
+i2c-1	i2c       	Synopsys DesignWare I2C adapter 	I2C adapter
+ls: /sys/class/watchdog: No such file or directory
+10:130
+root@socfpga:~# 
+$ cat /proc/cmdline; zcat /proc/config.gz 2>&1 | grep -E "SPIDEV|I2C_CHARDEV|DW_WATCHDOG|BT_RFCOMM|USB_DWC2|OVERLAY|SND_USB|PREEMPT" 
+cat /proc/cmdline; zcat /proc/config.gz 2>&1 | grep -E "SPIDEV|I 2C_CHARDEV|DW_WATCHDOG|BT_RFCOMM|USB_DWC2|OVERLAY|SND_USB|PREEMPT" 
+console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait
+# CONFIG_PREEMPT_RCU is not set
+CONFIG_PREEMPT_NONE=y
+# CONFIG_PREEMPT_VOLUNTARY is not set
+# CONFIG_PREEMPT is not set
+CONFIG_BT_RFCOMM=y
+CONFIG_BT_RFCOMM_TTY=y
+CONFIG_I2C_CHARDEV=y
+CONFIG_SPI_SPIDEV=y
+CONFIG_DW_WATCHDOG=y
+CONFIG_USB_DWC2=y
+# CONFIG_USB_DWC2_HOST is not set
+# CONFIG_USB_DWC2_GADGET is not set
+CONFIG_USB_DWC2_DUAL_ROLE=y
+# CONFIG_USB_DWC2_DEBUG is not set
+# CONFIG_USB_DWC2_TRACK_MISSED_SOFS is not set
+root@socfpga:~# Bluetooth: hci0 command 0x0c14 tx timeout
+
+$ dmesg | grep -iE "i2c|spi|wdt|watchdog|gpio" 
+dmesg | grep -iE "i2c|spi|wdt|watchdog|gpio" 
+dw_spi_mmio fff01000.spi: master is unqueued, this is deprecated
+ Enable RX Mitigation via HW Watchdog Timer
+i2c /dev entries driver
+root@socfpga:~# 
+$ cat /proc/cpuinfo
+cat /proc/cpuinfo
+processor	: 0
+model name	: ARMv7 Processor rev 0 (v7l)
+Features	: swp half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpd32 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x3
+CPU part	: 0xc09
+CPU revision	: 0
+
+processor	: 1
+model name	: ARMv7 Processor rev 0 (v7l)
+Features	: swp half thumb fastmult vfp edsp thumbee neon vfpv3 tls vfpd32 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x3
+CPU part	: 0xc09
+CPU revision	: 0
+
+Hardware	: Altera SOCFPGA
+Revision	: 0000
+Serial		: 0000000000000000
+root@socfpga:~# 
+$ ps
+ps
+  PID USER       VSZ STAT COMMAND
+    1 root      1316 S    init [5]
+    2 root         0 SW   [kthreadd]
+    3 root         0 SW   [ksoftirqd/0]
+    4 root         0 SW   [kworker/0:0]
+    5 root         0 SW<  [kworker/0:0H]
+    6 root         0 SW   [kworker/u4:0]
+    7 root         0 SW   [rcu_sched]
+    8 root         0 SW   [rcu_bh]
+    9 root         0 SW   [migration/0]
+   10 root         0 SW   [migration/1]
+   11 root         0 SW   [ksoftirqd/1]
+   12 root         0 SW   [kworker/1:0]
+   13 root         0 SW<  [kworker/1:0H]
+   14 root         0 SW<  [khelper]
+   15 root         0 SW   [kdevtmpfs]
+   16 root         0 SW<  [netns]
+   17 root         0 SW<  [writeback]
+   18 root         0 SW<  [bioset]
+   19 root         0 SW<  [kblockd]
+   20 root         0 SW   [khubd]
+   21 root         0 SW<  [rpciod]
+   22 root         0 SW   [kworker/1:1]
+   23 root         0 SW   [khungtaskd]
+   24 root         0 SW   [kswapd0]
+   25 root         0 SW   [fsnotify_mark]
+   26 root         0 SW<  [nfsiod]
+   27 root         0 SW<  [crypto]
+   33 root         0 SW<  [fff01000.spi]
+   34 root         0 SW   [kworker/u4:1]
+   39 root         0 SW   [kworker/0:1]
+   40 root         0 SW<  [dwc2]
+   41 root         0 SW<  [kpsmoused]
+   42 root         0 SW<  [dw-mci-card]
+   43 root         0 SW<  [krfcommd]
+   44 root         0 SW<  [deferwq]
+   45 root         0 SW   [kworker/u4:2]
+   46 root         0 SW   [mmcqd/0]
+   47 root         0 SW   [kjournald]
+   64 root         0 SW<  [kworker/u5:0]
+   65 root         0 SW<  [hci0]
+   66 root         0 SW<  [hci0]
+   67 root         0 SW<  [kworker/u5:1]
+   68 root         0 SW<  [kworker/u5:2]
+  135 daemon    1460 S    /sbin/portmap
+  154 root      3592 S    /usr/sbin/sshd
+  158 root      1660 S    /sbin/syslogd -n -O /var/log/messages
+  161 root      1660 S    /sbin/klogd -n
+  165 root      1964 S    /usr/sbin/lighttpd -f /etc/lighttpd.conf
+  171 root     10628 S    /www/pages/cgi-bin/scroll_server
+  192 messageb  2180 S    /usr/bin/dbus-daemon --system
+  194 root      3204 S    bluetoothd
+  197 root      2500 S    -sh
+  198 root      203m R    /home/root/./spider
+  233 root      1948 R    ps
+root@socfpga:~# 
+$ hciconfig 2>&1 | grep -v dwc2
+hciconfig 2>&1 | grep -v dwc2
+hci0:	Type: BR/EDR  Bus: USB
+	BD Address: 00:1A:7D:DA:71:13  ACL MTU: 310:10  SCO MTU: 64:8
+	UP RUNNING PSCAN ISCAN 
+	RX bytes:1176 acl:0 sco:0 events:66 errors:0
+	TX bytes:1333 acl:0 sco:0 commands:67 errors:0
+
+root@socfpga:~# 
+$ i2cdetect -y 0 2>&1
+i2cdetect -y 0 2>&1
+Error: Can't use SMBus Quick Write command on this bus
+root@socfpga:~# 
+$ i2cdetect -y 1 2>&1
+i2cdetect -y 1 2>&1
+Error: Can't use SMBus Quick Write command on this bus
+root@socfpga:~# 
+$ cat /sys/kernel/debug/gpio 2>&1
+cat /sys/kernel/debug/gpio 2>&1
+GPIOs 171-197, /soc/gpio@ff70a000:
+
+GPIOs 198-226, /soc/gpio@ff709000:
+
+GPIOs 227-255, /soc/gpio@ff708000:
+root@socfpga:~# 
+$ ls -l /sys/bus/spi/devices/spi1.0/ 2>&1; cat /sys/bus/spi/devices/spi1.0/modalias 2>&1
+ls -l /sys/bus/spi/devices/spi1.0/ 2>&1; cat /sys/bus/spi/device s/spi1.0/modalias 2>&1
+lrwxrwxrwx    1 root     root             0 Sep 28 09:09 driver -> ../../../../../../bus/spi/drivers/spidev
+-r--r--r--    1 root     root          4096 Sep 28 09:09 modalias
+drwxr-xr-x    2 root     root             0 Sep 28 09:09 power
+drwxr-xr-x    3 root     root             0 Sep 28 09:09 spidev
+lrwxrwxrwx    1 root     root             0 Sep 28 09:09 subsystem -> ../../../../../../bus/spi
+-rw-r--r--    1 root     root          4096 Sep 28 09:09 uevent
+spi:spidev
+root@socfpga:~# 
+$ cat /proc/sys/kernel/sched_rt_runtime_us; cat /proc/sys/kernel/sched_rt_period_us
+cat /proc/sys/kernel/sched_rt_runtime_us; cat /proc/sys/kernel/s ched_rt_period_us
+950000
+1000000
+root@socfpga:~# 
+$ i2cdetect -y -r 0 2>&1
+i2cdetect -y -r 0 2>&1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+50: -- -- -- 53 -- -- -- -- -- -- -- -- -- -- -- -- 
+60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+70: -- -- -- -- -- -- -- --                         
+root@socfpga:~# 
+$ i2cdetect -y -r 1 2>&1
+i2cdetect -y -r 1 2>&1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- 04 05 06 07 08 -- 0a -- 0c -- 0e 0f 
+10: 10 11 -- 13 14 15 16 -- 18 19 1a 1b 1c 1d 1e -- 
+20: 20 21 22 23 -- 25 26 -- 28 -- 2a 2b -- 2d -- 2f 
+30: 30 -- 32 -- 34 35 36 37 38 -- 3a i2c_designware ffc05000.i2c: controller timed out
+-- i2c_designware ffc05000.i2c: controller timed out
+-- i2c_designware ffc05000.i2c: controller timed out
+-- i2c_designware ffc05000.i2c: controller timed out
+-- i2c_designware ffc05000.i2c: controller timed out
+-- 
+40: i2c_designware ffc05000.i2c: controller timed out
+-- i2c_designware ffc05000.i2c: controller timed out
+-- 42 43 44 45 -- 47 48 49 i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 4d 4e 4f 
+50: i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+50 -- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 53 54 55 56 57 58 i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 5c 5d 5e 5f 
+60: i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+60 61 -- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 65 66 67 68 i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 6c 6d 6e i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- 
+70: i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- -- 72 73 74 75 i2c_designware ffc05000.i2c: i2c_dw_handle_tx_abort: lost arbitration
+-- --                         
+root@socfpga:~# 
+$ dmesg | grep -iE "coherent|align" | wc -l; dmesg | grep -iE "hci|bluetooth" | tail -4
+dmesg | grep -iE "coherent|align" | wc -l; dmesg | grep -iE "hci |bluetooth" | tail -4
+21
+Bluetooth: BNEP socket layer initialized
+Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+Bluetooth: HIDP socket layer initialized
+Bluetooth: hci0 command 0x0c14 tx timeout
+root@socfpga:~# 

@@ -12,7 +12,8 @@ decide: Luiz, Felipe
 Rota **HPS**: display SPI em `/dev/spidev1.0`, BH1750 ×2 / VL53L1X ×2 / PCA9685 em `/dev/i2c-1` (header LTC 2x7), watchdog em `/dev/watchdog`, pan/tilt pelo PCA9685. A FPGA continua intocada (só os 18 PWM originais). Rota FPGA fica como plano B para pan/tilt pela Servo Motor Card.
 
 ## Condições para aceitar
-- Parte B do dia 1 confirma na UART: `ls /dev/i2c-1 /dev/spidev1.0 /dev/watchdog` existem.
+- ✅ Parte B do dia 1 confirmou na UART: `/dev/i2c-1`, `/dev/spidev1.0`, `/dev/watchdog` existem; I2C0 enxerga o ADXL345 em 0x53 ([[30-Medicoes/dia-1]]).
+- **I2C1 não tem pull-up na placa** (`i2cdetect` mostra endereços falsos e `lost arbitration` com o header vazio): obrigatório pull-up 2,2–4,7 kΩ para 3,3 V em SDA e SCL — usar o do primeiro breakout ou resistores no cabo.
 - Confirmar que o `HPS_SPIM` do header LTC é o SPIM1 (manual não diz; teste: loopback MISO↔MOSI no header com `spidev_test` ou leitura do display).
 - Endereços I2C dos sensores não colidem: BH1750 0x23/0x5C, VL53L1X 0x29 (um deles precisa de troca de endereço por XSHUT), PCA9685 0x40.
 

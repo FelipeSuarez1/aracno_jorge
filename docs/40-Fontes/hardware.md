@@ -15,12 +15,12 @@ Fatos confirmados em terasic.com.tw e nos manuais em [[40-Fontes]]. Não reident
 | Código-fonte | Spider CD-ROM 1.0.1 (2015-11-27) e Linux Image 2.0 (2015-10-23): download exige **conta Terasic gratuita** (redireciona para `member.pl`) | [lista de downloads](http://www.terasic.com.tw/cgi-bin/page/archive.pl?Language=English&No=994&PartNo=4) |
 
 ## Lido do cartão e do CD (2026-10-22, detalhes em [[30-Medicoes/dia-1]])
-- Kernel 3.9.0, Poky/Yocto 1.3, glibc 2.15, sem gcc na placa; cartão = Linux Image 2.0.
-- DTB habilita I2C1, SPIM1+spidev, dw-wdt, OTG; drivers built-in.
+- Kernel **3.13.0** (U-Boot 2013.01), Poky/Yocto 1.3, BusyBox 1.20.2, glibc 2.15, `CONFIG_PREEMPT_NONE`; sem gcc/python na placa; cartão = Linux Image 2.0.
+- Ao vivo: `/dev/i2c-1`, `/dev/spidev1.0`, `/dev/watchdog`, `/dev/mem` existem; I2C0 tem o ADXL345 em 0x53; **I2C1 sem pull-up** (adicionar 2,2–4,7 kΩ).
 - PWM: 4 registradores (`TOTAL_DUR`, `HIGH_DUR`, `ADJ_SPEED/STATUS`, `ABORT`), 20 ms, 0,5–2,5 ms ↔ −90…+90°, motores 0–8 espelhados ([[spider-cd/DE0_NANO_SOC_SPIDER_LINUX_APP/CMotor.cpp]]).
 - CPLD: corte por `VBUS < 5,9 V` por 2 s ou `P > 65 W` por 0,2 s; INA230 cfg `0x4127`, cal 2560 (1 mA/LSB) ([[spider-cd/Motor_Board_MAXII_Power_Monitor/MAXII_Power_Monitor.v]]).
 - Comandos extras: `ATST`, `ATVR=?`, `ATJS=`.
 
-## Ainda não lido
-- Versão do BlueZ e nós `/dev/spidev1.0`, `/dev/watchdog` ao vivo → parte B de [[20-Specs/S01-dia-1-uart]].
-- Qual SPIM (0 ou 1) vai ao header LTC — o manual não diz; testar.
+## Ainda não verificado
+- Que o `HPS_SPIM` do header LTC é o SPIM1 (`/dev/spidev1.0`) — só o SPIM1 está habilitado no DTB, então é o candidato único; confirmar com loopback MISO↔MOSI.
+- Versão do BlueZ (`bluetoothd -v` não respondeu); avisos de DMA do dwc2 com o dongle (ver [[30-Medicoes/dia-1]] parte B).

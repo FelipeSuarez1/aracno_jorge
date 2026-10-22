@@ -38,7 +38,7 @@ Cópias em [[40-Fontes/spider-sd]].
 
 ## Rootfs (p2, lido com `debugfs`, sem montar)
 - Distro: **Poky 8.0 (Yocto Project 1.3)**, hostname `socfpga`.
-- Kernel: **3.9.0** (`/lib/modules/3.9.0`). Sem overlayfs (entrou em 3.18) → rootfs read-only será `ro` + tmpfs.
+- Kernel: `/lib/modules/3.9.0` no rootfs, mas o kernel que roda é **3.13.0** (ver parte B). Sem overlayfs (entrou em 3.18) → rootfs read-only será `ro` + tmpfs.
 - glibc **2.15**, libstdc++ 6.0.17; compilador usado no `spider`: Linaro GCC 4.7.3 (2013.03). **Sem gcc/g++ na placa.** Há `make`, `perl`, `gdbserver`, `strace`.
 - Bluetooth: `bluetoothd`, `hciconfig`, `hcitool`, `rfcomm`, `sdptool` presentes; `/home/root/installBlueZ.run` (18 MB).
 - Drivers **built-in** (`modules.builtin`): `i2c-dev`, `i2c-designware-platform`, `spidev`, `spi-dw-mmio`, `dw_wdt`, `dwc` (OTG), `usbcore`, `usb-storage`, `usbhid`, `gpio-dw`, `leds-gpio`. Módulos carregáveis: só `g_mass_storage`, `libcomposite`.
@@ -92,3 +92,31 @@ Comandos da [[20-Specs/S01-dia-1-uart]] §3; colar em `dia-1-uart.log`.
 
 ### Comandos (`BtSppCommand.cpp`, `Main.cpp`)
 - Além do manual: `ATST` (parar), `ATVR=?` (versão), `ATJS=` (joystick). Parser em `CBtSppCommand::CommandParsing`.
+
+# Dia 1 — parte B: placa ligada, UART (2026-10-22, log completo em `dia-1-uart.log`)
+
+Setup: fonte 5 V no jack do DE0, Servo Motor Card OFF, dongle Bluetooth CSR8510 no OTG, cabo no Mini-B **UART** (o outro Mini-B é o USB-Blaster II, `09fb:6810`). FT232R `0403:6001`, 115200 8N1, `/dev/ttyUSB1` no PC (grupo `plugdev`). Login automático como root; o app `spider` sobe sozinho e imprime `===== Spider Demo =====`.
+
+## Correção à parte A
+- **Kernel real: `3.13.0-00298-g3c7cbb9-dirty` (2015-01-07, gcc 4.6.3 Sourcery CodeBench 2012.03)**. O diretório `/lib/modules/3.9.0` do rootfs é resto de imagem anterior — ignorar.
+- U-Boot SPL/U-Boot 2013.01.01 (2014-12-29/30). `bootcmd` lê `zImage`, `socfpga.dtb`, `soc_system.rbf` da p1 (o `u-boot.scr` com `de0_nano_soc.rbf` não é usado).
+- `cmdline`: `console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootwait`. CMA reserva 512 MiB; `free` mostra 1 030 232 kB total, ~1 010 MB livres.
+
+## Nós de dispositivo (confirma a rota HPS — ADR-009)
+```
+/dev/i2c-0  /dev/i2c-1  /dev/spidev1.0  /dev/watchdog (10,130)  /dev/mem  /dev/ttyS0  /dev/ttyS1
+```
+- `CONFIG_I2C_CHARDEV=y`, `CONFIG_SPI_SPIDEV=y`, `CONFIG_DW_WATCHDOG=y`, `CONFIG_BT_RFCOMM=y`, `CONFIG_USB_DWC2_DUAL_ROLE=y`.
+- **`CONFIG_PREEMPT_NONE=y`** (sem preempção): jitter do laço de controle vai depender disso; medir (S00). `sched_rt_runtime_us = 950000`.
+- `/sys/bus/spi/devices/spi1.0` → driver `spidev`. Interrupções: `dw_spi1` (187), `ffc04000.i2c` (190), `ffc05000.i2c` (191), `fpga-mgr` (207).
+- GPIO do HPS: `gpiochip171` (gpio@ff70a000), `gpiochip198` (gpio@ff709000), `gpiochip227` (gpio@ff708000), nenhum exportado.
+- `i2cdetect -y -r 0`: **0x53** (acelerômetro ADXL345) — barramento I2C0 funciona.
+- `i2cdetect -y -r 1`: dezenas de endereços falsos + `controller timed out` + `lost arbitration` → **I2C1 está sem pull-up** (SDA/SCL flutuando no header LTC). Qualquer módulo ligado ali precisa de pull-up 2,2–4,7 kΩ para 3,3 V (a maioria dos breakouts BH1750/VL53L1X/PCA9685 já traz). Sem sensor ligado, o barramento é inutilizável — comportamento esperado, não defeito.
+- `i2cdetect -y N` (quick write) não é suportado pelo driver DesignWare; usar `-r`.
+
+## Ferramentas na placa
+- BusyBox 1.20.2 (`head -N` não existe; usar `head -n N`). Sem `gcc`, `python`, `ldd`. Tem `i2cdetect`, `strace`, `gdbserver`, `make`, `perl`, `sshd`, `lighttpd`, `udhcpc` (sem lease sem cabo).
+- Bluetooth: `hci0` UP RUNNING PSCAN ISCAN, BD `00:1A:7D:DA:71:13`. **Aviso recorrente**: `256 KiB atomic DMA coherent pool is too small!` e `dwc2 … Failed to allocate memory to handle non-dword aligned buffer` (21 ocorrências) e `hci0 command 0x0c14 tx timeout`. O demo original funciona assim; se a teleoperação por BT falhar, acrescentar `coherent_pool=1M` ao `bootargs` do U-Boot (`[INFERÊNCIA]`, testar).
+
+## Conclusão
+S01 completa. Rota HPS confirmada ao vivo: I2C1, SPI1 (spidev), watchdog, OTG. ADR-009 pode ser aceita com a condição dos pull-ups.

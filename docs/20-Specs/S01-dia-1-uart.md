@@ -1,5 +1,5 @@
 ---
-status: em-andamento (A ✅, C ✅, B pendente)
+status: concluída
 origem: [[20-Specs/S00-visao]] seção 1
 depende: 
 ---
@@ -17,9 +17,9 @@ Nenhuma modificação na microSD além da cópia de backup. Nenhum código novo.
 
 ## Critérios de aceite
 - [LAB] ✅ Imagem de backup da microSD gravada em disco (`dd`) com SHA-256 anotado em `30-Medicoes/dia-1.md`. (2026-10-22, hash `44254bf2…28c6d`)
-- [LAB] Saída completa dos comandos abaixo colada em `30-Medicoes/dia-1.md`.
+- [LAB] ✅ Saída completa dos comandos em `30-Medicoes/dia-1-uart.log` (boot + levantamento) e resumo em `30-Medicoes/dia-1.md` parte B. (2026-10-22)
 - [LAB] ✅ Conta Terasic criada; `Spider CD-ROM 1.0.1` e `Linux Image 2.0` baixados; fonte do CD em `docs/40-Fontes/spider-cd/` (binários fora do git). (2026-10-22; cartão da aranha = Linux Image 2.0, ver [[30-Medicoes/dia-1]])
-- [PC] Com a saída colada, a IA escreve ADR-009 (rota escolhida) como proposta no Inbox.
+- [PC] ✅ ADR-009 (rota HPS) proposta em [[00-Inbox/proposta-ADR-009-rota-hps]], aguardando aceite humano.
 
 ## Verificação
 Procedimento (humano):
@@ -46,5 +46,5 @@ Humano executa; IA consome a saída e propõe ADR-009 + ajusta S02 (toolchain) s
 
 ## Evidência
 - Parte A (cartão no PC, sem ligar a placa): [[30-Medicoes/dia-1]] — backup feito, DTB decodificado, rootfs lido com `debugfs`, binário `spider` inspecionado. Proposta de rota: [[00-Inbox/proposta-ADR-009-rota-hps]].
-- Parte B (UART com a placa ligada): pendente. Sem `gcc` na placa → S02 segue com cross-compile estático (confirmado).
+- Parte B (UART com a placa ligada): ✅ [[30-Medicoes/dia-1]] parte B — kernel 3.13.0, `/dev/i2c-1`, `/dev/spidev1.0`, `/dev/watchdog` presentes; I2C1 sem pull-up; sem `gcc` → S02 cross-compile estático confirmado.
 - Parte C (conta Terasic + CD): ✅ [[30-Medicoes/dia-1]] parte C — `CMotor.cpp`, `TERASIC_PWM_EX.v`, CPLD lidos; limiares de corte: 5,9 V/2 s e 65 W/0,2 s.
