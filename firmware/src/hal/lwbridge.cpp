@@ -12,7 +12,7 @@ bool LwBridge::open() {
     if (base_) return true;
     int fd = ::open("/dev/mem", O_RDWR | O_SYNC);
     if (fd < 0) return false;
-    void* p = mmap(0, SPAN, PROT_READ | PROT_WRITE, MAP_SHARED, fd, STM_OFST);
+    void* p = mmap(0, SPAN, PROT_READ | PROT_WRITE, MAP_SHARED, fd, LWFPGASLVS_OFST);
     if (p == MAP_FAILED) {
         ::close(fd);
         return false;
@@ -34,7 +34,7 @@ void LwBridge::close() {
 }
 
 static inline uint32_t reg_off(uint32_t comp_base, uint32_t index) {
-    return (LwBridge::LWFPGASLVS_OFST + comp_base + index * 4u) & (LwBridge::SPAN - 1u);
+    return (comp_base + index * 4u) & (LwBridge::SPAN - 1u);
 }
 
 void LwBridge::write32(uint32_t comp_base, uint32_t index, uint32_t value) {

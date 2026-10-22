@@ -51,25 +51,31 @@ class Uart:
         body = body[:body.rfind(PROMPT.strip())] if PROMPT.strip() in body else body
         return body.split('\n', 1)[1] if '\n' in body else ''
 
-    def push(self, local, remote):
+    def push(self, local, remote, chunk_lines=150):
+        """Envia `local` para `remote` em pedaços uuencoded verificados por md5sum na placa."""
         data = open(local, 'rb').read()
         lines = [binascii.b2a_uu(data[i:i + 45]).decode() for i in range(0, len(data), 45)]
-        self.run('set +H; rm -f /tmp/push.uu', 5)
-        termios.tcflush(self.fd, termios.TCIFLUSH)
-        os.write(self.fd, b'cat > /tmp/push.uu\n'); time.sleep(0.3); self.read(0.3)
-        for l in lines:
-            for _ in range(3):
-                os.write(self.fd, l.encode())
-                got = ''; end = time.time() + 1.5
-                while time.time() < end:
-                    got += self.read(0.05)
-                    if l.strip() in got.replace('\r', ''): break
-                if l.strip() in got.replace('\r', ''): break
+        chunks = [lines[i:i + chunk_lines] for i in range(0, len(lines), chunk_lines)]
+        self.run('set +H; rm -f /tmp/push.*', 5)
+        for ci, chunk in enumerate(chunks):
+            text = ''.join(chunk)
+            want = hashlib.md5(text.encode()).hexdigest()
+            for attempt in range(4):
+                termios.tcflush(self.fd, termios.TCIFLUSH)
+                os.write(self.fd, ('cat > /tmp/push.%03d\n' % ci).encode()); time.sleep(0.2); self.read(0.1)
+                for l in chunk:
+                    os.write(self.fd, l.encode()); time.sleep(0.012)   # ~5 kB/s, metade da UART com eco
+                    if self.log is None: self.read(0)
+                os.write(self.fd, b'\x04'); time.sleep(0.3); self.read(0.3)
+                got = self.run('md5sum /tmp/push.%03d' % ci, 10).split()
+                if got and got[0] == want: break
+                sys.stderr.write('pedaço %d/%d: md5 difere, tentativa %d\n' % (ci + 1, len(chunks), attempt + 2))
             else:
-                raise RuntimeError('linha sem eco após 3 tentativas: ' + l.strip()[:30])
-        os.write(self.fd, b'\x04'); time.sleep(0.5); self.read(0.5)
-        self.run("perl -e 'open F,\"</tmp/push.uu\"; open O,\">%s\"; binmode O; "
-                 "while(<F>){print O unpack(\"u\",$_)} close O'; chmod +x %s" % (remote, remote), 15)
+                raise RuntimeError('pedaço %d não confirmou após 4 tentativas' % ci)
+            if ci % 5 == 4 or ci == len(chunks) - 1:
+                sys.stderr.write('%d/%d pedaços ok\n' % (ci + 1, len(chunks)))
+        self.run("cat /tmp/push.0* > /tmp/push.uu; perl -e 'open F,\"</tmp/push.uu\"; open O,\">%s\"; binmode O; "
+                 "while(<F>){print O unpack(\"u\",$_)} close O'; chmod +x %s; rm -f /tmp/push.0*" % (remote, remote), 20)
         got = self.run('md5sum ' + remote, 10).split()
         want = hashlib.md5(data).hexdigest()
         if not got or got[0] != want:

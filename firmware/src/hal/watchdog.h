@@ -3,21 +3,26 @@
 
 namespace aracno { namespace hal {
 
-// /dev/watchdog (dw_wdt, CONFIG_DW_WATCHDOG=y no kernel 3.13 da imagem — dia 1).
-// Abrir arma o cão; fechar com 'V' ("magic close") desarma. Se o processo morrer
-// sem o magic close, o HPS reinicia e o U-Boot reconfigura a FPGA → PWM zerados.
+// Watchdog de hardware do HPS (DW_apb_wdt em 0xFFD02000): TORR pré-programado via /dev/mem
+// (TOP_INIT = TOP) e depois /dev/watchdog do kernel. Motivo em watchdog.cpp. Processo travado
+// ou morto sem magic close → SoC reinicia → U-Boot reconfigura a FPGA → PWM zerados → servos
+// soltos. Saída normal faz o magic close (o kernel volta a alimentar; sem reboot).
 class Watchdog {
 public:
     Watchdog();
     ~Watchdog();
-    bool open(uint32_t timeout_s);   // tenta WDIOC_SETTIMEOUT; lê o timeout efetivo
-    bool is_open() const { return fd_ >= 0; }
+    bool open(uint32_t timeout_s);   // arma; mede o clock; escolhe o período ≥ timeout_s
+    bool is_open() const { return regs_ != 0; }
     uint32_t timeout_s() const { return timeout_s_; }
+    uint32_t clock_hz() const { return clock_hz_; }
     void kick();
-    void close_disarm();             // magic close
+    void close_disarm();             // magic close + libera o mapeamento
 private:
     int fd_;
+    int wd_fd_;
     uint32_t timeout_s_;
+    uint32_t clock_hz_;
+    volatile uint8_t* regs_;
 };
 
 }}  // namespace aracno::hal

@@ -47,6 +47,8 @@ private:
     uint32_t last_stimulus_ms_;
     bool had_stimulus_;
     uint32_t last_sample_ms_;
+    int32_t acc_f_[3];   // filtro passa-baixa do ADXL345 (mg × 16)
+    bool acc_init_;
 };
 
 }}  // namespace aracno::sense

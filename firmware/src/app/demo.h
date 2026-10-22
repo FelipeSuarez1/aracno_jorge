@@ -13,14 +13,14 @@ namespace aracno { namespace app {
 class Demo {
 public:
     enum Mode { STAND, WALK, TURN };
-    Demo(Mode m, int cycles, uint8_t speed) : mode_(m), cycles_left_(cycles), speed_(speed), stood_(false), stand_started_(false), cycle_pending_(false) {}
+    Demo(Mode m, int cycles, uint8_t speed) : mode_(m), cycles_left_(cycles), speed_(speed), stood_(false), cycle_pending_(false) {}
 
     // Devolve o comando desejado dado o estado do stepper.
     Cmd next(const motor::Spider& sp) {
         Cmd c; c.action = STOP; c.speed = speed_;
         if (!stood_) {
-            if (sp.current() == motor::M_STAND) stand_started_ = true;
-            else if (stand_started_ && !sp.busy()) stood_ = true;
+            // Só conta como "em pé" se o M_STAND terminou todos os passos (abort/segurança não contam).
+            if (sp.last_completed() == motor::M_STAND) stood_ = true;
             c.action = STAND_REQUEST;   // tratado pelo main: dispara M_STAND
             if (stood_) c.action = STOP;
             return c;
@@ -46,7 +46,6 @@ private:
     int cycles_left_;
     uint8_t speed_;
     bool stood_;
-    bool stand_started_;
     bool cycle_pending_;
 };
 

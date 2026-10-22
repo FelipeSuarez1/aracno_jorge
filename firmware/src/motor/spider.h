@@ -44,6 +44,8 @@ public:
     void tick(uint32_t now_ms);
     bool busy() const { return motion_ != M_NONE; }
     Motion current() const { return motion_; }
+    // Último movimento que terminou TODOS os passos (não abortado nem cortado pela segurança).
+    Motion last_completed() const { return last_completed_; }
     // Termina ao fim do ciclo corrente (não inicia novo repeat). Para STOP vindo do cérebro.
     void stop_after_cycle() { repeats_ = 1; }
     // Termina ao fim do PASSO corrente (≤ 1 rampa). Para vereditos da segurança (borda, obstáculo).
@@ -86,6 +88,7 @@ private:
     bool     fault_;
     uint32_t timeouts_row_;
     Motion   last_gait_;
+    Motion   last_completed_;
     int      speed_;
     int      speed_saved_;
     uint32_t timeouts_;

@@ -33,11 +33,17 @@ Verdict Safety::filter(const Obs& o, const Cmd& desired) {
             return v;
         }
     }
-    // 3. Tombo: solta os servos e trava (levantar sozinha de lado quebra junta).
+    // 3. Tombo: inclinação sustentada por fall_persist ciclos (acelerômetro já filtrado em
+    //    Sensors; um tranco de manuseio não trava). Solta os servos e trava.
     if (installed(o, S_ACCEL)) {
         int32_t ax = o.acc_x_mg < 0 ? -static_cast<int32_t>(o.acc_x_mg) : o.acc_x_mg;
         int32_t ay = o.acc_y_mg < 0 ? -static_cast<int32_t>(o.acc_y_mg) : o.acc_y_mg;
         if (ax > lim_.tilt_fall_mg || ay > lim_.tilt_fall_mg) {
+            if (fall_ticks_ < 255) ++fall_ticks_;
+        } else {
+            fall_ticks_ = 0;
+        }
+        if (fall_ticks_ >= lim_.fall_persist) {
             latched_ = true; latch_reason_ = RS_FALL;
             v.cmd.action = STOP; v.reason = RS_FALL; v.abort = true;
             return v;

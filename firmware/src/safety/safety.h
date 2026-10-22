@@ -12,7 +12,8 @@ struct Limits {
     uint16_t f_edge_mm;      // leitura do ToF de chão acima disto = borda
     int16_t  tilt_fall_mg;   // |acc_x| ou |acc_y| acima disto = tombo (~600 mg ≈ 37°)
     uint16_t stale_ms;       // idade máxima de uma leitura válida
-    Limits() : d_stop_mm(300), f_edge_mm(F_EDGE_MM), tilt_fall_mg(600), stale_ms(200) {}
+    uint8_t  fall_persist;   // ciclos consecutivos acima de tilt_fall_mg para declarar tombo (10 = 200 ms)
+    Limits() : d_stop_mm(300), f_edge_mm(F_EDGE_MM), tilt_fall_mg(600), stale_ms(200), fall_persist(10) {}
 };
 
 enum Reason {
@@ -36,7 +37,7 @@ const char* reason_name(uint8_t r);
 
 class Safety {
 public:
-    explicit Safety(const Limits& l = Limits()) : lim_(l), latched_(false), latch_reason_(RS_OK) {}
+    explicit Safety(const Limits& l = Limits()) : lim_(l), latched_(false), latch_reason_(RS_OK), fall_ticks_(0) {}
     // Avalia o comando desejado contra a observação. Puro: sem I/O.
     Verdict filter(const Obs& o, const Cmd& desired);
     bool latched() const { return latched_; }
@@ -49,6 +50,7 @@ private:
     Limits lim_;
     bool latched_;
     uint8_t latch_reason_;
+    uint8_t fall_ticks_;
 };
 
 }}  // namespace aracno::safety

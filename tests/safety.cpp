@@ -94,12 +94,10 @@ int main() {
         Obs o6 = base; o6.age_ms[S_PIR] = 1000;
         Case c6 = {"PIR obsoleto: parar + abort", o6, cmd(HEAD_LEFT), STOP, RS_STALE, true}; cases[n++] = c6;
     }
-    // --- tombo ---------------------------------------------------------------------------
+    // --- tombo: um único ciclo inclinado NÃO dispara (persistência testada em cenário abaixo) ----
     {
         Obs o = base; o.acc_x_mg = 601;
-        Case c1 = {"inclinação x 601: abort", o, cmd(FORWARD), STOP, RS_FALL, true}; cases[n++] = c1;
-        Obs o2 = base; o2.acc_y_mg = -601;
-        Case c2 = {"inclinação y -601: abort", o2, cmd(STOP), STOP, RS_FALL, true}; cases[n++] = c2;
+        Case c1 = {"inclinação x 601 por 1 ciclo: ainda ok", o, cmd(FORWARD), FORWARD, RS_OK, false}; cases[n++] = c1;
         Obs o3 = base; o3.acc_x_mg = 600;
         Case c3 = {"inclinação 600 (limite): ok", o3, cmd(FORWARD), FORWARD, RS_OK, false}; cases[n++] = c3;
     }
@@ -107,8 +105,6 @@ int main() {
     {
         Obs o = base; o.dist_front_mm = 100; o.dist_floor_mm = 500;
         Case c1 = {"obstáculo + borda: motivo é borda (mais grave)", o, cmd(FORWARD), STOP, RS_EDGE, false}; cases[n++] = c1;
-        Obs o2 = base; o2.dist_floor_mm = 500; o2.acc_x_mg = 900;
-        Case c2 = {"borda + tombo: tombo vence (abort)", o2, cmd(BACKWARD), STOP, RS_FALL, true}; cases[n++] = c2;
         Obs o3 = base; o3.acc_x_mg = 900; o3.age_ms[S_LUX_R] = 999;
         Case c3 = {"tombo + obsoleto: obsoleto vence (ambos abort)", o3, cmd(STOP), STOP, RS_STALE, true}; cases[n++] = c3;
     }
@@ -144,14 +140,25 @@ int main() {
         v = s.filter(ok, cmd(FORWARD));
         CHECK(v.cmd.action == FORWARD && v.reason == RS_OK && !v.abort, "destravado pelo operador: volta a andar");
     }
-    // tombo também trava (a aranha caída não deve tentar levantar sozinha)
+    // tombo: precisa de fall_persist (10) ciclos seguidos; um tranco de 9 ciclos não trava
     {
         Safety t;
         Obs o = base; o.acc_y_mg = 800;
-        t.filter(o, cmd(STOP));
+        Verdict v;
+        for (int i = 0; i < 9; ++i) v = t.filter(o, cmd(FORWARD));
+        CHECK(v.cmd.action == FORWARD && !t.latched(), "9 ciclos inclinada: ainda não é tombo");
+        v = t.filter(base, cmd(FORWARD));
+        CHECK(!t.latched(), "voltou ao nível: contador zera");
+        for (int i = 0; i < 10; ++i) v = t.filter(o, cmd(FORWARD));
+        CHECK(v.cmd.action == STOP && v.reason == RS_FALL && v.abort, "10 ciclos inclinada: tombo + abort");
         CHECK(t.latched() && t.latch_reason() == RS_FALL, "tombo trava com motivo RS_FALL");
-        Verdict v = t.filter(base, cmd(FORWARD));
-        CHECK(v.cmd.action == STOP && v.reason == RS_LATCHED && v.abort, "após tombo continua travado");
+        v = t.filter(base, cmd(FORWARD));
+        CHECK(v.cmd.action == STOP && v.reason == RS_LATCHED && v.abort, "após tombo continua travado (a aranha caída não levanta sozinha)");
+        // borda + tombo persistente: tombo vence
+        Safety t2;
+        Obs o2 = base; o2.dist_floor_mm = 500; o2.acc_x_mg = 900;
+        for (int i = 0; i < 10; ++i) v = t2.filter(o2, cmd(BACKWARD));
+        CHECK(v.cmd.action == STOP && v.reason == RS_FALL && v.abort, "borda + tombo: tombo vence (abort)");
     }
     // obsoleto NÃO trava: assim que o sensor volta, a aranha pode seguir
     {

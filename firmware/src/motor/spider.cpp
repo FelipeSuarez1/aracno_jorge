@@ -152,7 +152,7 @@ int Spider::build(Motion m, Step* out) {
 Spider::Spider()
     : pwm_(0), motion_(M_NONE), nsteps_(0), step_(0), repeats_(0), eta_ms_(0),
       pause_until_ms_(0), aborted_(false), stop_step_(false), wake_leg_(6), wake_last_ms_(0),
-      fault_(false), timeouts_row_(0), last_gait_(M_NONE), speed_(50), speed_saved_(50), timeouts_(0) {}
+      fault_(false), timeouts_row_(0), last_gait_(M_NONE), last_completed_(M_NONE), speed_(50), speed_saved_(50), timeouts_(0) {}
 
 bool Spider::start(Motion m, uint8_t repeats, uint32_t now_ms) {
     if (motion_ != M_NONE || !pwm_ || m == M_NONE || m >= N_MOTIONS) return false;
@@ -234,6 +234,7 @@ void Spider::tick(uint32_t now_ms) {
         if (!stop_step_ && repeats_ > 1) { --repeats_; step_ = 0; }
         else {
             if (motion_ == M_LUNGE) set_speed(speed_saved_);
+            if (!stop_step_) last_completed_ = motion_;
             motion_ = M_NONE;
             stop_step_ = false;
             return;

@@ -12,9 +12,11 @@ public:
     virtual uint32_t read32(uint32_t comp_base, uint32_t index) const = 0;
 };
 
-// Ponte lightweight HPS→FPGA via /dev/mem. Porta de CMMap (Spider CD, mmap.cpp):
-// janela de 64 MiB a partir de ALT_STM_OFST (0xFC000000); registradores Qsys em
-// ALT_LWFPGASLVS_OFST (0xFF200000) + base do componente (hps_0.h) + índice*4.
+// Ponte lightweight HPS→FPGA via /dev/mem. CMMap (Spider CD, mmap.cpp) mapeava 64 MiB a
+// partir de ALT_STM_OFST (0xFC000000); aqui mapeamos SÓ a janela da ponte, 2 MiB a partir de
+// ALT_LWFPGASLVS_OFST (0xFF200000) — tocar o resto da região de periféricos do HPS (como o
+// mlockall(MCL_FUTURE) fez no 1º teste na placa, 2026-10-22) reinicia o SoC.
+// Registrador = LWFPGASLVS_OFST + base do componente (hps_0.h) + índice*4.
 class LwBridge : public RegIo {
 public:
     LwBridge();
@@ -25,9 +27,8 @@ public:
     virtual void     write32(uint32_t comp_base, uint32_t index, uint32_t value);
     virtual uint32_t read32(uint32_t comp_base, uint32_t index) const;
 
-    static const uint32_t STM_OFST        = 0xFC000000u;  // hwlib socal/hps.h ALT_STM_OFST
     static const uint32_t LWFPGASLVS_OFST = 0xFF200000u;  // hwlib socal/hps.h ALT_LWFPGASLVS_OFST
-    static const uint32_t SPAN            = 0x04000000u;  // mmap.cpp H2F_LW_REGS_SPAN
+    static const uint32_t SPAN            = 0x00200000u;  // 2 MiB: tamanho da ponte lightweight (Cyclone V HPS TRM)
 
 private:
     int fd_;

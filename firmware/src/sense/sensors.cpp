@@ -5,7 +5,8 @@ namespace aracno { namespace sense {
 
 static inline bool has(uint8_t mask, int s) { return (mask & (1u << s)) != 0; }
 
-Sensors::Sensors() : alive_(0), last_lux_ms_(0), last_stimulus_ms_(0), had_stimulus_(false), last_sample_ms_(0) {
+Sensors::Sensors() : alive_(0), last_lux_ms_(0), last_stimulus_ms_(0), had_stimulus_(false), last_sample_ms_(0), acc_init_(false) {
+    acc_f_[0] = acc_f_[1] = acc_f_[2] = 0;
     for (int i = 0; i < N_SENSORS; ++i) { last_ok_[i] = 0; ever_[i] = false; }
 }
 
@@ -65,7 +66,20 @@ void Sensors::sample(Obs* o, uint32_t now_ms) {
 
     if (has(alive_, S_ACCEL)) {
         int16_t x, y, z;
-        if (acc_.read(&x, &y, &z)) { o->acc_x_mg = x; o->acc_y_mg = y; o->acc_z_mg = z; stamp(o, S_ACCEL, now_ms); }
+        if (acc_.read(&x, &y, &z)) {
+            // Passa-baixa de 1ª ordem, α = 1/8 a 50 Hz (τ ≈ 150 ms): Obs carrega a direção da
+            // gravidade, não trancos de manuseio (teste 1 na placa: pegar a aranha deu 877 mg em y).
+            int32_t in[3] = {x, y, z};
+            for (int k = 0; k < 3; ++k) {
+                if (!acc_init_) acc_f_[k] = in[k] * 16;
+                else acc_f_[k] += (in[k] * 16 - acc_f_[k]) / 8;
+            }
+            acc_init_ = true;
+            o->acc_x_mg = static_cast<int16_t>(acc_f_[0] / 16);
+            o->acc_y_mg = static_cast<int16_t>(acc_f_[1] / 16);
+            o->acc_z_mg = static_cast<int16_t>(acc_f_[2] / 16);
+            stamp(o, S_ACCEL, now_ms);
+        }
     }
     if ((has(alive_, S_PIR) || has(alive_, S_ESTOP))) {
         uint8_t v;

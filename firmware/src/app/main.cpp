@@ -9,6 +9,7 @@
 #include <csignal>
 #include <sched.h>
 #include <sys/mman.h>
+#include <sys/syscall.h>
 #include <unistd.h>
 
 #include "aracno/types.h"
@@ -49,13 +50,14 @@ motor::Motion motion_for(uint8_t action) {
     }
 }
 
-struct Hist {   // histograma do período do laço em faixas de 100 us até 10 ms, + estouro
-    uint32_t bin[101];
+struct Hist {   // histograma do período do laço: faixas de 250 us até 50 ms, + estouro
+    static const int NB = 200;
+    uint32_t bin[NB + 1];
     uint32_t n, max_us;
     Hist() : n(0), max_us(0) { std::memset(bin, 0, sizeof bin); }
-    void add(uint32_t us) { ++n; if (us > max_us) max_us = us; uint32_t b = us / 100; if (b > 100) b = 100; ++bin[b]; }
+    void add(uint32_t us) { ++n; if (us > max_us) max_us = us; uint32_t b = us / 250; if (b > NB) b = NB; ++bin[b]; }
     uint32_t pct(double p) const {
-        uint32_t acc = 0; for (int i = 0; i <= 100; ++i) { acc += bin[i]; if (acc >= p * n) return i * 100; } return 10000;
+        uint32_t acc = 0; for (int i = 0; i <= NB; ++i) { acc += bin[i]; if (acc >= p * n) return i * 250; } return NB * 250;
     }
 };
 
@@ -65,7 +67,7 @@ int main(int argc, char** argv) {
     app::Demo::Mode mode = app::Demo::STAND;
     int cycles = 0, speed = 50, hz = 50, max_s = 0;
     uint8_t sensors_mask = 0x7F;
-    bool use_wd = true;
+    bool use_wd = false;   // PENDENTE S03: abrir /dev/watchdog reinicia o SoC (ver docs/00-Inbox/watchdog-dw-wdt-reinicia.md)
     bool use_policy = false;
     const char* log_path = "/home/root/aracno.log";
     for (int i = 1; i < argc; ++i) {
@@ -78,6 +80,7 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;
         else if (!std::strcmp(argv[i], "--no-watchdog")) use_wd = false;
+        else if (!std::strcmp(argv[i], "--watchdog")) use_wd = true;
         else if (!std::strcmp(argv[i], "--speed") && i + 1 < argc) speed = std::atoi(argv[++i]);
         else if (!std::strcmp(argv[i], "--hz") && i + 1 < argc) hz = std::atoi(argv[++i]);
         else if (!std::strcmp(argv[i], "--max-s") && i + 1 < argc) max_s = std::atoi(argv[++i]);
@@ -95,10 +98,13 @@ int main(int argc, char** argv) {
     std::signal(SIGTERM, on_signal);
     std::signal(SIGHUP, on_signal);   // queda da sessão da UART
 
-    // Tempo real: memória travada e SCHED_FIFO (kernel PREEMPT_NONE: o ganho é limitado; medimos).
-    if (mlockall(MCL_CURRENT | MCL_FUTURE) != 0) std::perror("mlockall (continuando)");
+    // Tempo real: trava o que já está mapeado (código, pilha, dados). NUNCA MCL_FUTURE: ele faria o
+    // kernel pré-tocar o mapeamento de /dev/mem e ler periféricos do HPS → reset do SoC (teste 1, dia 1).
+    if (mlockall(MCL_CURRENT) != 0) std::perror("mlockall (continuando)");
+    // musl devolve ENOSYS para sched_setscheduler; via syscall direta funciona (kernel PREEMPT_NONE:
+    // o ganho é limitado; medimos no histograma).
     sched_param sp; sp.sched_priority = 50;
-    if (sched_setscheduler(0, SCHED_FIFO, &sp) != 0) std::perror("SCHED_FIFO (continuando)");
+    if (syscall(SYS_sched_setscheduler, 0, SCHED_FIFO, &sp) != 0) std::perror("SCHED_FIFO (continuando)");
 
     hal::LwBridge bridge;
     if (!bridge.open()) { std::fprintf(stderr, "ponte lightweight: /dev/mem falhou\n"); return 1; }
@@ -123,11 +129,14 @@ int main(int argc, char** argv) {
         if (sensors_mask == 0) std::printf("AVISO: --policy sem sensores: a politica vai agir sobre zeros\n");
     }
 
-    // Watchdog obrigatório: sem ele, processo travado = servos congelados. Só --no-watchdog dispensa.
+    // Watchdog: a spec exige antes do bote perto de pessoas; hoje é opt-in (--watchdog) porque
+    // abrir /dev/watchdog no kernel 3.13 reinicia o SoC — pendência documentada no Inbox.
     hal::Watchdog wd;
     if (use_wd) {
-        if (!wd.open(5)) { std::fprintf(stderr, "/dev/watchdog indisponível; use --no-watchdog só em bancada\n"); pwm.abort_all(true); return 1; }
-        std::printf("watchdog armado: %u s\n", wd.timeout_s());
+        if (!wd.open(5)) { std::fprintf(stderr, "/dev/watchdog indisponível\n"); pwm.abort_all(true); return 1; }
+        std::printf("watchdog armado: %u s (clock %u Hz)\n", wd.timeout_s(), wd.clock_hz());
+    } else {
+        std::printf("AVISO: sem watchdog de hardware (pendencia S03b); processo travado = servos congelados\n");
     }
 
     FILE* log = std::fopen(log_path, "wb");
