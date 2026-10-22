@@ -12,8 +12,13 @@ Aranha Terasic Spider + DE0-Nano-SoC, cabeça pan/tilt com rosto, IA de decisão
 ## Estado atual
 - Hardware identificado: [[40-Fontes/hardware]]
 - Visão e prompt mestre: [[20-Specs/S00-visao]]
-- Próximo passo humano: [[20-Specs/S01-dia-1-uart]]
-- Próximo passo IA: [[20-Specs/S02-toolchain-hello-world]]
+- Dia 1 e toolchain: [[20-Specs/S01-dia-1-uart]] ✅ · [[20-Specs/S02-toolchain-hello-world]] ✅ · [[30-Medicoes/dia-1]]
+- Próximo passo humano: aceitar [[00-Inbox/proposta-ADR-009-rota-hps]] e [[10-Decisoes/ADR-008-papeis-dos-modelos]]; comprar [[Compras]]
+- Próximo passo IA (após aprovação das specs): [[20-Specs/S03-firmware-base-e-seguranca]]
+
+## Specs
+- [[20-Specs/S00-visao]] · [[20-Specs/S01-dia-1-uart]] · [[20-Specs/S02-toolchain-hello-world]]
+- [[20-Specs/S03-firmware-base-e-seguranca]] (rascunho) · [[20-Specs/S04-display-rosto-balao]] (rascunho) · [[20-Specs/S05-simulador-e-politica]] (rascunho) · [[20-Specs/S06-cabeca-pan-tilt]] (rascunho)
 
 ## Decisões
 - [[10-Decisoes/ADR-001-sem-placa-companheira]]
