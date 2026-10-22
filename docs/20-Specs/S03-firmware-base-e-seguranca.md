@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: [[20-Specs/S00-visao]] seção 3; [[30-Medicoes/dia-1]]
 depende: [[20-Specs/S02-toolchain-hello-world]]
 ---
@@ -65,4 +65,13 @@ Regras da camada de segurança (fixas, não configuráveis pela política):
 6. Revisão pelo agente `reviewer-seguranca` antes do primeiro teste na aranha; teste [LAB] com a aranha suspensa.
 
 ## Evidência
-(preencher)
+### 2026-10-22 — passos 1–5 [PC] feitos (commit `0d09eee`), revisão de segurança aplicada
+- `make -C firmware test`: `safety` 37 casos de tabela + travas, `pwm/spider` (conversão = CMotor, tabelas = CSpider, stepper, wake escalonado, falha por timeouts), `log` (layout 64 B = log2csv), `policy` (200 vetores), `face` — todos verdes.
+- Cross estático: 120 040 B (`-static -no-pie -s`), inclui sprites do rosto.
+- Revisão `reviewer-seguranca` (agente `RevisaoS03`, opus): **REPROVADO** na 1ª rodada com 6 bloqueios — todos corrigidos no mesmo commit: (1) `PwmBank::init` não arma mais os 18 servos de uma vez (lê `high_dur_temp` como semente; o armamento escalonado é o `M_STAND`); (2) `Spider::stop_after_step()` para vereditos da segurança; (3) idades calculadas após as transações + guarda quando `sample()` demora mais que `stale_ms`; (4) `Vl53l1x::poll` só carimba idade com leitura completa; (5) watchdog obrigatório (`--no-watchdog` só em bancada); (6) `wake()` religa uma perna por 100 ms. Sugestões aplicadas: `--speed` honrado, `Reset` antes de girar após marcha, `F_EDGE_MM` único, `SIGHUP`, log zerado + buffer de 64 KiB, falha após 3 timeouts seguidos, ciclos do demo só contam quando o stepper parte.
+- **Pendente estrutural** (recomendação da revisão, antes do bote perto de pessoas): leituras I2C numa thread própria com troca de `Obs` por seqlock, para o laço de 20 ms nunca bloquear no barramento. Fica como S03b após a medição de `last_sample_ms` na bancada.
+
+### Notas para o [LAB]
+- Teste com a aranha **suspensa**: o ToF de chão lê "longe" = borda → `RS_EDGE` bloqueia a marcha por design. Rodar com `--sensors 0x6F` (tudo menos `S_DIST_FLOOR`, bit 3) ou sem sensores (`--no-sensors`) enquanto não há sensores montados.
+- Primeiro teste sem a Servo Motor Card ligada: `aracno --demo stand --no-sensors` exercita laço, watchdog, LEDs e log com servos sem energia.
+- `tools/board-spider-app.sh disable` antes de rodar (o `spider` original mapeia os mesmos registradores).
