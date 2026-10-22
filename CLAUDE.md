@@ -18,6 +18,7 @@ Todo código é escrito pela IA. Luiz e Felipe decidem, medem no lab e revisam. 
 ## Comandos
 - Build cross (estático, musl, em container): `tools/cross-build.sh` (faz `docker build` na primeira vez)
 - Testes de host: `make -C firmware test`
+- Placa pela UART (sem rede): `tools/uart.py run "cmd"`, `tools/uart.py push local /home/root/x`, `tools/uart.py boot`. Servo Motor Card OFF em teste de software.
 
 ## Regras de trabalho
 - Fluxo: Inbox → `/spec` → plan mode (humano aprova) → implementar → testes/build → commit pequeno → `/sessao-fim`.
