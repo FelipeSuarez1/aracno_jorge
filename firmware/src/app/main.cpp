@@ -1,7 +1,8 @@
 // aracno — laço de controle do HPS (S03).
 //   sensores → cérebro (demo/política) → segurança → servos, a 50 Hz, com watchdog e log.
-// Uso: aracno [--demo stand|walk N|turn N] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
+// Uso: aracno [--demo stand|walk N|turn N | --policy] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
 //             [--speed S] [--log ARQ] [--hz H] [--max-s S]
+//   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -20,6 +21,7 @@
 #include "sense/sensors.h"
 #include "safety/safety.h"
 #include "app/demo.h"
+#include "brain/policy.h"
 
 #ifndef ARACNO_GIT_REV
 #define ARACNO_GIT_REV "unknown"
@@ -64,6 +66,7 @@ int main(int argc, char** argv) {
     int cycles = 0, speed = 50, hz = 50, max_s = 0;
     uint8_t sensors_mask = 0x7F;
     bool use_wd = true;
+    bool use_policy = false;
     const char* log_path = "/home/root/aracno.log";
     for (int i = 1; i < argc; ++i) {
         if (!std::strcmp(argv[i], "--demo") && i + 1 < argc) {
@@ -71,7 +74,8 @@ int main(int argc, char** argv) {
             if (!std::strcmp(m, "stand")) mode = app::Demo::STAND;
             else if (!std::strcmp(m, "walk")) { mode = app::Demo::WALK; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
             else if (!std::strcmp(m, "turn")) { mode = app::Demo::TURN; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
-        } else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
+        } else if (!std::strcmp(argv[i], "--policy")) { use_policy = true; mode = app::Demo::STAND; }
+        else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;
         else if (!std::strcmp(argv[i], "--no-watchdog")) use_wd = false;
         else if (!std::strcmp(argv[i], "--speed") && i + 1 < argc) speed = std::atoi(argv[++i]);
@@ -112,6 +116,12 @@ int main(int argc, char** argv) {
 
     safety::Safety safety;
     app::Demo demo(mode, cycles, static_cast<uint8_t>(speed));
+    Policy policy;
+    if (use_policy) {
+        if (!policy.self_test()) { std::fprintf(stderr, "politica: self_test falhou (weights.h x policy_vectors.h)\n"); pwm.abort_all(true); return 1; }
+        std::printf("politica: weights %s\n", policy.weights_sha());
+        if (sensors_mask == 0) std::printf("AVISO: --policy sem sensores: a politica vai agir sobre zeros\n");
+    }
 
     // Watchdog obrigatório: sem ele, processo travado = servos congelados. Só --no-watchdog dispensa.
     hal::Watchdog wd;
@@ -150,8 +160,8 @@ int main(int argc, char** argv) {
         if (sensors.last_sample_ms() > safety.limits().stale_ms)
             for (int s = 0; s < N_SENSORS; ++s) if (obs.age_ms[s] != AGE_NEVER) obs.age_ms[s] = 0xFFFE;
 
-        // 2. cérebro
-        Cmd desired = demo.next(spider);
+        // 2. cérebro: demo até levantar; depois a política, se pedida
+        Cmd desired = (use_policy && demo.stood()) ? policy.act(obs) : demo.next(spider);
         bool want_stand = desired.action == app::Demo::STAND_REQUEST;
         Cmd probe = desired;
         if (want_stand) { probe.action = CROUCH; }   // levantar = movimento no lugar para a segurança
@@ -203,7 +213,7 @@ int main(int argc, char** argv) {
             std::fwrite(&r, sizeof r, 1, log);
         }
 
-        if (demo.done(spider) && !spider.busy()) { std::printf("demo concluída\n"); break; }
+        if (!use_policy && demo.done(spider) && !spider.busy()) { std::printf("demo concluída\n"); break; }
         if (t_end && now_us >= t_end) { std::printf("tempo máximo atingido\n"); break; }
     }
 

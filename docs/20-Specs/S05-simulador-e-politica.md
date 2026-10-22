@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: [[20-Specs/S00-visao]] seção 4; [[10-Decisoes/ADR-005-politica-treinada-no-pc]]
 depende: [[20-Specs/S03-firmware-base-e-seguranca]] (formato de Obs/Cmd e log)
 ---
@@ -43,4 +43,21 @@ Aprender a andar (ADR-004). Clonagem por teleoperação (S07, precisa do log rea
 5. `núcleo` — ligar `policy.cpp` no laço de S03 **abaixo** da camada de segurança; teste na aranha suspensa; depois no chão com cenários roteirizados (S00).
 
 ## Evidência
-(preencher)
+### 2026-10-22 — passos 1–3 [PC] feitos (agente `SimPolitica`, 7 commits)
+- `cd sim && python -m pytest` → 10 passed. `train_q.py --seed 1 --episodes 2000` duas vezes → mesmo sha256 (`789a1253…321ed9`).
+- `export.py` → `firmware/src/brain/weights.h` (sha `4340419e…65d7`), `policy_vectors.h` ×2; `tests/policy.cpp`: 200 vetores ok → C++ e Python discretizam igual.
+- `eval.py --episodes 1000 --layout-seed 8` (layouts nunca vistos):
+
+| Política | Sucesso | Recompensa média | Tempo no escuro |
+|---|---:|---:|---:|
+| Q-table (seed 2) | **6,6 %** | **4,64** | 44,9 % |
+| FSM à mão | 5,9 % | −2,15 | 56,4 % |
+| Aleatória | 0,3 % | −36,84 | 56,6 % |
+
+- Ordem política > FSM > aleatória mantida, mas a vantagem em **sucesso** é marginal (σ ≈ 0,8 %). **Alvo X = 0,7 (provisório) não atingido** — e uma tabela reativa escrita à mão atinge só 13,7 % no mesmo simulador: é o teto de qualquer política tabular com esta `Obs`.
+- Causa estrutural (relatório do agente): nada em `Obs` distingue **pessoa de parede** — só 5–8 % das leituras "PIR=1 e dist ≤ 600 mm" são pessoa. Decisão de modelagem tomada pelo agente e que os autores devem revisar: recompensa do bote mudada de +10/−2 para **+20/−1**, porque com a original a política ótima era "nunca dar o bote" (valor esperado negativo). Ver [[00-Inbox/politica-nao-distingue-pessoa-de-parede]].
+- `Policy` ligada no laço (`aracno --policy`): `self_test()` na inicialização, recusa rodar se divergir; sha dos pesos no console.
+
+### Pendente
+- Autores fixam X e decidem sobre a recompensa do bote (Inbox).
+- [LAB] caracterização dos sensores e da dinâmica (`V_FORWARD_MM_S`, `TURN_RAD_S`, `LUNGE_MM`, `FLOOR_HEIGHT_MM` em `env.py` marcados `[A MEDIR]`); retreinar.

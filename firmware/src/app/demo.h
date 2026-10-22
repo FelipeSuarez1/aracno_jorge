@@ -36,6 +36,7 @@ public:
         return c;
     }
     bool done(const motor::Spider& sp) const { return stood_ && cycles_left_ == 0 && !sp.busy(); }
+    bool stood() const { return stood_; }
 
     // Ação especial fora de aracno::Action, só do demo (não passa pela política).
     static const uint8_t STAND_REQUEST = 0xFE;

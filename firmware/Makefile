@@ -7,7 +7,7 @@ CXX      = $(CROSS)g++
 HOSTCXX ?= g++
 GIT_REV := $(shell git -C .. rev-parse --short HEAD 2>/dev/null || echo unknown)
 
-COMMON   = -std=c++11 -Wall -Wextra -Werror -fno-exceptions -fno-rtti \
+COMMON   = -std=c++11 -Wall -Wextra -Werror -fno-exceptions -fno-rtti -MMD -MP \
            -Iinclude -Isrc -DARACNO_GIT_REV=\"$(GIT_REV)\"
 CXXFLAGS = $(COMMON) -O2 -march=armv7-a -mfpu=neon -mfloat-abi=hard
 LDFLAGS  = -static -no-pie -s -lpthread
@@ -50,3 +50,6 @@ test: $(TEST_BIN)
 
 clean:
 	rm -rf build ../tests/build
+
+# Dependências de headers geradas por -MMD (regenerar weights.h recompila policy).
+-include $(OBJ:.o=.d) $(HOSTOBJ:.o=.d) $(TEST_BIN:=.d)
