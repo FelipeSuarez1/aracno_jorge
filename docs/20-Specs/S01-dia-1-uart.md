@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: [[20-Specs/S00-visao]] seção 1
 depende: 
 ---
@@ -12,11 +12,11 @@ Saber o que a imagem Linux 2.0 original oferece (kernel, drivers I2C/SPI, compil
 Nenhuma modificação na microSD além da cópia de backup. Nenhum código novo.
 
 ## Fatos de entrada
-- UART-USB mini-B, 115200 8N1 ([[40-Fontes/de0-nano-soc-user-manual]] §3.7). Login `root` sem senha na imagem Terasic `[INFERÊNCIA]`.
+- UART-USB mini-B, 115200 8N1 ([[40-Fontes/de0-nano-soc-user-manual]] §3.7). `/etc/inittab` da imagem tem `getty … -l /sbin/autologin … ttyS0` → login automático como root ([[30-Medicoes/dia-1]]).
 - App `spider` sobe pelo `/etc/inittab` e ocupa os servos ([[40-Fontes/spider-programming-guide]] §4.1): fazer o levantamento com a chave da Servo Motor Card **desligada** ou com a aranha suspensa.
 
 ## Critérios de aceite
-- [LAB] Imagem de backup da microSD gravada em disco (`dd`) com SHA-256 anotado em `30-Medicoes/dia-1.md`.
+- [LAB] ✅ Imagem de backup da microSD gravada em disco (`dd`) com SHA-256 anotado em `30-Medicoes/dia-1.md`. (2026-10-22, hash `44254bf2…28c6d`)
 - [LAB] Saída completa dos comandos abaixo colada em `30-Medicoes/dia-1.md`.
 - [LAB] Conta Terasic criada; `Spider CD-ROM 1.0.1` e `Linux Image 2.0` baixados; conteúdo do CD (pastas `Program/DE0_NANO_SOC_SPIDER*`, código do CPLD, esquemático) copiado para `docs/40-Fontes/spider-cd/` (sem binários grandes; `.rbf`/imagens ficam fora do git).
 - [PC] Com a saída colada, a IA escreve ADR-009 (rota escolhida) como proposta no Inbox.
@@ -45,4 +45,6 @@ Formato de `30-Medicoes/dia-1.md`: cabeçalho com data, quem fez, hash do backup
 Humano executa; IA consome a saída e propõe ADR-009 + ajusta S02 (toolchain) se `gcc` existir na placa.
 
 ## Evidência
-(colar aqui ou linkar `30-Medicoes/dia-1.md`)
+- Parte A (cartão no PC, sem ligar a placa): [[30-Medicoes/dia-1]] — backup feito, DTB decodificado, rootfs lido com `debugfs`, binário `spider` inspecionado. Proposta de rota: [[00-Inbox/proposta-ADR-009-rota-hps]].
+- Parte B (UART com a placa ligada): pendente. Sem `gcc` na placa → S02 segue com cross-compile estático (confirmado).
+- Parte C (conta Terasic + CD): pendente.
