@@ -59,3 +59,36 @@ Rota **HPS** está habilitada no DTB e no kernel: I2C1, SPIM1+spidev, watchdog, 
 
 ## Parte B (pendente): UART com a placa ligada
 Comandos da [[20-Specs/S01-dia-1-uart]] §3; colar em `dia-1-uart.log`.
+
+# Dia 1 — parte C: Spider CD-ROM 1.0.1 e Linux Image 2.0
+
+## Downloads (fora do repo, `~/dev/aracno_backup/`)
+- `Spider_v.1.0.1_SystemCD.zip` 43 462 385 B, SHA-256 `20089ed17ff325272abe4b010ef2c9d5fb1e5aeb78139bac17a79b390eb7f2e0`.
+- `Spider_image_V2_0.zip` 233 658 564 B, SHA-256 `24ec4edac53463f49191ecea5175029f419e093a6a476ef73fc0497f0783bc41` → `Spider_V2_0.img` (4 004 511 744 B).
+- **O cartão da aranha é a Linux Image 2.0**: mesmo serial FAT `F725-1429`, mesmos 4 arquivos em p1, p3 idêntico (SHA-256), `spider`, `.led_blink`, `inittab`, `modules.dep` idênticos em p2 (p2 difere só por metadados/journal). Nenhuma atualização a buscar.
+
+## Conteúdo do CD importado em [[40-Fontes/spider-cd]] (só fonte, 1,4 MB)
+- `DE0_NANO_SOC_SPIDER_LINUX_APP/`: `Main.cpp`, `CSpider.cpp/.h`, `CSpiderLeg.cpp/.h`, `CMotor.cpp/.h`, `BtSpp*.cpp/.h`, `Queue*.cpp/.h`, `PIO_*.cpp/.h`, `mmap.cpp/.h`, `terasic_os.cpp/.h`, `hps_0.h`, `Makefile`, `autologin`, `bt/inc/` (headers BlueZ). O binário `spider` do CD é o mesmo do cartão.
+- `DE0_NANO_SOC_SPIDER/`: `DE0_Nano_SoC_golden_top.v/.qsf/.qpf`, `soc_system.qsys`, `ip/spider/TERASIC_PWM_EX.v` + `PWM_Delay.v`, `TERASIC_PWM_EX_hw.tcl`, `hps_0.h`, `hps_isw_handoff/`. Fora do git: `.sof`, `.rbf`, `.jic`, `soc_system/` (HDL gerado), `.sopcinfo`.
+- `Motor_Board_MAXII_Power_Monitor/`: `MAXII_Power_Monitor.v` (topo), `V/POWER_MONITOR.v`, `V/I2C_*.v`, `.qsf/.qpf/.sdc`. Fora: `.pof`, `output_files/`.
+- `DE0_NANO_SOC_SPIDER_ANDROID/DEMO SPIDER/src/` + `AndroidManifest.xml`. Fora: `res/`, `bin/`, `gen/`.
+- Manuais do CD = os já importados (User Manual, Programming Guide).
+
+## Fatos extraídos (fonte primária)
+### Controlador PWM (`ip/spider/TERASIC_PWM_EX.v`, `CMotor.cpp`)
+- 4 registradores de 32 bits por canal: `0 TOTAL_DUR`, `1 HIGH_DUR`, `2 ADJ_SPEED` (escrita) / `STATUS` (leitura, bit0 = PWM final enviado), **`3 ABORT`** (1 = desliga o PWM; é o "power saving" do manual). O Programming Guide omite o registrador 3.
+- Canais em `hps_0.h`: `PWM17_BASE 0x0` … `PWM0_BASE 0x110`, 16 bytes cada, na ponte lightweight (`CMMap::MAP_H2F_LW_BRIDGE`, `ALT_STM_OFST`+span 0x04000000 — `mmap.cpp`).
+- `DUR_CLOCK_NUM = 50 000 000/50 = 1 000 000` ticks = 20 ms. Pulso: `PWM_DEGREE_MIN = 25 000` (0,5 ms) ↔ −90°, `PWM_DEGREE_MAX = 125 000` (2,5 ms) ↔ +90°; 1,5 ms = 0°. **Faixa de ângulo −90…+90°** (`DEGREE_MIN/MAX`). Motores 0–8 são espelhados (`m_nMotorID < 9 → −ângulo`).
+- Velocidade: `SetSpeed(0..100)` → divisor em `ADJ_SPEED` de `1150` (lento, 0) a `550` (rápido, 100); o construtor escreve `1700` (`PWM_SPEED_MAX+PWM_SPEED_MIN`, mais lento ainda) até o primeiro `SetSpeed`. `m_Speed(1800)` só alimenta a estimativa de tempo: `0,17 s/60° × m_Speed × 5` por grau (comentário "0.17sec/60degree(4.8v)").
+- `IsReady()` lê `STATUS == 1`; `ReadyTime()` é estimativa em ticks do SO.
+
+### CPLD da Servo Motor Card (`MAXII_Power_Monitor.v`)
+- INA230 em `0x80` (8 bits, = 0x40 7 bits). `CONFIGURATION = 0x4127` → decodificação pelo layout do datasheet `[INFERÊNCIA]`: AVG = 128 amostras, VBUSCT = 140 µs, VSHCT = 1,1 ms, modo contínuo shunt+bus → janela ≈ 128 × 1,24 ms ≈ **159 ms**.
+- `CALIBRATION = 2560`, `CURRENT_LSB = 1 mA` → shunt = 0,00512/(0,001 × 2560) = **2 mΩ** `[INFERÊNCIA, fórmula do datasheet]`. Potência LSB 25 mW. Tensão LSB 1,25 mV.
+- **Corte por bateria baixa: `VOLTAGE_BUS < 5,9 V` sustentado por 2 s** (`LOWBAT_TIMEOUT = 24 MHz × 2`).
+- **Corte por sobrecarga: potência > 65 W sustentada por 0,2 s** (`MAX_POWER = 65 000 mW`, `OVERPOWER_TIMEOUT = 24 MHz/5`). A 6 V ≈ 10,8 A médios na janela do INA230.
+- LEDs de bateria: 3 acesos > 6,35 V; 2 > 6,12 V; 1 > 5,9 V. Faixa compatível com **dois packs NiMH de 5 células em paralelo** (6 V nominal) — não em série `[INFERÊNCIA]`.
+- `SOC_SYS_PDN_n` = 0 em qualquer alarme: desliga servos e o 5 V do DE0 (confirma o manual). Sem rearme automático: só desligar/ligar a chave.
+
+### Comandos (`BtSppCommand.cpp`, `Main.cpp`)
+- Além do manual: `ATST` (parar), `ATVR=?` (versão), `ATJS=` (joystick). Parser em `CBtSppCommand::CommandParsing`.

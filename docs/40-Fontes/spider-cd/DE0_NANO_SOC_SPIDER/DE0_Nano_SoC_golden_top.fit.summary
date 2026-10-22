@@ -1,0 +1,19 @@
+Fitter Status : Successful - Fri Oct 16 19:49:37 2015
+Quartus II 64-Bit Version : 14.0.0 Build 200 06/17/2014 SJ Full Version
+Revision Name : DE0_Nano_SoC_golden_top
+Top-level Entity Name : DE0_Nano_SoC_golden_top
+Family : Cyclone V
+Device : 5CSEMA4U23C6
+Timing Models : Final
+Logic utilization (in ALMs) : 9,184 / 15,880 ( 58 % )
+Total registers : 12320
+Total pins : 230 / 314 ( 73 % )
+Total virtual pins : 0
+Total block memory bits : 2,048 / 2,764,800 ( < 1 % )
+Total DSP Blocks : 0 / 84 ( 0 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0 / 5 ( 0 % )
+Total DLLs : 1 / 4 ( 25 % )
