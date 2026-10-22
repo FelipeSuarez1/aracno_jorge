@@ -673,3 +673,1047 @@ Bluetooth: HIDP (Human Interface Emulation) ver 1.2
 Bluetooth: HIDP socket layer initialized
 Bluetooth: hci0 command 0x0c14 tx timeout
 root@socfpga:~# 
+$ which base64 uudecode md5sum sha256sum; echo ok
+ - 0x80859434   ( 262 kB)
+SLUB: HWalign=64, Order=0-3, MinObje cts=0, CPUs=2, Nodes=1
+Hierarchical RCU implementation.
+NR_I RQS:16 nr_irqs:16 16
+sched_clock: 32 bits at 100MHz, resoluti on 10ns, wraps every 42949672950ns
+Console: colour dummy device 80x30
+which base64 uudecode md5sum sha256sum; echo ok
+Sending discover...
+No lease, failing
+Starting portmap daemon...
+Sat Sep 28 09:08:00 UTC 2013
+INIT: Entering runlevel: 5
+random: nonblocking pool is initialized
+Starting OpenBSD Secure Shell server: sshd
+done.
+Starting syslogd/klogd: done
+Starting Lighttpd Web Server: lighttpd.
+Starting blinking LED server
+Stopping Bootlog daemon: bootlogd.
+Starting system message bus: dbus.
+
+root@socfpga:~# [CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+[CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+[CMMap]CheckQsysID
+[CMMap]Read Verson ID=0, Expected Version ID=0
+===== Spider Demo =====
+Spider Init & Standup
+usb usb1: clear tt 1 (9022) error -22
+dwc2 ffb40000.usb: Overcurrent change detected
+usb 1-1: USB disconnect, device number 2
+usb 1-1: new full-speed USB device number 3 using dwc2
+usb 1-1: New USB device found, idVendor=0a12, idProduct=0001
+usb 1-1: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+usb 1-1: Product: CSR8510 A10
+usb usb1: clear tt 1 (9032) error -22
+dwc2 ffb40000.usb: Overcurrent change detected
+usb 1-1: USB disconnect, device number 3
+usb 1-1: new full-speed USB device number 4 using dwc2
+usb 1-1: New USB device found, idVendor=0a12, idProduct=0001
+usb 1-1: New USB device strings: Mfr=0, Product=2, SerialNumber=0
+usb 1-1: Product: CSR8510 A10
+Create Bluetooth Thread
+Listen Command...
+[BT]Start Service
+[BT]Lisen...
+[CBtSpp]listen...
+
+$ echo PRONTO
+echo PRONTO
+PRONTO
+root@socfpga:~# 
+$ which base64 uudecode md5sum sha256sum; echo ok
+which base64 uudecode md5sum sha256sum; echo ok
+/usr/bin/md5sum
+ok
+root@socfpga:~# 
+$ perl -e 'print unpack("u", "%86)\n"), "\n"'
+perl -e 'print unpack("u", "%86)\n"), "\n"'
+ab@  
+root@socfpga:~# @Z"LXH.'I__\J+@  Z@3 D>0,0*#AX ^QZ" @4N($P)$D!#R#
+> MH.$+J(KA^ >@Z"LXH.'I__\J+@  Z@3 D>0,0*#AX ^QZ" @4N($P)$D!#R#
+MX21$H.$%3(3A)52@X09<A>$F9*#A!VR&X2=TH.$(?(?A*(2@X0F,B.$IE*#A
+> MX21$H.$%3(3A)52@X09<A>$F9*#A!VR&X2=TH.$(?(?A*(2@X0F,B.$IE*#A
+M"IR)X2JDH.$+K(KA^ >@Z"LTH.'I__\J%@  Z@3 D>0,0*#AX ^QZ" @4N($
+> M"IR)X2JDH.$+K(KA^ >@Z"LTH.'I__\J%@  Z@3 D>0,0*#AX ^QZ" @4N($
+MP)$D!#2#X21,H.$%1(3A)5R@X094A>$F;*#A!V2&X2=\H.$(=(?A*(R@X0F$
+> MP)$D!#2#X21,H.$%1(3A)5R@X094A>$F;*#A!V2&X2=\H.$(=(?A*(R@X0F$
+MB.$IG*#A"I2)X2JLH.$+I(KA^ >@Z"L\H.'I__\J(,!NXB @@N($ %+C!P  
+> MB.$IG*#A"I2)X2JLH.$+I(KA^ >@Z"L\H.'I__\J(,!NXB @@N($ %+C!P  
+M.@10D>0$($+B%4Z@X0- A.$U/*#A!$" Y 0 4N/W__\J#EZPX0$PP$0C-*!!
+> M.@10D>0$($+B%4Z@X0- A.$U/*#A!$" Y 0 4N/W__\J#EZPX0$PP$0C-*!!
+M 3# )",TH"$!,, DX ^=Z((OL.$!(-%$ 3#1) # T24!(,!$ 3# ) # P"4<
+> M 3# )",TH"$!,, DX ^=Z((OL.$!(-%$ 3#1) # T24!(,!$ 3# ) # P"4<
+MT(WB$4"]Z![_+^$# !#C_Q !XG! +>D)   :#   Z@# T.4 ,*#A 0!<X0$ 
+> MT(WB$4"]Z![_+^$# !#C_Q !XG! +>D)   :#   Z@# T.4 ,*#A 0!<X0$ 
+M@.(A   * P 0XP$@0N( ,*#A!   "@  4N/T__\:  "@XW" O>@ ,*#A  !2
+> M@.(A   * P 0XP$@0N( ,*#A!   "@  4N/T__\:  "@XW" O>@ ,*#A  !2
+MX_K__PH  -/E 0!0X1,   H!1('@ P!2XP1(A. /  ":9&"?Y610G^4#P*#A
+> MX_K__PH  -/E 0!0X1,   H!1('@ P!2XP1(A. /  ":9&"?Y610G^4#P*#A
+M P  Z@0@0N(# %+C##"@X0\  )H  )SE##"@X00 (. &X(#@  #.X04 $.$$
+> M P  Z@0@0N(# %+C##"@X0\  )H  )SE##"@X00 (. &X(#@  #.X04 $.$$
+MP(SB\___"@+ @^ # *#A 2#3Y $ 4N%P@+T( P!<X?G__QK;___J  !2X]G_
+> MP(SB\___"@+ @^ # *#A 2#3Y $ 4N%P@+T( P!<X?G__QK;___J  !2X]G_
+M_PKT___J__[^_H" @( D,9_E@$ MZ0,PC^  ,)/E @D3XRL   H0,9_E$"&?
+> M_PKT___J__[^_H" @( D,9_E@$ MZ0,PC^  ,)/E @D3XRL   H0,9_E$"&?
+MY0,PC^ "((_@ ""#Y00QG^4$(9_E S"/X (@C^  ((/E^#"?Y0,PC^ (,)/E
+> MY0,PC^ "((_@ ""#Y00QG^4$(9_E S"/X (@C^  ((/E^#"?Y0,PC^ (,)/E
+M ""3Y0  4N,"   :Y'"?Y0   .^ @+WH#P!2XP@P@Q+V__\:!#"3Y0 @T^5V
+> M ""3Y0  4N,"   :Y'"?Y0   .^ @+WH#P!2XP@P@Q+V__\:!#"3Y0 @T^5V
+M %+C]?__&@$@T^4V %+C\O__&@(PT^4P,$/B"0!3X^[__YJD,)_EI""?Y0,P
+> M %+C]?__&@$@T^4V %+C\O__&@(PT^4P,$/B"0!3X^[__YJD,)_EI""?Y0,P
+MC^ "((_@ ""#Y9@PG^68()_E S"/X (@C^  ((/EX___Z@\ZX.,#(!/E@#"?
+> MC^ "((_@ ""#Y9@PG^68()_E S"/X (@C^  ((/EX___Z@\ZX.,#(!/E@#"?
+MY8 0G^4#,(_@ !"#Y7@PG^4@$$'B S"/X  0@^5L,)_E(!!!X@,PC^ ! %+C
+> MY8 0G^4#,(_@ !"#Y7@PG^4@$$'B S"/X  0@^5L,)_E(!!!X@,PC^ ! %+C
+M !"#Y04  ,KP /#G5#"?Y50@G^4#,(_@ B"/X.?__^H" %+CR___&O?__^KD
+> M !"#Y04  ,KP /#G5#"?Y50@G^4#,(_@ B"/X.?__^H" %+CR___&O?__^KD
+M'0$ G!T! + !  "$'0$ 7 $  *P= 0 %  \ &!T!  @!    '0$ T    .@<
+> M'0$ G!T! + !  "$'0$ 7 $  *P= 0 %  \ &!T!  @!    '0$ T    .@<
+M 0#@#___U!P! , < 0"D' $ 5    ![_+^$/4"WI !"@X0T@H.& P)_E 0  
+> M 0#@#___U!P! , < 0"D' $ 5    ![_+^$/4"WI !"@X0T@H.& P)_E 0  
+MZP]0O>@>_R_A'/\OX;H/!^X>_R_A6_!_]1[_+^$ ,*#A  "2Y0  4^  $((%
+> MZP]0O>@>_R_A'/\OX;H/!^X>_R_A6_!_]1[_+^$ ,*#A  "2Y0  4^  $((%
+M'O\OX0 PH.&Z#P?NGP^2X0  4^"1#X(! 0 P _K__PJZ#P?N'O\OX0 PH.%;
+> M'O\OX0 PH.&Z#P?NGP^2X0  4^"1#X(! 0 P _K__PJZ#P?N'O\OX0 PH.%;
+M\'_UGP^2X0  4^"1#X(! 0 P _K__PI;\'_U'O\OX7 /'>X>_R_AP ___Y= 
+> M\'_UGP^2X0  4^"1#X(! 0 P _K__PI;\'_U'O\OX7 /'>X>_R_AP ___Y= 
+M+>D#$*#A&$"=Y8QPH.,-,*#A    [\/\_^L  %#CT #- 0  X!, $. 3#-"-
+> M+>D#$*#A&$"=Y8QPH.,-,*#A    [\/\_^L  %#CT #- 0  X!, $. 3#-"-
+MXI" O>@     >!"?Y9 Z$.XC*A'@$$ MZ0! H.$+   :0 NU[A#Z\>X&   *
+> MXI" O>@     >!"?Y9 Z$.XC*A'@$$ MZ0! H.$+   :0 NU[A#Z\>X&   *
+M$WN?[0<+(.[S___K #"4Y4 P0^( ,(3E$("]Z  @@.40@+WH 0!2X1" O0A_
+> M$WN?[0<+(.[S___K #"4Y4 P0^( ,(3E$("]Z  @@.40@+WH 0!2X1" O0A_
+M%,/C#Q;!X_\O0N("($+B_S6!XP(V@^, ((#E$"H0[A K0^P0@+WH        
+> M%,/C#Q;!X_\O0N("($+B_S6!XP(V@^, ((#E$"H0[A K0^P0@+WH        
+M\$/_!P   "!0X@(   I_ %'C!0  B@ 0PN4! *#C'O\OX0$ H., $,+E$("]
+> M\$/_!P   "!0X@(   I_ %'C!0  B@ 0PN4! *#C'O\OX0$ H., $,+E$("]
+MZ/ PG^400"WI P"?YS#_+^$8,!#E #"3Y0  4^,(   :WSQ!XH P0^)_ %/C
+> MZ/ PG^400"WI P"?YS#_+^$8,!#E #"3Y0  4^,(   :WSQ!XH P0^)_ %/C
+M\/__FE_\_^M4,*#C #" Y0  X.,0@+WH @M1XP@  "H_,.#C(3.#X3\0 >*!
+> M\/__FE_\_^M4,*#C #" Y0  X.,0@+WH @M1XP@  "H_,.#C(3.#X3\0 >*!
+M'.#AH1S@X0( H., ,,+E 1#"Y1" O>@..D'B-@M1XP(*4R,+   J'S#@XR$V
+> M'.#AH1S@X0( H., ,,+E 1#"Y1" O>@..D'B-@M1XP(*4R,+   J'S#@XR$V
+M@^$!"J#A ##"Y3\0 >)_,.#C( V#X0$P@^$! ,+E C#"Y0, H.,0@+WH 3A!
+> M@^$!"J#A ##"Y3\0 >)_,.#C( V#X0$P@^$! ,+E C#"Y0, H.,0@+WH 3A!
+MX@$&4^/<__\J#S#@XR$Y@^$!!Z#A ##"Y7\PX.,@#8/A 0#"Y0$*H.$_$ 'B
+> MX@$&4^/<__\J#S#@XR$Y@^$!!Z#A ##"Y7\PX.,@#8/A 0#"Y0$*H.$_$ 'B
+M( V#X0$P@^$" ,+E S#"Y00 H.,0@+WHR!H! ! PD.430"WI  !3XP! H.$'
+> M( V#X0$P@^$" ,+E S#"Y00 H.,0@+WHR!H! ! PD.430"WI  !3XP! H.$'
+M$,WE"P  "M AQ.$" %/A#@  &B0PE.4!(*#C!Q"-X@0 H.$S_R_A 0!0XP0 
+> M$,WE"P  "M AQ.$" %/A#@  &B0PE.4!(*#C!Q"-X@0 H.$S_R_A 0!0XP0 
+M !H' -WE P  ZA7]_^L  %#C\/__"@  X.,(T(WB$("]Z% @E.4' -WE @!0
+> M !H' -WE P  ZA7]_^L  %#C\/__"@  X.,(T(WB$("]Z% @E.4' -WE @!0
+MX0$@@Q(4((05  ##%?;__QKH___J$T MZ0! 4.(6   *3#"4Y0  4^,   "Z
+> MX0$@@Q(4((05  ##%?;__QKH___J$T MZ0! 4.(6   *3#"4Y0  4^,   "Z
+M6OS_ZQ0@E.4<,)3E P!2X00   H (*#C)#"4Y0(0H.$$ *#A,_\OX0P E.D#
+> M6OS_ZQ0@E.4<,)3E P!2X00   H (*#C)#"4Y0(0H.$$ *#A,_\OX0P E.D#
+M %+A!@  "@,@0N !,*#C #"-Y00 H.$H$)3EPC^@X3'_+^$(T(WB$("]Z'! 
+> M %+A!@  "@,@0N !,*#C #"-Y00 H.$H$)3EPC^@X3'_+^$(T(WB$("]Z'! 
+M+>D9  #K4$"?Y01 C^  4)#E  !5XPP  !I ,)_E S"4YP  D^78___K-#"?
+> M+>D9  #K4$"?Y01 C^  4)#E  !5XPP  !I ,)_E S"4YP  D^78___K-#"?
+MY0,PE.<  )/EU/__ZR@PG^4#,)3G<$"]Z   D^7/___J!0"@X<W__^LX4)7E
+> MY0,PE.<  )/EU/__ZR@PG^4#,)3G<$"]Z   D^7/___J!0"@X<W__^LX4)7E
+M[/__ZE07 0 8    #    #@    4 )_E$$ MZ0  C^ ;  #K" "?Y0  C^ 0
+> M[/__ZE07 0 8    #    #@    4 )_E$$ MZ0  C^ ;  #K" "?Y0  C^ 0
+M@+WHR!T! +@= 0 $ )_E  "/X%$  .JH'0$ <$ MZ0% H.$X8)_E %"@X0(0
+> M@+WHR!T! +@= 0 $ )_E  "/X%$  .JH'0$ <$ MZ0% H.$X8)_E %"@X0(0
+MH.$&8(_@ #"6Y00 H.$%(*#A,_\OX0  4.,#   *  "5Y0  5.'V__\*<("]
+> MH.$&8(_@ #"6Y00 H.$%(*#A,_\OX0  4.,#   *  "5Y0  5.'V__\*<("]
+MZ 0 H.%P@+WH*!@! /!!+>GH8)_E!F"/X - UN4$3*#A1$R@X0  5./P@;T(
+> MZ 0 H.%P@+WH*!@! /!!+>GH8)_E!F"/X - UN4$3*#A1$R@X0  5./P@;T(
+M!B&@XP 0H., 4*#AX/__ZP  5., ,*"S S#&M0  4./P@;T("F"@XP  4.,&
+> M!B&@XP 0H., 4*#AX/__ZP  5., ,*"S S#&M0  4./P@;T("F"@XP  4.,&
+M04"R $"@H08AA.($$*#A!0"@X=/__^L  %3A\(&]" %@5N+T__\: &"5Y04 
+> M04"R $"@H08AA.($$*#A!0"@X=/__^L  %3A\(&]" %@5N+T__\: &"5Y04 
+MH.$!0(;B!""@X080H.')___K  !6X??__QH$P*#A  !<XPQ H*$+  "J\'"@
+> MH.$!0(;B!""@X080H.')___K  !6X??__QH$P*#A  !<XPQ H*$+  "J\'"@
+MXP4 H.& $*#C#""@X0 PH.,   #O)@!PXP(  !H% *#A Q"@X0   .\&04SB
+> MXP4 H.& $*#C#""@X0 PH.,   #O)@!PXP(  !H% *#A Q"@X0   .\&04SB
+M B&$X@00H.$% *#AL___ZP  5.$ P*#AZ?__&O"!O>@<& $  #"0Y0  4^,>
+> M B&$X@00H.$% *#AL___ZP  5.$ P*#AZ?__&O"!O>@<& $  #"0Y0  4^,>
+M_R^AL$ MZ0! H.$ 4)3E! "@X08A1>(%$*#AI/__ZP  5>'X__\:!@%5X[" 
+> M_R^AL$ MZ0! H.$ 4)3E! "@X08A1>(%$*#AI/__ZP  5>'X__\:!@%5X[" 
+MO0CP<*#C! "@X8$0H.,!(*#C    [R8 <..P@+T8! "@X0(0H.$   #OL("]
+> MO0CP<*#C! "@X8$0H.,!(*#C    [R8 <..P@+T8! "@X0(0H.$   #OL("]
+MZ $@4>(>_R\!=   .@$ 4.%K  ": @ 1X6P   H0/V_A$2]OX0,P0N ?,'/B
+> MZ $@4>(>_R\!=   .@$ 4.%K  ": @ 1X6P   H0/V_A$2]OX0,P0N ?,'/B
+M@S"#$  @H.,#\8\0  "@X8$/4.$"(*+@@0] ( $/4.$"(*+@ 0] (($.4.$"
+> M@S"#$  @H.,#\8\0  "@X8$/4.$"(*+@@0] ( $/4.$"(*+@ 0] (($.4.$"
+M(*+@@0Y ( $.4.$"(*+@ 0Y (($-4.$"(*+@@0U ( $-4.$"(*+@ 0U (($,
+> M(*+@@0Y ( $.4.$"(*+@ 0Y (($-4.$"(*+@@0U ( $-4.$"(*+@ 0U (($,
+M4.$"(*+@@0Q ( $,4.$"(*+@ 0Q (($+4.$"(*+@@0M ( $+4.$"(*+@ 0M 
+> M4.$"(*+@@0Q ( $,4.$"(*+@ 0Q (($+4.$"(*+@@0M ( $+4.$"(*+@ 0M 
+M(($*4.$"(*+@@0I ( $*4.$"(*+@ 0I (($)4.$"(*+@@0E ( $)4.$"(*+@
+> M(($*4.$"(*+@@0I ( $*4.$"(*+@ 0I (($)4.$"(*+@@0E ( $)4.$"(*+@
+M 0E (($(4.$"(*+@@0A ( $(4.$"(*+@ 0A (($'4.$"(*+@@0= ( $'4.$"
+> M 0E (($(4.$"(*+@@0A ( $(4.$"(*+@ 0A (($'4.$"(*+@@0= ( $'4.$"
+M(*+@ 0= (($&4.$"(*+@@09 ( $&4.$"(*+@ 09 (($%4.$"(*+@@05 ( $%
+> M(*+@ 0= (($&4.$"(*+@@09 ( $&4.$"(*+@ 09 (($%4.$"(*+@@05 ( $%
+M4.$"(*+@ 05 (($$4.$"(*+@@01 ( $$4.$"(*+@ 01 (($#4.$"(*+@@0- 
+> M4.$"(*+@ 05 (($$4.$"(*+@@01 ( $$4.$"(*+@ 01 (($#4.$"(*+@@0- 
+M( $#4.$"(*+@ 0- (($"4.$"(*+@@0) ( $"4.$"(*+@ 0) (($!4.$"(*+@
+> M( $#4.$"(*+@ 0- (($"4.$"(*+@@0) ( $"4.$"(*+@ 0) (($!4.$"(*+@
+M@0% ( $!4.$"(*+@ 0% (($ 4.$"(*+@@0! ( $ 4.$"(*+@ 0! ( ( H.$>
+> M@0% ( $!4.$"(*+@ 0% (($ 4.$"(*+@@0! ( $ 4.$"(*+@ 0! ( ( H.$>
+M_R_A 0"@ P  H!,>_R_A$2]OX1\@8N(P J#A'O\OX0  4.,  . 3%@  Z@  
+> M_R_A 0"@ P  H!,>_R_A$2]OX1\@8N(P J#A'O\OX0  4.,  . 3%@  Z@  
+M4>/Z__\* T MZ8#__^L&0+WHD@ #X ,00> >_R_A  !3XP  4@,$   :  !1
+> M4>/Z__\* T MZ8#__^L&0+WHD@ #X ,00> >_R_A  !3XP  4@,$   :  !1
+MXP  4 , $. 3  #@$P8  .H(T$WB & MZ0<  .L$X)WE"-"-X@P O>@>_R_A
+> MXP  4 , $. 3  #@$P8  .H(T$WB & MZ0<  .L$X)WE"-"-X@P O>@>_R_A
+M D MZ0@ H.-(  #K H"]Z ( 4.'P0RWI >"@X0,0WN  P*#A  "@,QQ0G>4 
+> M D MZ0@ H.-(  #K H"]Z ( 4.'P0RWI >"@X0,0WN  P*#A  "@,QQ0G>4 
+M$* Q.P  .@  4^,23V\!$T]O$2! A (  %[C'!]O 2 0@0(>'V\1 4!$X!,T
+> M$* Q.P  .@  4^,23V\!$T]O$2! A (  %[C'!]O 2 0@0(>'V\1 4!$X!,T
+MH.$@<$3B$C>#X1*$H.$@8&3B,C:#X0@ 7.$#(-[@  "@,P 0H#$%   Z 0"@
+> MH.$@<$3B$C>#X1*$H.$@8&3B,C:#X0@ 7.$#(-[@  "@,P 0H#$%   Z 0"@
+MXQ 7H.$(P%S@,!:!X1 $H.$#X,[@  !4XQ\   JH(*#A@R^"X02 H.&C,*#A
+> MXQ 7H.$(P%S@,!:!X1 $H.$#X,[@  !4XQ\   JH(*#A@R^"X02 H.&C,*#A
+M!P  Z@+ 7. #X,[@#,"<X [@KN !P)SB ."NX@& 6.(&   * @!<X0.0WN#T
+> M!P  Z@+ 7. #X,[@#,"<X [@KN !P)SB ."NX@& 6.(&   * @!<X0.0WN#T
+M__\J#,"<X [@KN !@%CB^/__&@P D. \Q*#A'L:,X3['C.$.$*'@'#2@X3[D
+> M__\J#,"<X [@KN !@%CB^/__&@P D. \Q*#A'L:,X3['C.$.$*'@'#2@X3[D
+MH.$# %#@'C2@X1PW@^$\-H/A Q#!X   5>, 4(48\(.]Z+! +>F(T$WB"%"-
+> MH.$# %#@'C2@X1PW@^$\-H/A Q#!X   5>, 4(48\(.]Z+! +>F(T$WB"%"-
+MX@0 C>4% *#A& 
+$ wc -l /tmp/aracno.uu; perl -e 'open F,"</tmp/aracno.uu"; open O,">/home/root/aracno"; binmode O; while(<F>){print O unpack("u",$_)} close O'; ls -l /home/root/aracno; md5sum /home/root/aracno
+  ZS PG^4$$)WE P"?Y^YPH.,P_R_A8  0Y0   .^7^O_K
+> MX@0 C>4% *#A&   ZS PG^4$$)WE P"?Y^YPH.,P_R_A8  0Y0   .^7^O_K
+M $"@X04 H.$7  #K! "@X8C0C>*P@+WH !,! !P0G^4 (*#A@$ MZ0  H..O
+> M $"@X04 H.$7  #K! "@X8C0C>*P@+WH !,! !P0G^4 (*#A@$ MZ0  H..O
+M<*#C 1"/X @PH.,   #O@("]Z'0+   <$)_E ""@X8! +>D  *#CKW"@XP$0
+> M<*#C 1"/X @PH.,   #O@("]Z'0+   <$)_E ""@X8! +>D  *#CKW"@XP$0
+MC^ (,*#C    [X" O>A4"P   !"@X8! +>D" *#CKW"@XP @H.,(,*#C    
+> MC^ (,*#C    [X" O>A4"P   !"@X8! +>D" *#CKW"@XP @H.,(,*#C    
+M[X" O>@!0"WI 4"]Z![_+^$[    /@    L    ^    $    #X    E    
+> M[X" O>@!0"WI 4"]Z![_+^$[    /@    L    ^    $    #X    E    
+M/@   #,    ^     P   #X    &    /@   !0    ^    #@   #X    -
+> M/@   #,    ^     P   #X    &    /@   !0    ^    #@   #X    -
+M    /@   "0    ^    $@   #X    G    /@    (    ^    &    #X 
+> M    /@   "0    ^    $@   #X    G    /@    (    ^    &    #X 
+M   )    /@    H    ^              !C;&]C:U]G971T:6UE    -S V
+> M   )    /@    H    ^              !C;&]C:U]G971T:6UE    -S V
+M-3 W80!A<F%C;F\@;VL@<F5V/25S(&UO;F]T;VYI8STE;&0N)3 Y;&0* "]D
+> M-3 W80!A<F%C;F\@;VL@<F5V/25S(&UO;F]T;VYI8STE;&0N)3 Y;&0* "]D
+M978O;G5L;  M*R @(#!8,'@ *&YU;&PI "TP6"LP6" P6"TP>"LP>" P> !I
+> M978O;G5L;  M*R @(#!8,'@ *&YU;&PI "TP6"LP6" P6"TP>"LP>" P> !I
+M;F8 24Y& &YA;@!.04X +@ 9  H &1D9      4        )      L     
+> M;F8 24Y& &YA;@!.04X +@ 9  H &1D9      4        )      L     
+M     !D $0H9&1D#"@<  1L)"Q@   D&"P  "P &&0   !D9&0          
+> M     !D $0H9&1D#"@<  1L)"Q@   D&"P  "P &&0   !D9&0          
+M           .           9  H-&1D9  T   ( "0X    )  X   X     
+> M           .           9  H-&1D9  T   ( "0X    )  X   X     
+M                            #               $P     3      D,
+> M                            #               $P     3      D,
+M       ,   ,                                 !              
+> M       ,   ,                                 !              
+M  \    $#P     )$       $   $                               
+> M  \    $#P     )$       $   $                               
+M   2               1     !$     "1(      !(  !(  !H    :&AH 
+> M   2               1     !$     "1(      !(  !(  !H    :&AH 
+M                                &@   !H:&@        D         
+> M                                &@   !H:&@        D         
+M                                     !0              !<     
+> M                                     !0              !<     
+M%P     )%       %   %                                  6    
+> M%P     )%       %   %                                  6    
+M           5     !4     "18      !8  !8  # Q,C,T-38W.#E!0D-$
+> M           5     !4     "18      !8  !8  # Q,C,T-38W.#E!0D-$
+M148  &T A0"?  T!"P(5 J4"@@(= S$#)0'Q %L 0@,O O\ KP!3 44"5 )D
+> M148  &T A0"?  T!"P(5 J4"@@(= S$#)0'Q %L 0@,O O\ KP!3 44"5 )D
+M I0"X0+_ E$ <P). ]D 1@%E 5T#_P$K #@ ?P// FP#V@-[ ;P"  #S PX$
+> M I0"X0+_ E$ <P). ]D 1@%E 5T#_P$K #@ ?P// FP#V@-[ ;P"  #S PX$
+M                                           A!#4$1P16!       
+> M                                           A!#4$1P16!       
+M &\$        A00+!P  E 2[    H 0                5         +T$
+> M &\$        A00+!P  E 2[    H 0                5         +T$
+MR@3G!/D$& 4O!48%8 5N!8P%\ &U!<L%VP7O!0L&CP$>!C@&3 9A!@  J &\
+> MR@3G!/D$& 4O!48%8 5N!8P%\ &U!<L%VP7O!0L&CP$>!C@&3 9A!@  J &\
+M <\!W &#!J$&MP8          ,D&V@;I!OD&QP,          +,#G0-.;R!E
+> M <\!W &#!J$&MP8          ,D&V@;I!OD&QP,          +,#G0-.;R!E
+M<G)O<B!I;F9O<FUA=&EO;@!);&QE9V%L(&)Y=&4@<V5Q=65N8V4 1&]M86EN
+> M<G)O<B!I;F9O<FUA=&EO;@!);&QE9V%L(&)Y=&4@<V5Q=65N8V4 1&]M86EN
+M(&5R<F]R %)E<W5L="!N;W0@<F5P<F5S96YT86)L90!.;W0@82!T='D 4&5R
+> M(&5R<F]R %)E<W5L="!N;W0@<F5P<F5S96YT86)L90!.;W0@82!T='D 4&5R
+M;6ES<VEO;B!D96YI960 3W!E<F%T:6]N(&YO="!P97)M:71T960 3F\@<W5C
+> M;6ES<VEO;B!D96YI960 3W!E<F%T:6]N(&YO="!P97)M:71T960 3F\@<W5C
+M:"!F:6QE(&]R(&1I<F5C=&]R>0!.;R!S=6-H('!R;V-E<W, 1FEL92!E>&ES
+> M:"!F:6QE(&]R(&1I<F5C=&]R>0!.;R!S=6-H('!R;V-E<W, 1FEL92!E>&ES
+M=', 5F%L=64@=&]O(&QA<F=E(&9O<B!D871A('1Y<&4 3F\@<W!A8V4@;&5F
+> M=', 5F%L=64@=&]O(&QA<F=E(&9O<B!D871A('1Y<&4 3F\@<W!A8V4@;&5F
+M="!O;B!D979I8V4 3W5T(&]F(&UE;6]R>0!297-O=7)C92!B=7-Y $EN=&5R
+> M="!O;B!D979I8V4 3W5T(&]F(&UE;6]R>0!297-O=7)C92!B=7-Y $EN=&5R
+M<G5P=&5D('-Y<W1E;2!C86QL %)E<V]U<F-E('1E;7!O<F%R:6QY('5N879A
+> M<G5P=&5D('-Y<W1E;2!C86QL %)E<V]U<F-E('1E;7!O<F%R:6QY('5N879A
+M:6QA8FQE $EN=F%L:60@<V5E:P!#<F]S<RUD979I8V4@;&EN:P!296%D+6]N
+> M:6QA8FQE $EN=F%L:60@<V5E:P!#<F]S<RUD979I8V4@;&EN:P!296%D+6]N
+M;'D@9FEL92!S>7-T96T 1&ER96-T;W)Y(&YO="!E;7!T>0!#;VYN96-T:6]N
+> M;'D@9FEL92!S>7-T96T 1&ER96-T;W)Y(&YO="!E;7!T>0!#;VYN96-T:6]N
+M(')E<V5T(&)Y('!E97( 3W!E<F%T:6]N('1I;65D(&]U= !#;VYN96-T:6]N
+> M(')E<V5T(&)Y('!E97( 3W!E<F%T:6]N('1I;65D(&]U= !#;VYN96-T:6]N
+M(')E9G5S960 2&]S="!I<R!D;W=N $AO<W0@:7,@=6YR96%C:&%B;&4 061D
+> M(')E9G5S960 2&]S="!I<R!D;W=N $AO<W0@:7,@=6YR96%C:&%B;&4 061D
+M<F5S<R!I;B!U<V4 0G)O:V5N('!I<&4 22]/(&5R<F]R $YO('-U8V@@9&5V
+> M<F5S<R!I;B!U<V4 0G)O:V5N('!I<&4 22]/(&5R<F]R $YO('-U8V@@9&5V
+M:6-E(&]R(&%D9')E<W, 0FQO8VL@9&5V:6-E(')E<75I<F5D $YO('-U8V@@
+> M:6-E(&]R(&%D9')E<W, 0FQO8VL@9&5V:6-E(')E<75I<F5D $YO('-U8V@@
+M9&5V:6-E $YO="!A(&1I<F5C=&]R>0!)<R!A(&1I<F5C=&]R>0!497AT(&9I
+> M9&5V:6-E $YO="!A(&1I<F5C=&]R>0!)<R!A(&1I<F5C=&]R>0!497AT(&9I
+M;&4@8G5S>0!%>&5C(&9O<FUA="!E<G)O<@!);G9A;&ED(&%R9W5M96YT $%R
+> M;&4@8G5S>0!%>&5C(&9O<FUA="!E<G)O<@!);G9A;&ED(&%R9W5M96YT $%R
+M9W5M96YT(&QI<W0@=&]O(&QO;F< 4WEM8F]L:6,@;&EN:R!L;V]P $9I;&5N
+> M9W5M96YT(&QI<W0@=&]O(&QO;F< 4WEM8F]L:6,@;&EN:R!L;V]P $9I;&5N
+M86UE('1O;R!L;VYG %1O;R!M86YY(&]P96X@9FEL97,@:6X@<WES=&5M $YO
+> M86UE('1O;R!L;VYG %1O;R!M86YY(&]P96X@9FEL97,@:6X@<WES=&5M $YO
+M(&9I;&4@9&5S8W)I<'1O<G,@879A:6QA8FQE $)A9"!F:6QE(&1E<V-R:7!T
+> M(&9I;&4@9&5S8W)I<'1O<G,@879A:6QA8FQE $)A9"!F:6QE(&1E<V-R:7!T
+M;W( 3F\@8VAI;&0@<')O8V5S<P!"860@861D<F5S<P!&:6QE('1O;R!L87)G
+> M;W( 3F\@8VAI;&0@<')O8V5S<P!"860@861D<F5S<P!&:6QE('1O;R!L87)G
+M90!4;V\@;6%N>2!L:6YK<P!.;R!L;V-K<R!A=F%I;&%B;&4 4F5S;W5R8V4@
+> M90!4;V\@;6%N>2!L:6YK<P!.;R!L;V-K<R!A=F%I;&%B;&4 4F5S;W5R8V4@
+M9&5A9&QO8VL@=V]U;&0@;V-C=7( 4W1A=&4@;F]T(')E8V]V97)A8FQE %!R
+> M9&5A9&QO8VL@=V]U;&0@;V-C=7( 4W1A=&4@;F]T(')E8V]V97)A8FQE %!R
+M979I;W5S(&]W;F5R(&1I960 3W!E<F%T:6]N(&-A;F-E;&5D $9U;F-T:6]N
+> M979I;W5S(&]W;F5R(&1I960 3W!E<F%T:6]N(&-A;F-E;&5D $9U;F-T:6]N
+M(&YO="!I;7!L96UE;G1E9 !.;R!M97-S86=E(&]F(&1E<VER960@='EP90!)
+> M(&YO="!I;7!L96UE;G1E9 !.;R!M97-S86=E(&]F(&1E<VER960@='EP90!)
+M9&5N=&EF:65R(')E;6]V960 1&5V:6-E(&YO="!A('-T<F5A;0!.;R!D871A
+> M9&5N=&EF:65R(')E;6]V960 1&5V:6-E(&YO="!A('-T<F5A;0!.;R!D871A
+M(&%V86EL86)L90!$979I8V4@=&EM96]U= !/=70@;V8@<W1R96%M<R!R97-O
+> M(&%V86EL86)L90!$979I8V4@=&EM96]U= !/=70@;V8@<W1R96%M<R!R97-O
+M=7)C97, 3&EN:R!H87,@8F5E;B!S979E<F5D %!R;W1O8V]L(&5R<F]R $)A
+> M=7)C97, 3&EN:R!H87,@8F5E;B!S979E<F5D %!R;W1O8V]L(&5R<F]R $)A
+M9"!M97-S86=E $9I;&4@9&5S8W)I<'1O<B!I;B!B860@<W1A=&4 3F]T(&$@
+> M9"!M97-S86=E $9I;&4@9&5S8W)I<'1O<B!I;B!B860@<W1A=&4 3F]T(&$@
+M<V]C:V5T $1E<W1I;F%T:6]N(&%D9')E<W,@<F5Q=6ER960 365S<V%G92!T
+> M<V]C:V5T $1E<W1I;F%T:6]N(&%D9')E<W,@<F5Q=6ER960 365S<V%G92!T
+M;V\@;&%R9V4 4')O=&]C;VP@=W)O;F<@='EP92!F;W(@<V]C:V5T %!R;W1O
+> M;V\@;&%R9V4 4')O=&]C;VP@=W)O;F<@='EP92!F;W(@<V]C:V5T %!R;W1O
+M8V]L(&YO="!A=F%I;&%B;&4 4')O=&]C;VP@;F]T('-U<'!O<G1E9 !3;V-K
+> M8V]L(&YO="!A=F%I;&%B;&4 4')O=&]C;VP@;F]T('-U<'!O<G1E9 !3;V-K
+M970@='EP92!N;W0@<W5P<&]R=&5D $YO="!S=7!P;W)T960 4')O=&]C;VP@
+> M970@='EP92!N;W0@<W5P<&]R=&5D $YO="!S=7!P;W)T960 4')O=&]C;VP@
+M9F%M:6QY(&YO="!S=7!P;W)T960 061D<F5S<R!F86UI;'D@;F]T('-U<'!O
+> M9F%M:6QY(&YO="!S=7!P;W)T960 061D<F5S<R!F86UI;'D@;F]T('-U<'!O
+M<G1E9"!B>2!P<F]T;V-O; !!9&1R97-S(&YO="!A=F%I;&%B;&4 3F5T=V]R
+> M<G1E9"!B>2!P<F]T;V-O; !!9&1R97-S(&YO="!A=F%I;&%B;&4 3F5T=V]R
+M:R!I<R!D;W=N $YE='=O<FL@=6YR96%C:&%B;&4 0V]N;F5C=&EO;B!R97-E
+> M:R!I<R!D;W=N $YE='=O<FL@=6YR96%C:&%B;&4 0V]N;F5C=&EO;B!R97-E
+M="!B>2!N971W;W)K $-O;FYE8W1I;VX@86)O<G1E9 !.;R!B=69F97(@<W!A
+> M="!B>2!N971W;W)K $-O;FYE8W1I;VX@86)O<G1E9 !.;R!B=69F97(@<W!A
+M8V4@879A:6QA8FQE %-O8VME="!I<R!C;VYN96-T960 4V]C:V5T(&YO="!C
+> M8V4@879A:6QA8FQE %-O8VME="!I<R!C;VYN96-T960 4V]C:V5T(&YO="!C
+M;VYN96-T960 0V%N;F]T('-E;F0@869T97(@<V]C:V5T('-H=71D;W=N $]P
+> M;VYN96-T960 0V%N;F]T('-E;F0@869T97(@<V]C:V5T('-H=71D;W=N $]P
+M97)A=&EO;B!A;')E861Y(&EN('!R;V=R97-S $]P97)A=&EO;B!I;B!P<F]G
+> M97)A=&EO;B!A;')E861Y(&EN('!R;V=R97-S $]P97)A=&EO;B!I;B!P<F]G
+M<F5S<P!3=&%L92!F:6QE(&AA;F1L90!296UO=&4@22]/(&5R<F]R %%U;W1A
+> M<F5S<P!3=&%L92!F:6QE(&AA;F1L90!296UO=&4@22]/(&5R<F]R %%U;W1A
+M(&5X8V5E9&5D $YO(&UE9&EU;2!F;W5N9 !7<F]N9R!M961I=6T@='EP90!-
+> M(&5X8V5E9&5D $YO(&UE9&EU;2!F;W5N9 !7<F]N9R!M961I=6T@='EP90!-
+M=6QT:6AO<"!A='1E;7!T960 ______________]__/___SL    ^    "P  
+> M=6QT:6AO<"!A='1E;7!T960 ______________]__/___SL    ^    "P  
+M #X    0    /@   "4    ^    ,P   #X    #    /@    8    ^    
+> M #X    0    /@   "4    ^    ,P   #X    #    /@    8    ^    
+M%    #X    .    /@    T    ^    )    #X    2    /@   "<    ^
+> M%    #X    .    /@    T    ^    )    #X    2    /@   "<    ^
+M     @   #X    8    /@    D    ^    "@   #X              %SR
+> M     @   #X    8    /@    D    ^    "@   #X              %SR
+M_W\!                                                        
+> M_W\!                                                        
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                                            
+> M                                                            
+M                                        A (! $ " 0!04 ( Z% "
+> M                                        A (! $ " 0!04 ( Z% "
+M .!6 @                !X40(      /1/ @#85@( !%8" -0  0#L40( 
+> M .!6 @                !X40(      /1/ @#85@( !%8" -0  0#L40( 
+M\$\" /P  0#P3P( (#\! .!0 @#L3P( \%$"                  4     
+> M\$\" /P  0#P3P( (#\! .!0 @#L3P( \%$"                  4     
+M         -@J 0                           /PJ 0#T*@$ _%$"    
+> M         -@J 0                           /PJ 0#T*@$ _%$"    
+M              (                   #__________P              
+> M              (                   #__________P              
+M                                                            
+> M                                                            
+M     %!0 @      !0              V"H!                        
+> M     %!0 @      !0              V"H!                        
+M    Y"L! /0J 0 $4@(   0              0                   /__
+> M    Y"L! /0J 0 $4@(   0              0                   /__
+M__\*                                                        
+> M__\*                                                        
+M                            Z% " "PU 0!@-0$ O#4!   @      ( 
+> M                            Z% " "PU 0!@-0$ O#4!   @      ( 
+M1T-#.B H1TY5*2 Q,2XR+C$@,C R,3$Q,C  030   !A96%B:0 !*@    4W
+> M1T-#.B H1TY5*2 Q,2XR+C$@,C R,3$Q,C  030   !A96%B:0 !*@    4W
+M+4$ !@H'00@!"0(* PP!$@03 10!%0$7 Q@!&@(< 1X$(@$ +G-H<W1R=&%B
+> M+4$ !@H'00@!"0(* PP!$@03 10!%0$7 Q@!&@(< 1X$(@$ +G-H<W1R=&%B
+M "YI;FET "YT97AT "YF:6YI "YR;V1A=&$ +D%232YE>&ED>  N96A?9G)A
+> M "YI;FET "YT97AT "YF:6YI "YR;V1A=&$ +D%232YE>&ED>  N96A?9G)A
+M;64 +FEN:71?87)R87D +F9I;FE?87)R87D +F1A=&$N<F5L+G)O "YG;W0 
+> M;64 +FEN:71?87)R87D +F9I;FE?87)R87D +F1A=&$N<F5L+G)O "YG;W0 
+M+F1A=&$ +F)S<P N8V]M;65N=  N05)-+F%T=')I8G5T97,             
+> M+F1A=&$ +F)S<P N8V]M;65N=  N05)-+F%T=')I8G5T97,             
+M                                          L    !    !@   -0 
+> M                                          L    !    !@   -0 
+M 0#4    #               !          1     0    8   #@  $ X   
+> M 0#4    #               !          1     0    8   #@  $ X   
+M $ ^              @         %P    $    &    (#\! " _   ,    
+> M $ ^              @         %P    $    &    (#\! " _   ,    
+M           $         !T    !     @   "P_ 0 L/P  M L         
+> M           $         !T    !     @   "P_ 0 L/P  M L         
+M    !          E     0  <((   #@2@$ X$H   @    "          0 
+> M    !          E     0  <((   #@2@$ X$H   @    "          0 
+M        ,     $    "    Z$H! .A*   $               $        
+> M        ,     $    "    Z$H! .A*   $               $        
+M #H    .     P   .Q/ @#L3P  !               !     0   !&    
+> M #H    .     P   .Q/ @#L3P  !               !     0   !&    
+M#P    ,   #P3P( \$\   0               0    $    4@    $    #
+> M#P    ,   #P3P( \$\   0               0    $    4@    $    #
+M    ]$\" /1/   ,               $         %\    !     P    !0
+> M    ]$\" /1/   ,               $         %\    !     P    !0
+M @  4   1               !     0   !D     0    ,   !(4 ( 2%  
+> M @  4   1               !     0   !D     0    ,   !(4 ( 2%  
+M $@!              @         :@    @    #    D%$" )!1  !4!0  
+> M $@!              @         :@    @    #    D%$" )!1  !4!0  
+M           $         &\    !    ,         "040  &P          
+> M           $         &\    !    ,         "040  &P          
+M     0    $   !X     P  <           JU$  #4               $ 
+> M     0    $   !X     P  <           JU$  #4               $ 
+M         0    ,              .!1  "(               !        
+> M         0    ,              .!1  "(               !        
+!    
+> !    
+EOF
+> EOF
+wc -l /tmp/aracno.uu; perl -e 'open F,"</tmp/aracno.uu"; open O,">/home/root/aracno"; binmode O; while(<F>){print O unpack("u",$_)} close O'; ls -l /home/root/aracno; md5sum /home/root/aracno
+root@socfpga:~# wc -l /tmp/aracno.uu; perl -e 'open F,"</tmp/aracno.uu"; open O, ">/home/root/aracno"; binmode O; while(<F>){print O unpack("u",$_)} close O'; ls  -l /home/root/aracno; md5sum /home/root/aracno
+418 /tmp/aracno.uu
+-rw-r--r--    1 root     root         18741 Sep 28 09:09 /home/root/aracno
+a20cbeda2d32dd90da027237d3ccb733  /home/root/aracno
+root@socfpga:~# L92!F:6QE(&AA;F1L90!296UO=&4@22]/(&5R<F]R %%U;W1A
+-sh: !F: event not found
+root@socfpga:~# M(&5X8V5E9&5D $YO(&UE9&EU;2!F;W5N9 !7<F]N9R!M961I=6T@='EP90!-
+-sh: !F: event not found
+root@socfpga:~# M=6QT:6AO<"!A='1E;7!T960 ______________]__/___SL    ^    "P  
+-sh: !A='1E: event not found
+root@socfpga:~# M #X    0    /@   "4    ^    ,P   #X    #    /@    8    ^    
+-sh: M: command not found
+root@socfpga:~# M%    #X    .    /@    T    ^    )    #X    2    /@   "<    ^
+-sh: M%: command not found
+root@socfpga:~# M     @   #X    8    /@    D    ^    "@   #X              %SR
+-sh: M: command not found
+root@socfpga:~# M_W\!                                                        
+-sh: M_W!: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                                            
+-sh: M: command not found
+root@socfpga:~# M                                        A (! $ " 0!04 ( Z% "
+M                                        A (! $ " 0cat > /tmp/aracno.uu <<'EOF'
+M?T5,1@$! 0            ( *  !    8 $! #0   !H4@    0 !30 (  %
+M "@ $  /  $  '#@2@  X$H! .!* 0 (    "     0    $     0      
+M      $    ! .Q*  #L2@  !0       0 !    [$\  .Q/ @#L3P( I $ 
+M /@&   &       ! %'E=&0                           8    0    
+M4N5T9.Q/  #L3P( [$\" !0    4    !     $    !0"WI 4"]Z![_+^$'
+M0"WI! "-Y2,! .LC 0#KZ T ZP0 G>7V"0#K$$ MZ0$ H.,0T$WB#1"@X>0(
+M .L 0%#B"0  &C00G^4T )_E"#"=Y0$0C^  ()WE  "/X%T! .L$ *#A$-"-
+MXA" O>@4 )_E 4"@XP  C^ < 0#K]___ZJ ^  "@/@  ;#X   "PH., X*#C
+M$!"?Y0$0C^ - *#A#\# XPS0H.$   #KC/[^_P= +>D\()_E/!"?Y0(@C^ X
+M,)_E <"2YP 0H.,#,)+G!!"-Y2@0G^4!()+G ""-Y00@@.( $)#E# "@X=T 
+M .L,T(WB!/"=Y&A. 0 L    (    #0    8 )_E&#"?Y0  4^$>_R\!$#"?
+MY0  4^,>_R\!$_\OX9!1 @"040(      "0 G^4D,)_E #!#X*,?H.%#$8'@
+MP1"PX1[_+P$0,)_E  !3XQ[_+P$3_R_AD%$" )!1 @      $$ MZ2Q G^4 
+M,-3E  !3XQ" O1C@___K'#"?Y0  4^,!   *% "?Y0#P(.,!,*#C ##$Y1" 
+MO>B040(      .A* 0 @,)_E  !3XP4   H00"WI%!"?Y10 G^4 \"#C$$"]
+MZ-?__^K6___J     )11 @#H2@$ 'O\OX1[_+^'P0"WIM-!-XAAPC>( 4*#A
+MP&&?Y0% H.&8(*#C !"@XP< H.'Z!P#KK#&?Y09@C^ #,);G %"#Y0 PH.,#
+M(97G 3"#X@  4N/[__\: P&%X(@QG^4#,(_@" "#Y0!0D.4  %7C&0  &G0Q
+MG^58()WE S"/X  @@^68,)WE  !3XV AGQ4"((\0 #""%5@QG^4P()WE S"/
+MX   5.,<((/E P  &I1 G>4  %3C/$&?!01 CP X,9_E S"6YP! @^4P,9_E
+M R"6YP! @N4(  #J)0!5X[ PC9(%48.0!#"0E9@P!94( (#BV___ZB\ 4^/T
+M__\* 3#4Y   4^/Z__\:!P"@X:H( .M\ )WENO__ZT0@G>5(,)WE P!2X08 
+M !I,()WE4#"=Y0, 4N$"   :=#"=Y0  4^,D   *#3"@X1@@H., $*#C P"@
+MX; ' .L!(*#C"""-Y0(@H.,0((WEJ'"@XP,0H., (*#C #"@X0   .\" %#A
+M    JO  \.=T()_E=!"?Y0(@C^"V -/A(  0XP4   H%<*#C @"@X0   .\ 
+M %#C    JO  \.<!4(7B P!5XP@P@^+R__\:/#"?Y0$@H.,#,(_@ B##Y;30
+MC>+P@+WH#$T! !P   "83@$ >$X! &!. 0!83@$ G#P  $     D    JCL 
+M  (  @ D30$ <$ MZ0#__^LD4)_E)#"?Y050C^ #0)7G'#"?Y0-0E><% %3A
+M<("]* 0PE.0S_R_A^O__ZB!+ 0 \    ,    '- +>D"4*#A 2"!X@% H.$"
+M(87@ &"@X00@C>7G___K!""=Y040H.$$ *#A-O\OX>C^_^MP0"WI &"@X0$ 
+M@>(!4*#A  &"X  0DN4"0*#A6/__ZQ0PG^4$(*#A S"/X 40H.$& *#A<$"]
+MZ!/_+^&<____'O\OX3 PG^4P()_E S"/X'! +>D"0)/G)""?Y0)0D^<% %3A
+M 0  BG! O>A<#@#J!# TY3/_+^'X___J<$H! !0    H    \$<MZ0! H.&C
+M" #K  "0Y;4( .L <*#AO "?Y0  C^!,,)#E  !3XP!@H+,!  "Z[0@ ZP!@
+MH.&@4)_E  !4XP50C^"(@)7E2)"5Y0\   H ,-3E  !3XPP   H$ *#A;@< 
+MZP4PH.$!(*#C !"@X00 H.%$"@#K!1"@X3H H./4"0#K!1"@X2  H./1"0#K
+M!P"@X6$' .M$0)_E 2"@XP1 C^ $,*#A !"@X0< H.$U"@#K!!"@X0H H./%
+M"0#K  !6XTB0A.6(@(3E\(>]" 0 H.'P1[WH]0@ ZFA* 0!$2@$ Y$D!  \ 
+M+>D'0"WI%""-XAP G^40$)WE  "/X 0@C>6F!@#K#-"-X@3@G>00T(WB'O\O
+MX2!* 0 )$$'B$0!1XP'QCY!0  #J$   ZCH  .I!  #J,   ZC<  .H^  #J
+M$   ZAD  .H?  #J)0  ZBD  .HX  #J)P  ZB8  .HM  #J-   ZC@  .HW
+M  #J #"2Y000@^( $(+E #"3Y0 P@.4>_R_A #"2Y000@^( ,)/E !""Y0,X
+MH.%#**#APS^@X0 @@.4$,(#E'O\OX0 PDN4$$(/BL##3X0 0@N4 ,(#E #"@
+MX_;__^H ,)+E!!"#X@ PD^4 $(+E SR@X4,LH.'M___J #"2Y000@^( $(+E
+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
+4$(3E! "@X8@" .L  %#C %#@$Q\   H  %;C#0  "@ @H.,D,)3E A"@
+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
+MXP0   I,,)3E  !3X_7__PH$ *#A,/__ZU PE.7_4 ?B!0!3X04   K0(<3A
+M @!3X0$@@Q(4((05 '##%0,  !H%$*#A! "@X:$" .L 4*#A;("?Y0B C^!,
+M<)3E #"8Y0< H.$ $*#C!B"@X3/_+^$! %#A P  "DPPE.4# %?A]?__"O/_
+M_^H! 1?C"0  "O!PH.,& *#A@1"@XP$@H.,   #O)@!PXP(  !H& *#A A"@
+MX0   .\% *#A\(&]Z, D 0!0) $  3"@X4P0D>4 (*#A  !1XPD  *K_$ #B
+M4 "3Y0  4>$#   *% "3Y1# D^4, %#A(0  &@, H.$/  #J'   "H@ G^4$
+MX"WE  "/X   D.4P_R_A8  0Y0$1P>,  %'A#P  &E  D^7_$ +B  !1X0( 
+M !H$X)WD P"@X6(" .H4 )/E$,"3Y0P 4.'X__\* <" XA3 @^4 (,#E 0"@
+MX03PG>0$X)WD Q"@X0( H.&4___J Q"@X?S__^H!P(#B%,"#Y0 @P.4! *#A
+M'O\OX9@C 0#P02WI '"@X1!0DN4!8*#A  !5XP) H.$*   *$#"4Y10@E.4"
+M,$/@!@!3X0L  "HD,)3E!B"@X0<0H.$$ *#A\$&]Z!/_+^$" *#A8O__ZP  
+M4./P__\*!0"@X?"!O>A0,)3E!E"@X0  4^,.  "Z  !5XQ<   H!,$7B R#7
+MYPH 4N,1   :)#"4Y04@H.$'$*#A! "@X3/_+^$  %7A\(&]B 5PA^ %4$;@
+M% "4Y04@H.$'$*#A*0  ZQ0PE.4& *#A!3"#X!0PA.7P@;WH U"@X>7__^H&
+M4*#A\O__ZO!'+>D#4*#A3#"3Y0  4>,"0*#A D"@$0! H ,  %/CD@$)X !P
+MH.$!8*#A ("@LP(  +H% *#AB/[_ZP" H.$' *#A!2"@X0D0H.&S___K  !8
+MXP!PH.$!   *!0"@X;#^_^L' %GA P  "@80H.$' *#AQ@( ZP! H.$$ *#A
+M\(>]Z!% +>D<T$WB! !2X[(  #H ,&'B S 3X@<   J#S[#A R!"X $PT40!
+M0-$D <#1) $PP$0!0, D <# ) ' (. # !SC)P  &N /C>@ ,&#B'# 3X@H 
+M  H" %/A'# "@@/.L.'P +$H  .Q2/  H"@  Z!(!  3XP2@D10$H( 4 R!"
+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
+MX@$&4^/<__\J#S#@XR$Y@^$!!Z#A ##"Y7\PX.,@#8/A 0#"Y0$*H.$_$ 'B
+M( V#X0$P@^$" ,+E S#"Y00 H.,0@+WHR!H! ! PD.430"WI  !3XP! H.$'
+M$,WE"P  "M AQ.$" %/A#@  &B0PE.4!(*#C!Q"-X@0 H.$S_R_A 0!0XP0 
+M !H' -WE P  ZA7]_^L  %#C\/__"@  X.,(T(WB$("]Z% @E.4' -WE @!0
+MX0$@@Q(4((05  ##%?;__QKH___J$T MZ0! 4.(6   *3#"4Y0  4^,   "Z
+M6OS_ZQ0@E.4<,)3E P!2X00   H (*#C)#"4Y0(0H.$$ *#A,_\OX0P E.D#
+M %+A!@  "@,@0N !,*#C #"-Y00 H.$H$)3EPC^@X3'_+^$(T(WB$("]Z'! 
+M+>D9  #K4$"?Y01 C^  4)#E  !5XPP  !I ,)_E S"4YP  D^78___K-#"?
+MY0,PE.<  )/EU/__ZR@PG^4#,)3G<$"]Z   D^7/___J!0"@X<W__^LX4)7E
+M[/__ZE07 0 8    #    #@    4 )_E$$ MZ0  C^ ;  #K" "?Y0  C^ 0
+M@+WHR!T! +@= 0 $ )_E  "/X%$  .JH'0$ <$ MZ0% H.$X8)_E %"@X0(0
+MH.$&8(_@ #"6Y00 H.$%(*#A,_\OX0  4.,#   *  "5Y0  5.'V__\*<("]
+MZ 0 H.%P@+WH*!@! /!!+>GH8)_E!F"/X - UN4$3*#A1$R@X0  5./P@;T(
+M!B&@XP 0H., 4*#AX/__ZP  5., ,*"S S#&M0  4./P@;T("F"@XP  4.,&
+M04"R $"@H08AA.($$*#A!0"@X=/__^L  %3A\(&]" %@5N+T__\: &"5Y04 
+MH.$!0(;B!""@X080H.')___K  !6X??__QH$P*#A  !<XPQ H*$+  "J\'"@
+MXP4 H.& $*#C#""@X0 PH.,   #O)@!PXP(  !H% *#A Q"@X0   .\&04SB
+M B&$X@00H.$% *#AL___ZP  5.$ P*#AZ?__&O"!O>@<& $  #"0Y0  4^,>
+M_R^AL$ MZ0! H.$ 4)3E! "@X08A1>(%$*#AI/__ZP  5>'X__\:!@%5X[" 
+MO0CP<*#C! "@X8$0H.,!(*#C    [R8 <..P@+T8! "@X0(0H.$   #OL("]
+MZ $@4>(>_R\!=   .@$ 4.%K  ": @ 1X6P   H0/V_A$2]OX0,P0N ?,'/B
+M@S"#$  @H.,#\8\0  "@X8$/4.$"(*+@@0] ( $/4.$"(*+@ 0] (($.4.$"
+M(*+@@0Y ( $.4.$"(*+@ 0Y (($-4.$"(*+@@0U ( $-4.$"(*+@ 0U (($,
+M4.$"(*+@@0Q ( $,4.$"(*+@ 0Q (($+4.$"(*+@@0M ( $+4.$"(*+@ 0M 
+M(($*4.$"(*+@@0I ( $*4.$"(*+@ 0I (($)4.$"(*+@@0E ( $)4.$"(*+@
+M 0E (($(4.$"(*+@@0A ( $(4.$"(*+@ 0A (($'4.$"(*+@@0= ( $'4.$"
+M(*+@ 0= (($&4.$"(*+@@09 ( $&4.$"(*+@ 09 (($%4.$"(*+@@05 ( $%
+M4.$"(*+@ 05 (($$4.$"(*+@@01 ( $$4.$"(*+@ 01 (($#4.$"(*+@@0- 
+M( $#4.$"(*+@ 0- (($"4.$"(*+@@0) ( $"4.$"(*+@ 0) (($!4.$"(*+@
+M@0% ( $!4.$"(*+@ 0% (($ 4.$"(*+@@0! ( $ 4.$"(*+@ 0! ( ( H.$>
+M_R_A 0"@ P  H!,>_R_A$2]OX1\@8N(P J#A'O\OX0  4.,  . 3%@  Z@  
+M4>/Z__\* T MZ8#__^L&0+WHD@ #X ,00> >_R_A  !3XP  4@,$   :  !1
+MXP  4 , $. 3  #@$P8  .H(T$WB & MZ0<  .L$X)WE"-"-X@P O>@>_R_A
+M D MZ0@ H.-(  #K H"]Z ( 4.'P0RWI >"@X0,0WN  P*#A  "@,QQ0G>4 
+M$* Q.P  .@  4^,23V\!$T]O$2! A (  %[C'!]O 2 0@0(>'V\1 4!$X!,T
+MH.$@<$3B$C>#X1*$H.$@8&3B,C:#X0@ 7.$#(-[@  "@,P 0H#$%   Z 0"@
+MXQ 7H.$(P%S@,!:!X1 $H.$#X,[@  !4XQ\   JH(*#A@R^"X02 H.&C,*#A
+M!P  Z@+ 7. #X,[@#,"<X [@KN !P)SB ."NX@& 6.(&   * @!<X0.0WN#T
+M__\J#,"<X [@KN !@%CB^/__&@P D. \Q*#A'L:,X3['C.$.$*'@'#2@X3[D
+MH.$# %#@'C2@X1PW@^$\-H/A Q#!X   5>, 4(48\(.]Z+! +>F(T$WB"%"-
+MX@0 C>4% *#A&   ZS PG^4$$)WE P"?Y^YPH.,P_R_A8  0Y0   .^7^O_K
+M $"@X04 H.$7  #K! "@X8C0C>*P@+WH !,! !P0G^4 (*#A@$ MZ0  H..O
+M<*#C 1"/X @PH.,   #O@("]Z'0+   <$)_E ""@X8! +>D  *#CKW"@XP$0
+MC^ (,*#C    [X" O>A4"P   !"@X8! +>D" *#CKW"@XP @H.,(,*#C    
+M[X" O>@!0"WI 4"]Z![_+^$[    /@    L    ^    $    #X    E    
+M/@   #,    ^     P   #X    &    /@   !0    ^    #@   #X    -
+M    /@   "0    ^    $@   #X    G    /@    (    ^    &    #X 
+M   )    /@    H    ^              !C;&]C:U]G971T:6UE    -S V
+M-3 W80!A<F%C;F\@;VL@<F5V/25S(&UO;F]T;VYI8STE;&0N)3 Y;&0* "]D
+M978O;G5L;  M*R @(#!8,'@ *&YU;&PI "TP6"LP6" P6"TP>"LP>" P> !I
+M;F8 24Y& &YA;@!.04X +@ 9  H &1D9      4        )      L     
+M     !D $0H9&1D#"@<  1L)"Q@   D&"P  "P &&0   !D9&0          
+M           .           9  H-&1D9  T   ( "0X    )  X   X     
+M                            #               $P     3      D,
+M       ,   ,                                 !              
+M  \    $#P     )$       $   $                               
+M   2               1     !$     "1(      !(  !(  !H    :&AH 
+M                                &@   !H:&@        D         
+M                                     !0              !<     
+M%P     )%       %   %                                  6    
+M           5     !4     "18      !8  !8  # Q,C,T-38W.#E!0D-$
+M148  &T A0"?  T!"P(5 J4"@@(= S$#)0'Q %L 0@,O O\ KP!3 44"5 )D
+M I0"X0+_ E$ <P). ]D 1@%E 5T#_P$K #@ ?P// FP#V@-[ ;P"  #S PX$
+M                                           A!#4$1P16!       
+M &\$        A00+!P  E 2[    H 0                5         +T$
+MR@3G!/D$& 4O!48%8 5N!8P%\ &U!<L%VP7O!0L&CP$>!C@&3 9A!@  J &\
+M <\!W &#!J$&MP8          ,D&V@;I!OD&QP,          +,#G0-.;R!E
+M<G)O<B!I;F9O<FUA=&EO;@!);&QE9V%L(&)Y=&4@<V5Q=65N8V4 1&]M86EN
+M(&5R<F]R %)E<W5L="!N;W0@<F5P<F5S96YT86)L90!.;W0@82!T='D 4&5R
+M;6ES<VEO;B!D96YI960 3W!E<F%T:6]N(&YO="!P97)M:71T960 3F\@<W5C
+M:"!F:6QE(&]R(&1I<F5C=&]R>0!.;R!S=6-H('!R;V-E<W, 1FEL92!E>&ES
+M=', 5F%L=64@=&]O(&QA<F=E(&9O<B!D871A('1Y<&4 3F\@<W!A8V4@;&5F
+M="!O;B!D979I8V4 3W5T(&]F(&UE;6]R>0!297-O=7)C92!B=7-Y $EN=&5R
+M<G5P=&5D('-Y<W1E;2!C86QL %)E<V]U<F-E('1E;7!O<F%R:6QY('5N879A
+M:6QA8FQE $EN=F%L:60@<V5E:P!#<F]S<RUD979I8V4@;&EN:P!296%D+6]N
+M;'D@9FEL92!S>7-T96T 1&ER96-T;W)Y(&YO="!E;7!T>0!#;VYN96-T:6]N
+M(')E<V5T(&)Y('!E97( 3W!E<F%T:6]N('1I;65D(&]U= !#;VYN96-T:6]N
+M(')E9G5S960 2&]S="!I<R!D;W=N $AO<W0@:7,@=6YR96%C:&%B;&4 061D
+M<F5S<R!I;B!U<V4 0G)O:V5N('!I<&4 22]/(&5R<F]R $YO('-U8V@@9&5V
+M:6-E(&]R(&%D9')E<W, 0FQO8VL@9&5V:6-E(')E<75I<F5D $YO('-U8V@@
+M9&5V:6-E $YO="!A(&1I<F5C=&]R>0!)<R!A(&1I<F5C=&]R>0!497AT(&9I
+M;&4@8G5S>0!%>&5C(&9O<FUA="!E<G)O<@!);G9A;&ED(&%R9W5M96YT $%R
+M9W5M96YT(&QI<W0@=&]O(&QO;F< 4WEM8F]L:6,@;&EN:R!L;V]P $9I;&5N
+M86UE('1O;R!L;VYG %1O;R!M86YY(&]P96X@9FEL97,@:6X@<WES=&5M $YO
+M(&9I;&4@9&5S8W)I<'1O<G,@879A:6QA8FQE $)A9"!F:6QE(&1E<V-R:7!T
+M;W( 3F\@8VAI;&0@<')O8V5S<P!"860@861D<F5S<P!&:6QE('1O;R!L87)G
+M90!4;V\@;6%N>2!L:6YK<P!.;R!L;V-K<R!A=F%I;&%B;&4 4F5S;W5R8V4@
+M9&5A9&QO8VL@=V]U;&0@;V-C=7( 4W1A=&4@;F]T(')E8V]V97)A8FQE %!R
+M979I;W5S(&]W;F5R(&1I960 3W!E<F%T:6]N(&-A;F-E;&5D $9U;F-T:6]N
+M(&YO="!I;7!L96UE;G1E9 !.;R!M97-S86=E(&]F(&1E<VER960@='EP90!)
+M9&5N=&EF:65R(')E;6]V960 1&5V:6-E(&YO="!A('-T<F5A;0!.;R!D871A
+M(&%V86EL86)L90!$979I8V4@=&EM96]U= !/=70@;V8@<W1R96%M<R!R97-O
+M=7)C97, 3&EN:R!H87,@8F5E;B!S979E<F5D %!R;W1O8V]L(&5R<F]R $)A
+M9"!M97-S86=E $9I;&4@9&5S8W)I<'1O<B!I;B!B860@<W1A=&4 3F]T(&$@
+M<V]C:V5T $1E<W1I;F%T:6]N(&%D9')E<W,@<F5Q=6ER960 365S<V%G92!T
+M;V\@;&%R9V4 4')O=&]C;VP@=W)O;F<@='EP92!F;W(@<V]C:V5T %!R;W1O
+M8V]L(&YO="!A=F%I;&%B;&4 4')O=&]C;VP@;F]T('-U<'!O<G1E9 !3;V-K
+M970@='EP92!N;W0@<W5P<&]R=&5D $YO="!S=7!P;W)T960 4')O=&]C;VP@
+M9F%M:6QY(&YO="!S=7!P;W)T960 061D<F5S<R!F86UI;'D@;F]T('-U<'!O
+M<G1E9"!B>2!P<F]T;V-O; !!9&1R97-S(&YO="!A=F%I;&%B;&4 3F5T=V]R
+M:R!I<R!D;W=N $YE='=O<FL@=6YR96%C:&%B;&4 0V]N;F5C=&EO;B!R97-E
+M="!B>2!N971W;W)K $-O;FYE8W1I;VX@86)O<G1E9 !.;R!B=69F97(@<W!A
+M8V4@879A:6QA8FQE %-O8VME="!I<R!C;VYN96-T960 4V]C:V5T(&YO="!C
+M;VYN96-T960 0V%N;F]T('-E;F0@869T97(@<V]C:V5T('-H=71D;W=N $]P
+M97)A=&EO;B!A;')E861Y(&EN('!R;V=R97-S $]P97)A=&EO;B!I;B!P<F]G
+M<F5S<P!3=&%L92!F:6QE(&AA;F1L90!296UO=&4@22]/(&5R<F]R %%U;W1A
+M(&5X8V5E9&5D $YO(&UE9&EU;2!F;W5N9 !7<F]N9R!M961I=6T@='EP90!-
+M=6QT:6AO<"!A='1E;7!T960 ______________]__/___SL    ^    "P  
+M #X    0    /@   "4    ^    ,P   #X    #    /@    8    ^    
+M%    #X    .    /@    T    ^    )    #X    2    /@   "<    ^
+M     @   #X    8    /@    D    ^    "@   #X              %SR
+M_W\!                                                        
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                                            
+M                                        A (! $ " 0!04 ( Z% "
+M .!6 @                !X40(      /1/ @#85@( !%8" -0  0#L40( 
+M\$\" /P  0#P3P( (#\! .!0 @#L3P( \%$"                  4     
+M         -@J 0                           /PJ 0#T*@$ _%$"    
+M              (                   #__________P              
+M                                                            
+M     %!0 @      !0              V"H!                        
+M    Y"L! /0J 0 $4@(   0              0                   /__
+M__\*                                                        
+M                            Z% " "PU 0!@-0$ O#4!   @      ( 
+M1T-#.B H1TY5*2 Q,2XR+C$@,C R,3$Q,C  030   !A96%B:0 !*@    4W
+M+4$ !@H'00@!"0(* PP!$@03 10!%0$7 Q@!&@(< 1X$(@$ +G-H<W1R=&%B
+M "YI;FET "YT97AT "YF:6YI "YR;V1A=&$ +D%232YE>&ED>  N96A?9G)A
+M;64 +FEN:71?87)R87D +F9I;FE?87)R87D +F1A=&$N<F5L+G)O "YG;W0 
+M+F1A=&$ +F)S<P N8V]M;65N=  N05)-+F%T=')I8G5T97,             
+M                                          L    !    !@   -0 
+M 0#4    #               !          1     0    8   #@  $ X   
+M $ ^              @         %P    $    &    (#\! " _   ,    
+M           $         !T    !     @   "P_ 0 L/P  M L         
+M    !          E     0  <((   #@2@$ X$H   @    "          0 
+M        ,     $    "    Z$H! .A*   $               $        
+M #H    .     P   .Q/ @#L3P  !               !     0   !&    
+M#P    ,   #P3P( \$\   0               0    $    4@    $    #
+M    ]$\" /1/   ,               $         %\    !     P    !0
+M @  4   1               !     0   !D     0    ,   !(4 ( 2%  
+M $@!              @         :@    @    #    D%$" )!1  !4!0  
+M           $         &\    !    ,         "040  &P          
+M     0    $   !X     P  <           JU$  #4               $ 
+M         0    ,              .!1  "(               !        
+!    
+EOF
+ ( Z% "
+-sh: syntax error near unexpected token `('
+root@socfpga:~# M .!6 @                !X40(      /1/ @#85@( !%8" -0  0#L40( 
+-sh: !X40: event not found
+root@socfpga:~# M\$\" /P  0#P3P( (#\! .!0 @#L3P( \%$"                  4     
+-sh: syntax error near unexpected token `('
+root@socfpga:~# M         -@J 0                           /PJ 0#T*@$ _%$"    
+> M              (                   #__________P              
+> M                                                            
+> M     %!0 @      !0              V"H!                        
+-sh: !0: event not found
+> M    Y"L! /0J 0 $4@(   0              0                   /__
+-sh: syntax error near unexpected token `('
+root@socfpga:~# M__\*                                                        
+-sh: M__*: command not found
+root@socfpga:~# M                            Z% " "PU 0!@-0$ O#4!   @      ( 
+-sh: !@-0$: event not found
+root@socfpga:~# M1T-#.B H1TY5*2 Q,2XR+C$@,C R,3$Q,C  030   !A96%B:0 !*@    4W
+-sh: !A96%B: event not found
+root@socfpga:~# M+4$ !@H'00@!"0(* PP!$@03 10!%0$7 Q@!&@(< 1X$(@$ +G-H<W1R=&%B
+-sh: !@H'00@!"0: event not found
+root@socfpga:~# M "YI;FET "YT97AT "YF:6YI "YR;V1A=&$ +D%232YE>&ED>  N96A?9G)A
+-sh: syntax error near unexpected token `)'
+root@socfpga:~# M;64 +FEN:71?87)R87D +F9I;FE?87)R87D +F1A=&$N<F5L+G)O "YG;W0 
+-sh: syntax error near unexpected token `)'
+root@socfpga:~# M+F1A=&$ +F)S<P N8V]M;65N=  N05)-+F%T=')I8G5T97,             
+-sh: syntax error near unexpected token `)'
+root@socfpga:~# M                                          L    !    !@   -0 
+-sh: !@: event not found
+root@socfpga:~# M 0#4    #               !          1     0    8   #@  $ X   
+-sh: M: command not found
+root@socfpga:~# M $ ^              @         %P    $    &    (#\! " _   ,    
+> M           $         !T    !     @   "P_ 0 L/P  M L         
+-sh: !T: event not found
+> M    !          E     0  <((   #@2@$ X$H   @    "          0 
+-sh: syntax error near unexpected token `('
+root@socfpga:~# M        ,     $    "    Z$H! .A*   $               $        
+> M #H    .     P   .Q/ @#L3P  !               !     0   !&    
+> M#P    ,   #P3P( \$\   0               0    $    4@    $    #
+> M    ]$\" /1/   ,               $         %\    !     P    !0
+-sh: !0: event not found
+> M @  4   1               !     0   !D     0    ,   !(4 ( 2%  
+-sh: !D: event not found
+> M $@!              @         :@    @    #    D%$" )!1  !4!0  
+-sh: syntax error near unexpected token `)'
+root@socfpga:~# M           $         &\    !    ,         "040  &P          
+> M     0    $   !X     P  <           JU$  #4               $ 
+-sh: !X: event not found
+> M         0    ,              .!1  "(               !        
+M         0    ,              .echo PRONTO  "(               !        
+-sh: syntax error near unexpected token `('
+root@socfpga:~# !    
+root@socfpga:~# EOF
+-sh: EOF: command not found
+root@socfpga:~# wc -l /tmp/aracno.uu; perl -e 'open F,"</tmp/aracno.uu"; open O, ">/home/root/aracno"; binmode O; while(<F>){print O unpack("u",$_)} close O'; ls  -l /home/root/aracno; md5sum /home/root/aracno
+418 /tmp/aracno.uu
+-rw-r--r--    1 root     root         18741 Sep 28 09:09 /home/root/aracno
+a20cbeda2d32dd90da027237d3ccb733  /home/root/aracno
+root@socfpga:~# 
+$ set +H; rm -f /tmp/aracno.uu /home/root/aracno; echo limpo
+set +H; rm -f /tmp/aracno.uu /home/root/aracno; echo limpo
+limpo
+root@socfpga:~# 
+$ wc -l /tmp/aracno.uu; md5sum /tmp/aracno.uu
+wc -l /tmp/aracno.uu; md5sum /tmp/aracno.uu
+484 /tmp/aracno.uu
+1c9726c39250e1e50a437ae4591ecdb0  /tmp/aracno.uu
+root@socfpga:~# 
+$ perl -e 'open F,"</tmp/aracno.uu"; open O,">/home/root/aracno"; binmode O; while(<F>){print O unpack("u",$_)} close O'; chmod +x /home/root/aracno; ls -l /home/root/aracno; md5sum /home/root/aracno
+perl -e 'open F,"</tmp/aracno.uu"; open O,">/home/root/aracno";  binmode O; while(<F>){print O unpack("u",$_)} close O'; chmod +x /home/root/arac no; ls -l /home/root/aracno; md5sum /home/root/aracno
+-rwxr-xr-x    1 root     root         21736 Sep 28 09:11 /home/root/aracno
+9fdcfe8dfbf24e808256bec3d9212f97  /home/root/aracno
+root@socfpga:~# 
+$ /home/root/aracno; echo "exit=$?"; sleep 1; /home/root/aracno; echo "exit=$?"
+/home/root/aracno; echo "exit=$?"; sleep 1; /home/root/aracno; e cho "exit=$?"
+aracno ok rev=706507a monotonic=214.021563650
+exit=0
+aracno ok rev=706507a monotonic=215.026380250
+exit=0
+root@socfpga:~# 

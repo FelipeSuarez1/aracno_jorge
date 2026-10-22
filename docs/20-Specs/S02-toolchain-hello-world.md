@@ -1,5 +1,5 @@
 ---
-status: em-andamento
+status: concluída
 origem: [[20-Specs/S00-visao]] decisões fechadas (toolchain estática musl)
 depende: [[20-Specs/S01-dia-1-uart]] (só para o critério [LAB])
 ---
@@ -19,7 +19,7 @@ Driver de periférico, acesso a `/dev/mem`, integração com o app `spider`.
 - [PC] `docker build -t aracno-tc tools/` termina com exit 0.
 - [PC] `docker run --rm -v "$PWD":/w -w /w/firmware aracno-tc make` gera `firmware/build/aracno`; `file` reporta `ELF 32-bit LSB executable, ARM, EABI5 … statically linked`.
 - [PC] `make -C firmware test` compila e roda os testes de host no PC (exit 0; "0 testes" é aceitável até S03).
-- [LAB] `aracno` copiado para `/home/root` via microSD ou `scp`, executado na placa: imprime `aracno ok` e a hora monotônica, exit 0.
+- [LAB] ✅ `aracno` copiado para `/home/root` pela UART (`tools/uart.py push`), executado na placa: `aracno ok rev=706507a monotonic=214.021563650`, `exit=0` (2026-10-22, kernel 3.13.0). Sem rede e sem base64 na placa, o caminho é a UART.
 
 ## Verificação
 - [PC]: os três comandos acima, saída colada em Evidência.
@@ -42,3 +42,11 @@ $ make -C firmware test
 testes ok
 ```
 Gotchas: no Fedora o bind mount precisa de `:z` (SELinux) e `--user` para os arquivos não ficarem de root — já embutido em `tools/cross-build.sh`. Sem `-no-pie` o musl gera `static-pie`; forçado `-static -no-pie`. Não há `qemu-arm`/binfmt neste PC, então a execução só será provada na placa ([LAB] pendente).
+```text
+$ tools/uart.py push firmware/build/aracno /home/root/aracno
+firmware/build/aracno -> /home/root/aracno: 21736 bytes, md5 9fdcfe8dfbf24e808256bec3d9212f97 ok
+$ tools/uart.py run '/home/root/aracno; echo exit=$?'
+aracno ok rev=706507a monotonic=312.701487990
+exit=0
+```
+Ferramenta criada nesta spec: `tools/uart.py` (`run`, `push` com uuencode+perl e confirmação de eco, `boot`). O primeiro envio por heredoc corrompeu (histórico `!` do shell e estouro do buffer da tty); o envio linha a linha com eco confirmado é o que funciona.
