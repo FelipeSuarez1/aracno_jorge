@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make -C firmware test)",
+      "Bash(make -C firmware test:*)",
+      "Bash(tools/cross-build.sh:*)",
+      "Bash(docker build -t aracno-tc tools/)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(file firmware/build/aracno)"
+    ],
+    "deny": [
+      "Edit(docs/10-Decisoes/**)",
+      "Write(docs/10-Decisoes/**)",
+      "Bash(git push --force:*)",
+      "Bash(rm -rf:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in */firmware/src/*|*/firmware/include/*|*/tests/*.cpp) cd \"$CLAUDE_PROJECT_DIR\" && make -s -C firmware test 2>&1 | tail -20 ;; esac"
+          }
+        ]
+      }
+    ]
+  }
+}

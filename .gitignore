@@ -1,0 +1,10 @@
+firmware/build/
+tests/build/
+*.o
+*.a
+__pycache__/
+*.pyc
+sim/runs/
+docs/.obsidian/workspace*.json
+docs/.obsidian/cache
+.DS_Store

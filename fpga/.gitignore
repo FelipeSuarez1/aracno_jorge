@@ -1,0 +1,6 @@
+*.sof
+*.rbf
+*.pof
+db/
+incremental_db/
+output_files/
