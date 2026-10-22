@@ -6,7 +6,7 @@
 | 2 | BH1750 (breakout GY-302) | S03 | um em 0x23, outro em 0x5C (pino ADDR) |
 | 2 | VL53L1X (breakout com XSHUT exposto) | S03 | segundo endereço via XSHUT |
 | 1 | PIR HC-SR501 | S03 | |
-| 1 | PCF8574 (expansor I2C, 0x20) | S03 | XSHUT ×2, PIR, botão de parada, RST do display |
+| 1 | **PCF8574** (expansor I2C, 0x20) | S03/S04 | XSHUT ×2, PIR, botão de parada, **D/C e RST do display** (o GPIO do header LTC é o seletor do mux, não está livre) — agora obrigatório para o display |
 | 1 | PCA9685 (16 canais PWM I2C) | S06 | servos da cabeça |
 | ✅/1 | Servos da cabeça: **2 MG996R reserva do kit**; falta o suporte pan/tilt para servo padrão | S06 | ou peça impressa no lab |
 | 4 | Resistores 4,7 kΩ | S03 | pull-up I2C1 (SDA/SCL) na cabeça e no corpo |

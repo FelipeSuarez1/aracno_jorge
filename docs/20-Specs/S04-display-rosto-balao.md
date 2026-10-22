@@ -13,7 +13,7 @@ Pan/tilt (S06), escolha do humor pela política (S05). Áudio (ADR-002).
 
 ## Fatos de entrada
 - `/dev/spidev1.0` existe (SPIM1, `dw-spi-mmio`, driver `spidev`) — [[30-Medicoes/dia-1]]. Pinos `HPS_SPIM_CLK/MISO/MOSI/SS` no header LTC — [[40-Fontes/de0-nano-soc-user-manual]] §3.7.8. **Ainda não confirmado** que o SPIM do header é o SPIM1 (único habilitado): teste de loopback é o passo 1.
-- Display precisa de D/C e RESET além de SPI: usar `HPS_LTC_GPIO` para D/C e uma saída do PCF8574 (S03) para RESET. `[INFERÊNCIA]`: velocidade útil do SPI master do HPS ≥ 10 MHz; medir com osciloscópio ou pelo tempo de um quadro.
+- Display precisa de D/C e RESET além de SPI. `HPS_LTC_GPIO` (gpio209) **não está livre**: é o seletor do mux TS3A5018 do header e deve ficar em 0 para o SPI aparecer ([[40-Fontes/hardware]]). D/C e RESET vêm de duas saídas do **PCF8574** (S03) — D/C muda só entre comando e dados (≈0,2 ms por troca a 400 kHz), aceitável porque pixels fluem com D/C fixo em 1. `[INFERÊNCIA]`: velocidade útil do SPI master do HPS ≥ 10 MHz; medir com osciloscópio ou pelo tempo de um quadro.
 - Expressões: dimensões de Kalegina et al., HRI 2018 (olhos, boca, sobrancelhas) — [[40-Fontes/fontes-externas]].
 
 ## Hardware desta spec
@@ -30,7 +30,7 @@ Touch (uso futuro, fora dos critérios desta spec): estímulo tátil para o humo
 ## Critérios de aceite
 - [PC] `tests/face.cpp`: renderização por software para um buffer 320×240 e comparação pixel a pixel com PNGs de referência em `tests/ref/face_*.png` (gerados pelo mesmo `render.py`); quebra de linha do balão com 10 frases de teste.
 - [PC] `tools/face/render.py` reproduz os sprites de forma determinística (hash fixo).
-- [LAB] Loopback MISO↔MOSI em `/dev/spidev1.0`: `tools/uart.py run` com `spidev_test` cross-compilado devolve o padrão enviado → confirma SPIM1 = header LTC.
+- [LAB] Loopback MISO↔MOSI em `/dev/spidev1.0` com gpio209 = 0: `spidev_test` cross-compilado devolve o padrão enviado → confirma pinos do header e o mux. Antes: esquemático da DE0-Nano-SoC (CD-ROM da placa) para a pinagem física do J17.
 - [LAB] Display ligado: 7 expressões + balão "Olá, eu sou a Jorge" fotografados a 1 m; texto legível por 3 pessoas.
 - [LAB] Tempo de atualização parcial (olhos) < 20 ms e quadro inteiro < 200 ms (320×240×2 B = 154 kB a ≥ 8 MHz), medidos com `clock_gettime` e logados.
 - [LAB] Estudo de reconhecimento (S00): ≥ 10 pessoas de fora, 6 opções, ≥ 70 % por expressão e p < 0,05 vs. 1/6 — só depois da cabeça montada (S06).
