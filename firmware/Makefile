@@ -7,18 +7,21 @@ CXX      = $(CROSS)g++
 HOSTCXX ?= g++
 GIT_REV := $(shell git -C .. rev-parse --short HEAD 2>/dev/null || echo unknown)
 
-CXXFLAGS = -std=c++11 -O2 -Wall -Wextra -Werror -fno-exceptions -fno-rtti \
-           -march=armv7-a -mfpu=neon -mfloat-abi=hard \
-           -Iinclude -DARACNO_GIT_REV=\"$(GIT_REV)\"
-LDFLAGS  = -static -no-pie -s
+COMMON   = -std=c++11 -Wall -Wextra -Werror -fno-exceptions -fno-rtti \
+           -Iinclude -Isrc -DARACNO_GIT_REV=\"$(GIT_REV)\"
+CXXFLAGS = $(COMMON) -O2 -march=armv7-a -mfpu=neon -mfloat-abi=hard
+LDFLAGS  = -static -no-pie -s -lpthread
 
-SRC   := $(wildcard src/*.cpp)
-OBJ   := $(patsubst src/%.cpp,build/%.o,$(SRC))
-BIN   := build/aracno
+# Fontes: src/**/*.cpp (um nível de subdiretório). main.cpp fica fora dos testes.
+SRC     := $(wildcard src/*.cpp src/*/*.cpp)
+LIBSRC  := $(filter-out src/app/main.cpp src/main.cpp,$(SRC))
+OBJ     := $(patsubst src/%.cpp,build/%.o,$(SRC))
+BIN     := build/aracno
 
 TEST_SRC := $(wildcard ../tests/*.cpp)
 TEST_BIN := $(patsubst ../tests/%.cpp,../tests/build/%,$(TEST_SRC))
-HOSTFLAGS = -std=c++11 -O1 -g -Wall -Wextra -Werror -Iinclude -DARACNO_GIT_REV=\"$(GIT_REV)\"
+HOSTFLAGS = $(COMMON) -O1 -g -I../tests -DARACNO_HOST_TEST
+HOSTOBJ  := $(patsubst src/%.cpp,../tests/build/obj/%.o,$(LIBSRC))
 
 .PHONY: all test clean
 
@@ -28,22 +31,22 @@ $(BIN): $(OBJ)
 	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS)
 	@file $@ 2>/dev/null || true
 
-build/%.o: src/%.cpp | build
+build/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build:
-	mkdir -p build
-
-# Testes de host: um executável por tests/*.cpp; cada um deve retornar 0.
+# Testes de host: um executável por tests/*.cpp, linkado com todo src/ menos main.
 test: $(TEST_BIN)
 	@if [ -z "$(TEST_BIN)" ]; then echo "0 testes em tests/ (aceitável até S03)"; fi
 	@set -e; for t in $(TEST_BIN); do echo "== $$t"; $$t; done; echo "testes ok"
 
-../tests/build/%: ../tests/%.cpp $(filter-out src/main.cpp,$(SRC)) | ../tests/build
-	$(HOSTCXX) $(HOSTFLAGS) $^ -o $@
+../tests/build/obj/%.o: src/%.cpp
+	@mkdir -p $(dir $@)
+	$(HOSTCXX) $(HOSTFLAGS) -c $< -o $@
 
-../tests/build:
-	mkdir -p ../tests/build
+../tests/build/%: ../tests/%.cpp $(HOSTOBJ)
+	@mkdir -p $(dir $@)
+	$(HOSTCXX) $(HOSTFLAGS) $^ -o $@ -lpthread
 
 clean:
 	rm -rf build ../tests/build

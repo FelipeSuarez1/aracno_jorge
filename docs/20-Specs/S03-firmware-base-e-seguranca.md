@@ -1,5 +1,5 @@
 ---
-status: rascunho
+status: aprovada
 origem: [[20-Specs/S00-visao]] seção 3; [[30-Medicoes/dia-1]]
 depende: [[20-Specs/S02-toolchain-hello-world]]
 ---

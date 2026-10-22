@@ -1,5 +1,5 @@
 ---
-status: rascunho
+status: aprovada
 origem: [[20-Specs/S00-visao]] seção 4; [[10-Decisoes/ADR-005-politica-treinada-no-pc]]
 depende: [[20-Specs/S03-firmware-base-e-seguranca]] (formato de Obs/Cmd e log)
 ---

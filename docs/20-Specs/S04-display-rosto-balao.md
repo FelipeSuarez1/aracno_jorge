@@ -1,5 +1,5 @@
 ---
-status: rascunho
+status: aprovada
 origem: [[20-Specs/S00-visao]] seção 5; [[10-Decisoes/ADR-002-sem-fala-display-com-texto]]
 depende: [[20-Specs/S02-toolchain-hello-world]]
 ---
