@@ -18,6 +18,7 @@ Todo código é escrito pela IA. Luiz e Felipe decidem, medem no lab e revisam. 
 ## Comandos
 - Build cross (estático, musl, em container): `tools/cross-build.sh` (faz `docker build` na primeira vez)
 - Testes de host: `make -C firmware test`
+- microSD no PC: só `udisksctl unmount -b /dev/mmcblk0p1`. NUNCA `udisksctl power-off`: desliga o leitor interno (porta USB 3-3) e só volta com root.
 - Placa pela UART (sem rede): `tools/uart.py run "cmd"`, `tools/uart.py push local /home/root/x`, `tools/uart.py boot`. Servo Motor Card OFF em teste de software.
 
 ## Regras de trabalho
