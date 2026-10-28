@@ -2,17 +2,14 @@
 
 namespace aracno { namespace app {
 
-// Modos de bancada. Não tocam nos PWM dos servos (podem rodar com a SMK desligada).
+// Modos de bancada do display (S08: SPI e PIO na FPGA, GPIO_0/JP1). Não tocam nos PWM dos servos.
 //
-// --spi-loopback: gpio209 = 0 (mux do header LTC em SPI), envia um padrão de 256 bytes em
-//   /dev/spidev1.0 e confere o que volta. Exige um jumper J17 pino 5 (MISO) ↔ pino 7 (MOSI)
-//   e o display DESCONECTADO. Prova o mux e a pinagem.
+// --spi-loopback: envia 256 bytes pelo spi_lcd e confere o que volta. Exige um jumper
+//   JP1 pino 2 (MOSI) ↔ pino 6 (MISO) e o fio MOSI do display desconectado.
 //
-// --face-demo: PCF8574 em /dev/i2c-1 (0x20; P4 = D/C, P5 = RST), ILI9341 em /dev/spidev1.0;
-//   mostra as 7 expressões com balão, mede e imprime o tempo de quadro inteiro e de
-//   atualização parcial (olhos piscando). with_reset = false: RST do display não ligado
-//   (montagem mínima: CS no GND, RST solto; só D/C vem do PCF8574).
-int spi_loopback(unsigned hz);
-int face_demo(unsigned hz, unsigned seconds_per_expr, bool with_reset);
+// --face-demo: ILI9341 no SPI da FPGA, D/C e RST no pio_lcd; mostra as 7 expressões com balão e
+//   mede o tempo de quadro inteiro e das atualizações parciais (olhos piscando).
+int spi_loopback();
+int face_demo(unsigned seconds_per_expr);
 
 }}  // namespace aracno::app

@@ -3,7 +3,7 @@
 // Uso: aracno [--demo stand|walk N|turn N | --policy] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
 //             [--speed S] [--log ARQ] [--hz H] [--max-s S]
 //   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
-//   --spi-loopback [HZ] | --face-demo [HZ] [S] [--no-rst]: bancada do display (app/bench.h); não tocam nos servos.
+//   --spi-loopback | --face-demo [S]: bancada do display na FPGA (app/bench.h, S08); não tocam nos servos.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -15,6 +15,7 @@
 
 #include "aracno/types.h"
 #include "aracno/log.h"
+#include "aracno/qsys.h"
 #include "hal/clock.h"
 #include "hal/lwbridge.h"
 #include "hal/watchdog.h"
@@ -37,8 +38,8 @@ namespace {
 volatile sig_atomic_t g_stop = 0;
 void on_signal(int) { g_stop = 1; }
 
-// LEDs do DE0 via PIO Qsys (hps_0.h LED_PIO_BASE 0x120, 7 bits): bit0 heartbeat, bit5 abort neste ciclo, bit6 travado.
-const uint32_t LED_PIO_BASE = 0x120;
+// LEDs do DE0 via PIO Qsys (qsys::LED_PIO_BASE, 7 bits): bit0 heartbeat, bit5 abort neste ciclo, bit6 travado.
+const uint32_t LED_PIO_BASE = qsys::LED_PIO_BASE;
 
 motor::Motion motion_for(uint8_t action) {
     switch (action) {
@@ -79,17 +80,10 @@ int main(int argc, char** argv) {
             else if (!std::strcmp(m, "walk")) { mode = app::Demo::WALK; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
             else if (!std::strcmp(m, "turn")) { mode = app::Demo::TURN; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
         } else if (!std::strcmp(argv[i], "--policy")) { use_policy = true; mode = app::Demo::STAND; }
-        else if (!std::strcmp(argv[i], "--spi-loopback")) {
-            unsigned spi_hz = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 1000000u;
-            if (spi_hz == 0 || spi_hz > 16000000u) { std::fprintf(stderr, "SPI Hz fora de 1..16000000\n"); return 2; }
-            return app::spi_loopback(spi_hz);
-        }
+        else if (!std::strcmp(argv[i], "--spi-loopback")) return app::spi_loopback();
         else if (!std::strcmp(argv[i], "--face-demo")) {
-            unsigned spi_hz = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 4000000u;
             unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 6u;
-            bool with_rst = !(i + 1 < argc && !std::strcmp(argv[i + 1], "--no-rst") && ++i);
-            if (spi_hz == 0 || spi_hz > 16000000u) { std::fprintf(stderr, "SPI Hz fora de 1..16000000 (cabo ≤ 16 MHz, S04)\n"); return 2; }
-            return app::face_demo(spi_hz, sec, with_rst);
+            return app::face_demo(sec);
         }
         else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;
