@@ -13,14 +13,17 @@ namespace aracno { namespace app {
 
 static bool open_fpga(hal::LwBridge& br, hal::AvalonSpi& spi, hal::AvalonPio& pio) {
     if (!br.open()) { std::fprintf(stderr, "ponte lightweight: /dev/mem falhou\n"); return false; }
-    // Sem os blocos da S08 a FPGA não responde nesses endereços (lê 0): confere antes de usar.
+    // Sem os blocos da S08 (.rbf de fábrica ou baseline), o interconector da ponte LW manda endereços sem
+    // escravo para o pwm17 (DEFAULT_DESTID): ler 0x1A8 devolve o STATUS do pwm17 (só bit0 = done), sem
+    // erro de barramento. Por isso a máscara TRDY|TMT (0x60) distingue os dois — NÃO afrouxar para `st != 0`.
+    // E nenhuma ESCRITA nesta faixa antes do teste: num .rbf antigo ela iria para os registradores do servo 17.
     uint32_t st = br.read32(qsys::SPI_LCD_BASE, hal::AvalonSpi::STATUS);
     if (!(st & (hal::AvalonSpi::ST_TRDY | hal::AvalonSpi::ST_TMT))) {
         std::fprintf(stderr, "spi_lcd não responde (status=0x%x): o soc_system.rbf do cartão é o da S08?\n", st);
         return false;
     }
     spi.attach(&br, qsys::SPI_LCD_BASE);
-    pio.attach(&br, qsys::PIO_LCD_BASE, 0x2);   // resetValue do pio_lcd: RST = 1 (liberado)
+    pio.attach(&br, qsys::PIO_LCD_BASE);         // sombra lida do hardware (reset = qsys::PIO_LCD_RESET_VALUE)
     std::printf("fpga: spi_lcd ok (status=0x%x), pio_lcd ok\n", st);
     return true;
 }

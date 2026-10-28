@@ -11,26 +11,51 @@ using namespace aracno::hal;
 static int fails = 0;
 #define CHECK(cond, msg) do { if (!(cond)) { std::printf("FALHA linha %d: %s\n", __LINE__, msg); ++fails; } } while (0)
 
+// Modelo do core (soc_system_spi_lcd.v gerado): registrador de espera (tx_holding) + registrador de
+// deslocamento. TRDY = ~(transmitting & primed): volta assim que o byte passa para o deslocamento.
+// TMT = ~transmitting & ~primed: só quando o último bit saiu. Cada leitura de STATUS avança 1 "tempo".
 struct FakeSpiCore : public RegIo {
-    uint32_t control, slaveselect, delay, busy, rx, ss_writes;
-    bool rrdy, stuck, tx_while_ss_inactive, invert_rx;
+    uint32_t control, slaveselect, delay, shift_left, rx, ss_writes;
+    bool primed, transmitting, rrdy, stuck, invert_rx;
+    bool tx_while_ss_inactive, overrun, released_busy;
+    uint8_t holding, shifting;
     uint8_t sent[1024]; size_t nsent;
-    FakeSpiCore() : control(0), slaveselect(0), delay(3), busy(0), rx(0), ss_writes(0), rrdy(false), stuck(false),
-                    tx_while_ss_inactive(false), invert_rx(false), nsent(0) {}
+    FakeSpiCore() : control(0), slaveselect(0), delay(3), shift_left(0), rx(0), ss_writes(0), primed(false),
+                    transmitting(false), rrdy(false), stuck(false), invert_rx(false), tx_while_ss_inactive(false),
+                    overrun(false), released_busy(false), holding(0), shifting(0), nsent(0) {}
+    void step() {
+        if (transmitting && --shift_left == 0) {
+            transmitting = false;
+            rx = invert_rx ? (~shifting & 0xFFu) : shifting;
+            rrdy = true;
+        }
+        if (!transmitting && primed) { shifting = holding; primed = false; transmitting = true; shift_left = delay; }
+    }
+    uint32_t status() const {
+        uint32_t st = 0;
+        if (!(transmitting && primed)) st |= AvalonSpi::ST_TRDY;
+        if (!transmitting && !primed) st |= AvalonSpi::ST_TMT;
+        if (rrdy) st |= AvalonSpi::ST_RRDY;
+        return st;
+    }
     virtual void write32(uint32_t, uint32_t idx, uint32_t v) {
         if (idx == AvalonSpi::TXDATA) {
             if (!(control & AvalonSpi::CTL_SSO) || slaveselect != 1) tx_while_ss_inactive = true;
+            if (!(status() & AvalonSpi::ST_TRDY)) overrun = true;     // escreveu sem TRDY: byte perdido
             if (nsent < sizeof sent) sent[nsent++] = static_cast<uint8_t>(v);
-            busy = delay; rx = invert_rx ? (~v & 0xFF) : (v & 0xFF);
-        } else if (idx == AvalonSpi::CONTROL) control = v;
-        else if (idx == AvalonSpi::SLAVESELECT) { slaveselect = v; ++ss_writes; }
+            holding = static_cast<uint8_t>(v); primed = true;
+            step();
+        } else if (idx == AvalonSpi::CONTROL) {
+            if (!(v & AvalonSpi::CTL_SSO) && (transmitting || primed)) released_busy = true;
+            control = v;
+        } else if (idx == AvalonSpi::SLAVESELECT) { slaveselect = v; ++ss_writes; }
     }
     virtual uint32_t read32(uint32_t, uint32_t idx) const {
         FakeSpiCore* self = const_cast<FakeSpiCore*>(this);
         if (idx == AvalonSpi::STATUS) {
             if (stuck) return 0;
-            if (self->busy) { if (--self->busy == 0) self->rrdy = true; return 0; }
-            return static_cast<uint32_t>(AvalonSpi::ST_TRDY | AvalonSpi::ST_TMT) | (rrdy ? static_cast<uint32_t>(AvalonSpi::ST_RRDY) : 0u);
+            self->step();
+            return status();
         }
         if (idx == AvalonSpi::RXDATA) { self->rrdy = false; return rx; }
         return 0;
@@ -52,6 +77,8 @@ int main() {
         CHECK(spi.write(d, 5), "write ok");
         CHECK(core.nsent == 5 && std::memcmp(core.sent, d, 5) == 0, "5 bytes na ordem");
         CHECK(!core.tx_while_ss_inactive, "nenhum byte com SS inativo");
+        CHECK(!core.overrun, "nenhuma escrita em TXDATA sem TRDY");
+        CHECK(!core.released_busy, "CS só sobe depois do último bit (espera TMT)");
         CHECK((core.control & AvalonSpi::CTL_SSO) == 0, "SSO desligado no fim (CS solto)");
         CHECK(spi.timeouts() == 0, "sem timeouts");
     }
@@ -86,7 +113,9 @@ int main() {
     }
     // PIO + pinos do display: D/C no bit0, RST ativo baixo no bit1, preserva os outros bits
     {
-        FakePio io; AvalonPio pio; pio.attach(&io, 0x180, 0x2);
+        FakePio io; io.data = 0x2;                   // resetValue do pio_lcd
+        AvalonPio pio; pio.attach(&io, 0x180);
+        CHECK(pio.shadow() == 0x2, "attach lê o valor atual do hardware");
         pio.write_bit(2, true);                      // XSHUT frontal ligado
         face::PioCtrlPins pins(&pio);
         pins.dc(false); CHECK((io.data & 1) == 0, "dc(false) → bit0 = 0 (comando)");

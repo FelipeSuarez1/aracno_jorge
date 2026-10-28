@@ -43,6 +43,11 @@ int main() {
     CHECK(base_of("PIO_LCD") == static_cast<long>(qsys::PIO_LCD_BASE), "PIO_LCD");
     CHECK(base_of("PIO_IN") == static_cast<long>(qsys::PIO_IN_BASE), "PIO_IN");
     CHECK(base_of("SPI_LCD") == static_cast<long>(qsys::SPI_LCD_BASE), "SPI_LCD");
-    std::printf("qsys: 28 endereços conferidos contra fpga/hps_0.h, %d falhas\n", fails);
+    {
+        const char* k = "#define PIO_LCD_RESET_VALUE ";
+        const char* p = std::strstr(text, k);
+        CHECK(p && std::strtol(p + std::strlen(k), 0, 0) == static_cast<long>(qsys::PIO_LCD_RESET_VALUE), "PIO_LCD_RESET_VALUE");
+    }
+    std::printf("qsys: 26 endereços + reset do pio_lcd conferidos contra fpga/hps_0.h, %d falhas\n", fails);
     return fails ? 1 : 0;
 }

@@ -13,6 +13,7 @@ static const uint32_t LED_PIO_BASE  = 0x120;
 static const uint32_t BUTTON_PIO_BASE = 0x140;
 static const uint32_t SYSID_QSYS_BASE = 0x158;
 static const uint32_t PIO_LCD_BASE  = 0x180;   // S08: bit0 D/C, bit1 RST (1 = liberado), bit2/3 XSHUT
+static const uint32_t PIO_LCD_RESET_VALUE = 2; // RST liberado, D/C = 0, XSHUT = 0 ao configurar a FPGA
 static const uint32_t PIO_IN_BASE   = 0x190;   // S08: bit0 PIR, bit1 botão de parada (1 = acionado)
 static const uint32_t SPI_LCD_BASE  = 0x1A0;   // S08: altera_avalon_spi, master 8 bits, 12,5 MHz
 

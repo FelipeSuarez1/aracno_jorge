@@ -5,8 +5,7 @@
 
 namespace aracno { namespace face {
 
-// Pino de controle D/C e RST do display, abstraído: hoje saem do PCF8574 (I2C), porque o
-// header LTC não tem GPIO livre (docs/40-Fontes/hardware.md); amanhã pode ser um GPIO.
+// Pinos de controle D/C e RST do display, abstraídos (na placa: pio_lcd da FPGA, face/pio_ctrl.h).
 class CtrlPins {
 public:
     virtual ~CtrlPins() {}
@@ -18,15 +17,14 @@ public:
 
 // ILI9341 em SPI 4 fios (Adafruit 2,8" #1770, jumpers IM1-3 fechados), 320×240 paisagem,
 // RGB565 big-endian. Datasheet ILI9341 V1.11 (ILITEK): comandos §8.2.
-// A atualização de quadro inteiro (153 600 B) leva ~150 ms a 8 MHz — não cabe num ciclo de
+// A atualização de quadro inteiro (153 600 B) leva ≥ 100 ms a 12,5 MHz — não cabe num ciclo de
 // 20 ms do laço de controle; por isso o envio é INCREMENTAL: begin_flush() define a janela e
-// flush_step() envia até `budget` bytes por chamada. Mesmo assim cada passo bloqueia (~8 ms a
-// 4 MHz, spidev sem timeout; troca de D/C via I2C pode bloquear ~1 s): na integração com o laço
-// de controle o display roda numa thread própria, com I2C protegido por trava (pendente S04/S06).
+// flush_step() envia até `budget` bytes por chamada. Cada passo bloqueia enquanto o SPI envia
+// (medir na placa): na integração com o laço de controle o display roda numa thread própria.
 class Ili9341 {
 public:
     static const int W = CANVAS_W, H = CANVAS_H;
-    static const size_t STAGE_BYTES = 4096;   // = spidev bufsiz padrão
+    static const size_t STAGE_BYTES = 4096;   // buffer de montagem dos pixels (big-endian)
 
     Ili9341();
     // Reset (RST por hardware se ligado, senão só SWRESET), init, tela preta. ~250 ms.

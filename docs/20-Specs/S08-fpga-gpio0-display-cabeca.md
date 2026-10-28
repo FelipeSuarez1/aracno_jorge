@@ -36,7 +36,7 @@ Recompilar o projeto Quartus da Terasic acrescentando, **sem alterar o que já e
 | Pan / tilt da cabeça | GPIO_1[3] / [4] | SMK porta 3 / 4 | 2 × `TERASIC_PWM_EX` novos (pwm18, pwm19) |
 
 ## Componentes novos no Platform Designer (ponte lightweight, endereços acima de 0x160)
-- `spi_lcd`: `altera_avalon_spi` (SPI 3-wire), master, 8 bits, MSB primeiro, modo 0, SCLK alvo 20 MHz, 1 slave select.
+- `spi_lcd`: `altera_avalon_spi` (SPI 3-wire), master, 8 bits, MSB primeiro, modo 0, SCLK **12,5 MHz** (50 MHz/4; o core só divide por pares e 20 MHz não é exato), 1 slave select.
 - `pio_lcd`: `altera_avalon_pio`, 8 bits saída (D/C, RST, XSHUT ×2, reservas).
 - `pio_in`: `altera_avalon_pio`, 4 bits entrada (PIR, ESTOP, reservas).
 - `pwm18`, `pwm19`: `TERASIC_PWM_EX` (o mesmo IP do Spider, `ip/spider`).
