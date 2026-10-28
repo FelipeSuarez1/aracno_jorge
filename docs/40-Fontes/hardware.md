@@ -34,6 +34,23 @@ Fonte: `docs/40-Fontes/de0-nano-soc/de0-nano-soc-schematic-revC1.pdf` folha 16 (
 | 11 | **I2C1 SCL** (direto, 0 Ω) | 12 | GND |
 | 13 | GND | 14 | NC (`HPS_LTC_GPIO` via R105 **DNI**) |
 
+### Orientação física (medida com multímetro na aranha, 2026-10-28)
+Com a placa como montada no Spider, o J17 é o conector com capa preta ao lado do micro-USB OTG, serigrafia "J17 LTC CON". **Atenção: o "9V" na serigrafia fica na ponta OPOSTA ao pino 1.**
+
+```
+            "9V"  (ponta de cima)
+          esquerda   direita
+linha 1   14  NC      13  GND
+linha 2   12  GND     11  I2C1 SCL
+linha 3   10  3,3 V   9   I2C1 SDA
+linha 4   8   GND     7   MOSI/SDA (mux)
+linha 5   6   CS (mux) 5  MISO (mux)
+linha 6   4   SCK (mux) 3 GND
+linha 7   2   3,3 V   1   9 V  ⚠
+            "OTG" (ponta de baixo)
+```
+Medido: linha 1 esq./dir. = 0 V; linha 3 esq. = 3,3 V; linha 7 dir. = 9 V. Coluna esquerda = pares.
+
 Mux **TS3A5018 (U2)**, seletor = `HPS_LTC_GPIO` (gpio209; pull-up R112 DNI → **flutua se não for configurado**):
 - gpio209 = **0** → pinos 4/5/6/7 = SPI1 (CLK, MISO, SS0, MOSI).
 - gpio209 = **1** → pino 4 = I2C1 SCL, 7 = I2C1 SDA, 5 aberto, 6 = 3,3 V.
