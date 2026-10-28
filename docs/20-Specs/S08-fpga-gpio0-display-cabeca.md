@@ -1,5 +1,5 @@
 ---
-status: rascunho
+status: aprovada
 origem: conversa 2026-10-28 — jumpers não prendem no J17 (box header); decisão de usar o GPIO_0 da FPGA
 depende: [[20-Specs/S03-firmware-base-e-seguranca]], [[20-Specs/S04-display-rosto-balao]]
 ---
@@ -71,4 +71,8 @@ Recompilar o projeto Quartus da Terasic acrescentando, **sem alterar o que já e
 - `hps_0.h` novo × original: **23 endereços idênticos** (PWM0..17, LED_PIO, BUTTON_PIO, DIPSW_PIO, JTAG_UART, SYSID).
 - `quartus_cpf -c` (sem compressão, como o `sof_to_rbf.bat` da Terasic): `soc_system_baseline.rbf` 4 244 820 B (= tamanho do `.rbf` de fábrica), SHA-256 `affcefbb…0f96b76`. Cópia de trabalho em `~/dev/aracno_fpga_work/baseline` (fora do git).
 - Montagem física já feita pelo Luiz: display no GPIO_0 (JP1) conforme a tabela de alocação; orientação pela serigrafia "11" na 6ª linha (coluna da protoboard = ímpares, pino 1 junto ao parafuso).
-- Pendente fase 0 [LAB]: `.rbf` baseline no cartão + `stand`.
+### 2026-10-28 — fase 0 [LAB] ✅
+- Cartão: original guardado como `soc_system.rbf.orig` (SHA-256 `0c6f76f3…`), baseline copiado como `soc_system.rbf` (`affcefbb…`).
+- Boot: U-Boot lê 4 244 820 B, FPGA configura, kernel 3.13 sobe normalmente.
+- `aracno --demo stand --sensors 0x20 --max-s 15` (SMK desligada): STAND completo, **0 timeouts de passo** nos 18 PWM, 750 ciclos, p50 = p99 = 20 000 µs, max 20 007 µs, `exit=0`.
+- Conclusão: o projeto da Terasic recompilado no Quartus 25.1 é equivalente ao de fábrica. Liberada a fase 1.
