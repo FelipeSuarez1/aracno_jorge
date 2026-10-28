@@ -169,6 +169,17 @@ int main() {
         CHECK(!lcd.flush(canvas, full2), "falha na janela: flush devolve false");
         fail_after = 0;
     }
+    // montagem sem RST: nenhum reset por hardware, SWRESET primeiro, ≥120 ms antes dele
+    {
+        struct NoRst : public FakePins { virtual bool has_reset() const { return false; } } nr;
+        g_pins = &nr; nev = 0; nsleep = 0;
+        Ili9341 lcd2;
+        CHECK(lcd2.init(&spi, &nr, rec_sleep), "init sem RST ok");
+        CHECK(nr.resets == 0, "sem RST: nenhum pulso de reset");
+        CHECK(!evs[0].data && evs[0].b == Ili9341::SWRESET, "sem RST: primeiro byte é SWRESET");
+        CHECK(nsleep > 0 && sleep_at[0] == 0 && sleeps[0] >= 120, "≥120 ms antes do SWRESET");
+        g_pins = &pins;
+    }
     // budget < 2 não trava
     {
         lcd.begin_flush(canvas, r);

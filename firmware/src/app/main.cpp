@@ -3,7 +3,7 @@
 // Uso: aracno [--demo stand|walk N|turn N | --policy] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
 //             [--speed S] [--log ARQ] [--hz H] [--max-s S]
 //   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
-//   --spi-loopback [HZ] | --face-demo [HZ] [S]: bancada do display (app/bench.h); não tocam nos servos.
+//   --spi-loopback [HZ] | --face-demo [HZ] [S] [--no-rst]: bancada do display (app/bench.h); não tocam nos servos.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -87,8 +87,9 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--face-demo")) {
             unsigned spi_hz = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 4000000u;
             unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 6u;
+            bool with_rst = !(i + 1 < argc && !std::strcmp(argv[i + 1], "--no-rst") && ++i);
             if (spi_hz == 0 || spi_hz > 16000000u) { std::fprintf(stderr, "SPI Hz fora de 1..16000000 (cabo ≤ 16 MHz, S04)\n"); return 2; }
-            return app::face_demo(spi_hz, sec);
+            return app::face_demo(spi_hz, sec, with_rst);
         }
         else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;

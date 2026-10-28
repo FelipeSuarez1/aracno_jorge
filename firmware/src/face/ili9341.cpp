@@ -19,13 +19,15 @@ bool Ili9341::data(const uint8_t* d, size_t n) {
 
 bool Ili9341::init(hal::SpiIo* spi, CtrlPins* pins, void (*sleep_ms)(uint32_t)) {
     spi_ = spi; pins_ = pins; ok_ = false;
-    // Reset por hardware: RST baixo ≥ 10 µs, depois ≥ 120 ms antes de comandos (§15.4).
-    if (!pins_->reset(true)) return false;
-    sleep_ms(10);
-    if (!pins_->reset(false)) return false;
-    sleep_ms(120);
+    // Reset por hardware se o pino existe: RST baixo ≥ 10 µs, depois ≥ 120 ms (§15.4).
+    if (pins_->has_reset()) {
+        if (!pins_->reset(true)) return false;
+        sleep_ms(10);
+        if (!pins_->reset(false)) return false;
+    }
+    sleep_ms(120);   // com ou sem RST: cobre o power-on reset interno
     if (!cmd(SWRESET)) return false;
-    sleep_ms(5);
+    sleep_ms(120);   // §8.2.2: após SWRESET, 5 ms em sleep-in; 120 ms se o display estava em sleep-out
     // Sequência mínima (sem ajustes de gamma/power da Adafruit: o display sobe com defaults).
     static const uint8_t pixfmt = 0x55;           // 16 bits/pixel RGB565 (§8.2.33)
     static const uint8_t madctl = MADCTL_LANDSCAPE;

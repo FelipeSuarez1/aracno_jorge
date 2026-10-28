@@ -12,6 +12,8 @@ public:
     virtual ~CtrlPins() {}
     virtual bool dc(bool data) = 0;     // true = dados, false = comando
     virtual bool reset(bool low) = 0;   // true = RST em nível baixo
+    // false se RST não está ligado (pull-up da placa Adafruit): init usa só SWRESET.
+    virtual bool has_reset() const { return true; }
 };
 
 // ILI9341 em SPI 4 fios (Adafruit 2,8" #1770, jumpers IM1-3 fechados), 320×240 paisagem,
@@ -27,7 +29,7 @@ public:
     static const size_t STAGE_BYTES = 4096;   // = spidev bufsiz padrão
 
     Ili9341();
-    // Reset por hardware (RST), sequência de init, tela preta. ~130 ms (SLPOUT exige 120 ms).
+    // Reset (RST por hardware se ligado, senão só SWRESET), init, tela preta. ~250 ms.
     bool init(hal::SpiIo* spi, CtrlPins* pins, void (*sleep_ms)(uint32_t));
     bool ok() const { return ok_; }
 

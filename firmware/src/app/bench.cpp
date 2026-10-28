@@ -41,7 +41,7 @@ int spi_loopback(unsigned hz) {
     return bad ? 2 : 0;
 }
 
-int face_demo(unsigned hz, unsigned seconds_per_expr) {
+int face_demo(unsigned hz, unsigned seconds_per_expr, bool with_reset) {
     hal::I2cBus bus;
     if (!bus.open("/dev/i2c-1")) { std::fprintf(stderr, "/dev/i2c-1 falhou\n"); return 1; }
     sense::Pcf8574 pcf;
@@ -53,7 +53,8 @@ int face_demo(unsigned hz, unsigned seconds_per_expr) {
     hal::SpiDev spi;
     if (!open_spi(spi, hz)) return 1;
 
-    face::PcfCtrlPins pins(&pcf);
+    face::PcfCtrlPins pins(&pcf, with_reset);
+    std::printf("ili9341: RST %s\n", with_reset ? "pelo PCF8574 P5" : "não ligado (só SWRESET)");
     face::Ili9341 lcd;
     uint64_t t0 = hal::now_us();
     if (!lcd.init(&spi, &pins, hal::sleep_ms)) { std::fprintf(stderr, "init do ILI9341 falhou\n"); return 1; }

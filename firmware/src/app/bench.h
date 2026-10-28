@@ -10,8 +10,9 @@ namespace aracno { namespace app {
 //
 // --face-demo: PCF8574 em /dev/i2c-1 (0x20; P4 = D/C, P5 = RST), ILI9341 em /dev/spidev1.0;
 //   mostra as 7 expressões com balão, mede e imprime o tempo de quadro inteiro e de
-//   atualização parcial (olhos piscando).
+//   atualização parcial (olhos piscando). with_reset = false: RST do display não ligado
+//   (montagem mínima: CS no GND, RST solto; só D/C vem do PCF8574).
 int spi_loopback(unsigned hz);
-int face_demo(unsigned hz, unsigned seconds_per_expr);
+int face_demo(unsigned hz, unsigned seconds_per_expr, bool with_reset);
 
 }}  // namespace aracno::app
