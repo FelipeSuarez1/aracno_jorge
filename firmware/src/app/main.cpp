@@ -88,6 +88,7 @@ int main(int argc, char** argv) {
         else { std::fprintf(stderr, "argumento desconhecido: %s\n", argv[i]); return 2; }
     }
     if (hz < 10 || hz > 200) hz = 50;
+    if (mode == app::Demo::STAND && max_s == 0) max_s = 30;
     const uint64_t period_us = 1000000u / static_cast<uint64_t>(hz);
 
     std::printf("aracno rev=%s demo=%d ciclos=%d sensores=0x%02x watchdog=%d hz=%d\n",
@@ -152,6 +153,7 @@ int main(int argc, char** argv) {
     const uint64_t t_end = max_s ? last + static_cast<uint64_t>(max_s) * 1000000u : 0;
     uint32_t cycle = 0;
     uint8_t last_reason = safety::RS_OK;
+    bool stood_msg = false;
 
     while (!g_stop) {
         hal::sleep_until_us(next);
@@ -222,7 +224,11 @@ int main(int argc, char** argv) {
             std::fwrite(&r, sizeof r, 1, log);
         }
 
-        if (!use_policy && demo.done(spider) && !spider.busy()) { std::printf("demo concluída\n"); break; }
+        if (!use_policy && demo.done(spider) && !spider.busy()) {
+            if (mode == app::Demo::STAND) {            // fica em pé até --max-s (padrão 30 s) ou Ctrl-C
+                if (!stood_msg) { std::printf("em pé; segurando posicao\n"); stood_msg = true; }
+            } else { std::printf("demo concluída\n"); break; }
+        }
         if (t_end && now_us >= t_end) { std::printf("tempo máximo atingido\n"); break; }
     }
 
