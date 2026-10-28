@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: conversa 2026-10-28 — jumpers não prendem no J17 (box header); decisão de usar o GPIO_0 da FPGA
 depende: [[20-Specs/S03-firmware-base-e-seguranca]], [[20-Specs/S04-display-rosto-balao]]
 ---
@@ -76,3 +76,10 @@ Recompilar o projeto Quartus da Terasic acrescentando, **sem alterar o que já e
 - Boot: U-Boot lê 4 244 820 B, FPGA configura, kernel 3.13 sobe normalmente.
 - `aracno --demo stand --sensors 0x20 --max-s 15` (SMK desligada): STAND completo, **0 timeouts de passo** nos 18 PWM, 750 ciclos, p50 = p99 = 20 000 µs, max 20 007 µs, `exit=0`.
 - Conclusão: o projeto da Terasic recompilado no Quartus 25.1 é equivalente ao de fábrica. Liberada a fase 1.
+
+### 2026-10-28 — fase 1 [PC] + [LAB] do display ✅
+- Compilação fase 1: 0 erros, folga positiva; 262 sinais antigos nos mesmos pinos; novos: GPIO_0[0..9] = V12, AF7, W12, AF8, Y8, AB4, W8, Y4, Y5, U11 e GPIO_1[3]/[4] = AH27/AG26 (= manual). `.rbf` 4 244 820 B, SHA-256 `e4a93b34…`.
+- Revisão `RevisaoS08`: REPROVADO na 1ª rodada (build.sh falhava pelo timestamp do sysid; modelo do SPI não pegava a falta da espera por TMT) — corrigido em `5ebd526`, mutações "sem TMT" e "TRDY no lugar de TMT" agora falham.
+- Na placa (SMK desligada): regressão `stand` com os 18 PWM: 600 ciclos, **0 timeouts**, p99 20 000 µs.
+- `aracno --face-demo 6`: `spi_lcd` presente (status 0x60); init + tela preta 499 ms; **quadro inteiro 131 ms** (~9,3 Mbit/s reais); atualizações parciais (piscar) **4–12 ms**; 1 247 300 bytes, 0 timeouts de SPI. Luiz viu o rosto e aprovou ("gostei").
+- Pendente: confirmar orientação/cores por foto; `--head-demo` (pan/tilt nas portas 3/4) quando a cabeça existir; fase 2 (I2C dos sensores).
