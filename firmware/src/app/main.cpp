@@ -3,6 +3,7 @@
 // Uso: aracno [--demo stand|walk N|turn N | --policy] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
 //             [--speed S] [--log ARQ] [--hz H] [--max-s S]
 //   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
+//   --spi-loopback [HZ] | --face-demo [HZ] [S]: bancada do display (app/bench.h); não tocam nos servos.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -23,6 +24,7 @@
 #include "safety/safety.h"
 #include "app/demo.h"
 #include "brain/policy.h"
+#include "app/bench.h"
 
 #ifndef ARACNO_GIT_REV
 #define ARACNO_GIT_REV "unknown"
@@ -77,6 +79,17 @@ int main(int argc, char** argv) {
             else if (!std::strcmp(m, "walk")) { mode = app::Demo::WALK; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
             else if (!std::strcmp(m, "turn")) { mode = app::Demo::TURN; cycles = (i + 1 < argc) ? std::atoi(argv[++i]) : 1; }
         } else if (!std::strcmp(argv[i], "--policy")) { use_policy = true; mode = app::Demo::STAND; }
+        else if (!std::strcmp(argv[i], "--spi-loopback")) {
+            unsigned spi_hz = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 1000000u;
+            if (spi_hz == 0 || spi_hz > 16000000u) { std::fprintf(stderr, "SPI Hz fora de 1..16000000\n"); return 2; }
+            return app::spi_loopback(spi_hz);
+        }
+        else if (!std::strcmp(argv[i], "--face-demo")) {
+            unsigned spi_hz = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 4000000u;
+            unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 6u;
+            if (spi_hz == 0 || spi_hz > 16000000u) { std::fprintf(stderr, "SPI Hz fora de 1..16000000 (cabo ≤ 16 MHz, S04)\n"); return 2; }
+            return app::face_demo(spi_hz, sec);
+        }
         else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;
         else if (!std::strcmp(argv[i], "--no-watchdog")) use_wd = false;
