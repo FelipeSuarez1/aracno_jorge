@@ -22,14 +22,15 @@ Pan/tilt (S06), escolha do humor pela política (S05). Áudio (ADR-002).
 Touch (uso futuro, fora dos critérios desta spec): estímulo tátil para o humor (toque longo acalma, toque curto assusta) e "acordar/dormir". Alternativas no lab: GC9A01 redondo 1,28" (bom como olho extra, ruim para texto), ST7789 1,3" (reserva).
 
 ## Montagem de bancada (2026-10-28): meia protoboard colada no acrílico, 6 fios no J17
+Um fio por linha do J17 (jumpers Dupont não cabem lado a lado na capa do conector):
 | J17 (orientação em [[40-Fontes/hardware]]) | Sinal | Protoboard |
 |---|---|---|
-| pino 10 (linha 3 esq.) | 3,3 V | trilho + → display `Vin`, PCF `VCC` |
-| pino 12 (linha 2 esq.) | GND | trilho − → display `GND` e `CS`, PCF `GND`, `A0–A2` |
-| pino 4 (linha 6 esq.) | SCK | display `CLK` |
-| pino 7 (linha 4 dir.) | MOSI | display `MOSI` |
-| pino 9 (linha 3 dir.) | I2C1 SDA | PCF `SDA` |
+| pino 13 (linha 1 dir.) | GND | trilho − → display `GND` e `CS`, PCF `GND`, `A0–A2` |
 | pino 11 (linha 2 dir.) | I2C1 SCL | PCF `SCL` |
+| pino 9 (linha 3 dir.) | I2C1 SDA | PCF `SDA` |
+| pino 7 (linha 4 dir.) | MOSI | display `MOSI` |
+| pino 4 (linha 6 esq.) | SCK | display `CLK` |
+| pino 2 (linha 7 esq.) | 3,3 V | trilho + → display `Vin`, PCF `VCC` (⚠ ao lado do pino 1 = 9 V, que fica vazio) |
 PCF `P4` → display `D/C`; display `RST` solto (pull-up da Adafruit; só SWRESET). Rodar `aracno --face-demo 4000000 6 --no-rst`. Pino 1 (9 V) nunca usado.
 
 ## Design
