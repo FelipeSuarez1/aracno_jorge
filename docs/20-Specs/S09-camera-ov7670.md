@@ -75,5 +75,13 @@ Captura: ARM → espera a borda de subida de VSYNC → grava as linhas seguintes
 4. [LAB] troca do `.rbf`, regressão, `--cam-id`, `--cam-demo`.
 5. Fase 2 em spec própria ou adendo, após a fase 1 funcionar.
 
+## Pendente para a próxima recompilação do RTL (sugestões da RevisaoS09, não bloqueiam)
+- Saturar `byte_in_line` em 0xFFFF (HREF preso em 1 não dá a volta e não escreve fora do quadro).
+- Prioridade do ARM sobre a borda de VSYNC que encerra uma captura (evita DONE=1 com armed=1).
+- Decodificação estrita dos registradores (0 para palavras 6..0x1FFF).
+- SDC: `create_clock -period 20` no FPGA_CLK1_50 e `set_false_path` nas entradas da câmera (hoje o design todo está sem restrição de tempo, herdado da Terasic).
+- Opcional: ARM durante captura vale para o quadro seguinte (dobra o fps do demo sem mudar CLKRC).
+
 ## Evidência
-(preencher)
+- 2026-10-28 [PC]: `fpga/cam/sim.sh` TB OK nas 3 velocidades de PCLK; mutações (ordem de bytes, fase, realinhamento, pular par de bytes) detectadas. `make -C firmware test` verde (sccb, ov7670, qsys com 29 endereços + resets + span). Build do zero (`fpga/build.sh`): pinos da S08 inalterados, quadro em 4 M10K, `.rbf` SHA-256 `f19da863…`.
+- Revisão RevisaoS09: REPROVADO na 1ª rodada (CLKRC → fps < 5; testbench só síncrono) → corrigido em `df364a4`.
