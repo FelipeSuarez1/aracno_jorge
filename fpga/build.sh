@@ -1,5 +1,5 @@
 #!/bin/bash
-# Reconstrói o soc_system.rbf da S08 a partir do projeto original da Terasic (docs/40-Fontes/spider-cd)
+# Reconstrói o soc_system.rbf (S08 + S09) a partir do projeto original da Terasic (docs/40-Fontes/spider-cd)
 # + os arquivos deste diretório. Quartus Prime Lite 25.1std (QUARTUS_ROOTDIR ou ~/altera_lite/25.1std/quartus).
 # Uso: fpga/build.sh [dir_de_trabalho]   (padrão ~/dev/aracno_fpga_work/build; ~15 min)
 # Saída: <dir>/soc_system.rbf (copiar para a partição 1 do microSD) e <dir>/hps_0.h (igual a fpga/hps_0.h exceto o
@@ -16,10 +16,13 @@ fi
 rm -rf "$W" && mkdir -p "$W" && touch "$W/.aracno_fpga_build"
 cp -r "$REPO/docs/40-Fontes/spider-cd/DE0_NANO_SOC_SPIDER/." "$W/"
 cp "$REPO/fpga/DE0_Nano_SoC_golden_top.v" "$REPO/fpga/DE0_Nano_SoC_golden_top.qsf" "$W/"
+mkdir -p "$W/ip/cam" && cp "$REPO/fpga/cam/cam_capture.v" "$REPO/fpga/cam/cam_capture_hw.tcl" "$W/ip/cam/"
 cd "$W"
-qsys-script --system-file=soc_system.qsys --script="$REPO/fpga/s08_add_components.tcl" --search-path='$,.,ip/spider'
+SP='$,.,ip/spider,ip/cam'
+qsys-script --system-file=soc_system.qsys --script="$REPO/fpga/s08_add_components.tcl" --search-path="$SP"
+qsys-script --system-file=soc_system.qsys --script="$REPO/fpga/s09_add_camera.tcl" --search-path="$SP"
 qsys-generate soc_system.qsys --synthesis=VERILOG --output-directory=soc_system --family="Cyclone V" \
-    --part=5CSEMA4U23C6 --search-path='$,.,ip/spider'
+    --part=5CSEMA4U23C6 --search-path="$SP"
 quartus_sh --flow compile DE0_Nano_SoC_golden_top
 quartus_cpf -c DE0_Nano_SoC_golden_top.sof soc_system.rbf     # sem compressão, como o sof_to_rbf.bat da Terasic
 sopc-create-header-files soc_system.sopcinfo --single hps_0.h --module hps_0

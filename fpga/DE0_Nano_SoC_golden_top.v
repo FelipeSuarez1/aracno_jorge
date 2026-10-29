@@ -164,6 +164,20 @@ assign  GPIO_0[6]  = pio_lcd_out[2]; // JP1 pino 7: XSHUT ToF frontal
 assign  GPIO_0[7]  = pio_lcd_out[3]; // JP1 pino 8: XSHUT ToF chão
 // GPIO_0[5] (pino 6) = MISO, GPIO_0[8] (pino 9) = PIR, GPIO_0[9] (pino 10) = botão: entradas (alta impedância)
 
+// ---------------------------------------------------------------------------------------------
+// S09 (aracno_jorge): câmera OV7670 no JP1 pinos 13–28. Ver docs/20-Specs/S09-camera-ov7670.md.
+//   pino 13 GPIO_0[10] SIOC · 14 [11] SIOD   (SCCB open-drain: o PIO só puxa para 0; pull-up 4,7 kΩ)
+//   pino 15 [12] VSYNC · 16 [13] HREF · 17 [14] PCLK · 18 [15] XCLK
+//   pinos 19–26 [16..23] D0..D7 · 27 [24] RESET_N · 28 [25] PWDN
+wire [3:0] pio_cam_out;            // bit0 SIOC_LOW, bit1 SIOD_LOW, bit2 RESET_N, bit3 PWDN
+reg  [1:0] xclk_div;
+always @(posedge FPGA_CLK1_50) xclk_div <= xclk_div + 2'd1;
+assign  GPIO_0[15] = xclk_div[1];                    // XCLK = 50 MHz / 4 = 12,5 MHz
+assign  GPIO_0[10] = pio_cam_out[0] ? 1'b0 : 1'bz;   // SIOC
+assign  GPIO_0[11] = pio_cam_out[1] ? 1'b0 : 1'bz;   // SIOD
+assign  GPIO_0[24] = pio_cam_out[2];                 // RESET_N
+assign  GPIO_0[25] = pio_cam_out[3];                 // PWDN
+
 
 //=======================================================
 //  Structural coding
@@ -278,7 +292,14 @@ assign  GPIO_0[7]  = pio_lcd_out[3]; // JP1 pino 8: XSHUT ToF chão
         .spi_lcd_external_MISO               (GPIO_0[5]),
         .spi_lcd_external_MOSI               (lcd_mosi),
         .spi_lcd_external_SCLK               (lcd_sclk),
-        .spi_lcd_external_SS_n               (lcd_ss_n)
+        .spi_lcd_external_SS_n               (lcd_ss_n),
+        // S09
+        .pio_cam_external_connection_export     (pio_cam_out),
+        .pio_cam_in_external_connection_export  ({GPIO_0[13], GPIO_0[12], GPIO_0[10], GPIO_0[11]}), // HREF VSYNC SIOC SIOD
+        .cam_capture_cam_pclk                   (GPIO_0[14]),
+        .cam_capture_cam_href                   (GPIO_0[13]),
+        .cam_capture_cam_vsync                  (GPIO_0[12]),
+        .cam_capture_cam_d                      (GPIO_0[23:16])
 
 	);
 
