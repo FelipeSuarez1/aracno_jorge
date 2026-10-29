@@ -3,7 +3,8 @@
 // Y(x,y) = (x + 3*y) & 0xFF. Confere pixel a pixel, registradores, fase, linha curta, overflow.
 module tb_cam_capture;
     // Meio período do PCLK em ns. sim.sh roda 80 (alinhado ao clock), 320.3 e 81.7 (assíncronos;
-    // ~1,56 MHz e ~6,1 MHz). D e HREF mudam 5 ns depois da descida de PCLK, como na OV7670.
+    // ~1,56 MHz e ~6,1 MHz). D muda 5 ns depois da descida de PCLK (como na OV7670); HREF/VSYNC mudam
+    // na descida. A assincronia vem das rodadas 320.3 e 81.7 (as bordas escorregam sobre o clock).
     parameter real HALF = 80.0;
     reg clk = 0, reset_n = 0;
     always #10 clk = ~clk;                       // 50 MHz
@@ -77,7 +78,6 @@ module tb_cam_capture;
 
     initial begin
         #100 reset_n = 1;
-        #13.7;                                    // desalinha a câmera do clock de 50 MHz
         av_read(14'd5, v); check(v == 32'h43414D31, "ID = CAM1");
         av_read(14'd1, v); check(v == 0, "STATUS ocioso = 0");
 

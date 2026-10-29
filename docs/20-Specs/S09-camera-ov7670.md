@@ -21,7 +21,7 @@ Rede neural de detecção de pessoa (fase 3, se a fase 2 não bastar). Cor (a fa
 ## Design
 ### FPGA (componente novo `cam_capture`, Verilog próprio + `_hw.tcl`, no Platform Designer em 0x10000, span 64 KiB)
 - **XCLK**: 50 MHz / 4 = 12,5 MHz, gerado no topo (contador), saída GPIO_0[15]. Com `CLKRC` = 0x00 (÷1) e o divisor de QQVGA, PCLK ≈ 3,1 MHz (16 amostras por período).
-- **Captura**: VSYNC, HREF, PCLK e D[7:0] sincronizados no domínio de 50 MHz (2 flip-flops); borda de subida de PCLK detectada por amostragem (8 amostras por período de PCLK). Formato YUV422: guarda só os bytes Y (um sim, um não). Ao "armar", espera o início do quadro (VSYNC), grava 160×120 bytes numa RAM M10K de porta dupla e levanta `done`.
+- **Captura**: VSYNC, HREF, PCLK e D[7:0] sincronizados no domínio de 50 MHz (2 flip-flops); borda de subida de PCLK detectada por amostragem (16 amostras por período de PCLK com CLKRC = 0x00). Formato YUV422: guarda só os bytes Y (um sim, um não). Ao "armar", espera o início do quadro (VSYNC), grava 160×120 bytes numa RAM M10K de porta dupla e levanta `done`.
 - **Registradores** (Avalon-MM, 32 bits): ver a seção "Contrato" (CTRL, STATUS, FRAMES, LINES, BYTES_PER_LINE, ID; quadro a partir da **palavra 0x2000 = byte 0x8000**).
 - **SCCB e controle**: `pio_cam` (saída) bit0 SIOC puxa para 0, bit1 SIOD puxa para 0 (open-drain: 1 = drena, 0 = solta), bit2 RESET_n, bit3 PWDN; `pio_cam_in` (entrada) bit0 SIOD lido. Pull-ups 4,7 kΩ na protoboard.
 
@@ -80,8 +80,9 @@ Captura: ARM → espera a borda de subida de VSYNC → grava as linhas seguintes
 - Prioridade do ARM sobre a borda de VSYNC que encerra uma captura (evita DONE=1 com armed=1).
 - Decodificação estrita dos registradores (0 para palavras 6..0x1FFF).
 - SDC: `create_clock -period 20` no FPGA_CLK1_50 e `set_false_path` nas entradas da câmera (hoje o design todo está sem restrição de tempo, herdado da Terasic).
+- Comentário do cabeçalho de `cam_capture.v` ainda fala em CLKRC ÷2 / 8 amostras.
 - Opcional: ARM durante captura vale para o quadro seguinte (dobra o fps do demo sem mudar CLKRC).
 
 ## Evidência
-- 2026-10-28 [PC]: `fpga/cam/sim.sh` TB OK nas 3 velocidades de PCLK; mutações (ordem de bytes, fase, realinhamento, pular par de bytes) detectadas. `make -C firmware test` verde (sccb, ov7670, qsys com 29 endereços + resets + span). Build do zero (`fpga/build.sh`): pinos da S08 inalterados, quadro em 4 M10K, `.rbf` SHA-256 `f19da863…`.
-- Revisão RevisaoS09: REPROVADO na 1ª rodada (CLKRC → fps < 5; testbench só síncrono) → corrigido em `df364a4`.
+- 2026-10-29 [PC]: `fpga/cam/sim.sh` TB OK nas 3 velocidades de PCLK; mutações (ordem de bytes, fase, realinhamento, pular par de bytes) detectadas. `make -C firmware test` verde (sccb, ov7670, qsys com 29 endereços + resets + span). Build do zero (`fpga/build.sh`): pinos da S08 inalterados, quadro em 4 M10K, `.rbf` SHA-256 `f19da863…`.
+- Revisão RevisaoS09: REPROVADO na 1ª rodada (CLKRC → fps < 5; testbench só síncrono) → corrigido em `df364a4`; rechecagem: **APROVADO**.
