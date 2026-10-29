@@ -17,7 +17,7 @@ Fluxo: Luiz procura no lab → manda nome/foto → IA diz onde ligar e o que hab
 ## Procurar — 1. necessário (sem isso a IA não vê o mundo)
 | Item | Para quê | Substituto |
 |---|---|---|
-| VL53L0X/VL53L1X ×2 | obstáculo à frente e borda de mesa | HC-SR04 (FPGA mede o eco) |
+| ~~VL53L0X/VL53L1X ×2~~ → **HC-SR04 ×2 (escolhido, 2026-10-28)** | obstáculo à frente e borda de mesa | — |
 | BH1750 ×2 | achar o escuro | LDR + resistor no ADC |
 | PIR HC-SR501 | presença | (câmera ajuda) |
 | Botão NF | parada por software | botão comum |
@@ -39,3 +39,7 @@ Fluxo: Luiz procura no lab → manda nome/foto → IA diz onde ligar e o que hab
 Placa perfurada · cabo flat IDC 2x20 · espaçadores M3 · multímetro · osciloscópio · pinça amperimétrica DC · balança 1 g · luxímetro (ou app).
 
 **Não precisa mais:** PCF8574 e PCA9685 (a FPGA faz o papel deles).
+
+## Notas de ligação
+- **HC-SR04** (escolhido): alimentação **5 V** (JP1 pino 11) e GND; `Trig` aceita 3,3 V da FPGA; **`Echo` devolve 5 V → divisor obrigatório** antes da FPGA (ex.: 1 kΩ em série + 2 kΩ ao GND → ~3,3 V). A FPGA mede a largura do eco (resolução de µs). Pinos sugeridos: JP1 31–34 (GPIO_0[26..29]). Spec quando os sensores entrarem.
+
