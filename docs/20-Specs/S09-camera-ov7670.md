@@ -1,6 +1,6 @@
 ---
-status: rascunho
-origem: [[00-Inbox/camera-ov7670-e-ble]]; depende do aceite de [[00-Inbox/proposta-ADR-010-camera-na-fpga]]
+status: aprovada
+origem: [[00-Inbox/camera-ov7670-e-ble]]; depende do aceite de [[10-Decisoes/ADR-010-camera-na-fpga]]
 depende: [[20-Specs/S08-fpga-gpio0-display-cabeca]]
 ---
 # S09 — Câmera OV7670 na FPGA: captura, configuração e "o que ela vê" no display
@@ -30,6 +30,29 @@ Rede neural de detecção de pessoa (fase 3, se a fase 2 não bastar). Cor (a fa
 - `cam/ov7670`: reset, leitura de PID/VER, lista de init (QQVGA, YUV422, CLKRC) transcrita da referência com citação; `capture(buf, timeout)`.
 - `--cam-demo`: mostra o quadro no display (Y → cinza RGB565, ampliado 2× para 320×240), FPS no console.
 - Fase 2: `vision/motion`: diferença entre quadros, limiar, centroide → novos campos na `Obs` (mudança de contrato, S05 retreina).
+
+## Contrato FPGA ↔ firmware (fixado 2026-10-28; fonte final: fpga/hps_0.h)
+| Componente | Base LW | Span |
+|---|---|---|
+| `cam_capture` | **0x10000** | 0x10000 (64 KiB) |
+| `pio_cam` (saída, 4 bits, reset 0) | **0x01C0** | 16 |
+| `pio_cam_in` (entrada, 4 bits) | **0x01D0** | 16 |
+
+`pio_cam` (saída): bit0 **SIOC_LOW** (1 = puxa SIOC para 0, 0 = solta → pull-up), bit1 **SIOD_LOW** (idem), bit2 **RESET_N** (0 = câmera em reset), bit3 **PWDN** (1 = desligada). Reset = 0 → câmera em reset até o firmware soltar.
+`pio_cam_in` (entrada): bit0 **SIOD** (nível no pino), bit1 SIOC, bit2 VSYNC, bit3 HREF.
+
+`cam_capture`, registradores de 32 bits (índice de palavra = offset/4):
+| Palavra | Nome | Acesso | Conteúdo |
+|---|---|---|---|
+| 0 | CTRL | L/E | bit0 ARM (escrever 1 arma; volta a 0 sozinho), bit1 PHASE (0 = guarda bytes 0,2,4… da linha; 1 = guarda 1,3,5…) |
+| 1 | STATUS | L | bit0 DONE (quadro gravado), bit1 BUSY (armado/capturando), bit2 OVERFLOW (linha > 320 bytes ou > 120 linhas: truncado) |
+| 2 | FRAMES | L | bordas de subida de VSYNC desde o reset (câmera viva = contando) |
+| 3 | LINES | L | linhas com HREF no último quadro capturado |
+| 4 | BYTES_PER_LINE | L | bytes na última linha do último quadro (antes de descartar a fase) |
+| 5 | ID | L | 0x43414D31 ("CAM1") |
+| 0x2000… | FRAME | L | quadro Y 160×120: pixel p na palavra 0x2000 + p/4, byte p%4 (little-endian) |
+
+Captura: ARM → espera a borda de subida de VSYNC → grava as linhas seguintes (HREF alto; um byte por borda de subida de PCLK; guarda os bytes da fase escolhida, até 160 por linha e 120 linhas) → na próxima borda de subida de VSYNC levanta DONE.
 
 ## Critérios de aceite
 - [PC] `cam_capture` simulado com um testbench (fluxo sintético VSYNC/HREF/PCLK/D): quadro gravado bate com o gerado; HREF curto/longo e PCLK lento/rápido. (Simulador: Questa FSE se licenciado, senão Icarus Verilog — `[A VERIFICAR]`.)

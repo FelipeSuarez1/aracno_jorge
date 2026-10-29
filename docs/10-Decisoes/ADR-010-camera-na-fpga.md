@@ -1,6 +1,6 @@
 ---
-status: proposta
-data: 2026-10-28
+status: aceita
+data: 2026-10-28 (aceita pelo Luiz na conversa: "gostei de tudo... faça a câmera funcionar")
 decide: Luiz, Felipe (com o professor)
 substitui: parte de [[10-Decisoes/ADR-003-sem-camera-sem-geolocalizacao]]
 ---
