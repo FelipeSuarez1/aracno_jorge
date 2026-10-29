@@ -2,6 +2,9 @@
 // Testbench do cam_capture: câmera sintética em YUV422 (Y na fase 0, U/V = 0x80 na fase 1),
 // Y(x,y) = (x + 3*y) & 0xFF. Confere pixel a pixel, registradores, fase, linha curta, overflow.
 module tb_cam_capture;
+    // Meio período do PCLK em ns. sim.sh roda 80 (alinhado ao clock), 320.3 e 81.7 (assíncronos;
+    // ~1,56 MHz e ~6,1 MHz). D e HREF mudam 5 ns depois da descida de PCLK, como na OV7670.
+    parameter real HALF = 80.0;
     reg clk = 0, reset_n = 0;
     always #10 clk = ~clk;                       // 50 MHz
 
@@ -30,9 +33,9 @@ module tb_cam_capture;
         begin @(posedge clk); address <= a; read <= 1; @(posedge clk); read <= 0; #1 v = readdata; end
     endtask
 
-    // ---- câmera sintética: PCLK 6,25 MHz (período 160 ns); D muda na descida -----------------
+    // ---- câmera sintética: D muda 5 ns após a descida, amostrado na subida ---------------------
     task pclk_cycle(input [7:0] val);
-        begin #40 pclk = 0; d = val; #40; #40 pclk = 1; #40; end
+        begin pclk = 0; #5 d = val; #(HALF - 5.0) pclk = 1; #(HALF); end
     endtask
     task blank(input integer n);
         integer i; begin for (i = 0; i < n; i = i + 1) pclk_cycle(8'h00); end
@@ -44,8 +47,8 @@ module tb_cam_capture;
             vsync = 1; blank(20); vsync = 0; blank(20);
             for (y = 0; y < lines; y = y + 1) begin
                 href = 1;
-                for (b = 0; b < bytes; b = b + 1)
-                    pclk_cycle(b[0] ? 8'h80 : ((b / 2) + 3 * y) & 8'hFF);
+                for (b = 0; b < bytes; b = b + 1)          // Y nos pares; U/V = 0x80 ^ (b/2) nos ímpares
+                    pclk_cycle(b[0] ? (8'h80 ^ ((b / 2) & 8'hFF)) : ((b / 2) + 3 * y) & 8'hFF);
                 href = 0;
                 blank(10);
             end
@@ -66,7 +69,7 @@ module tb_cam_capture;
                 begin
                     timeout = 0;
                     v = 0;
-                    while (!(v & 1) && timeout < 2000000) begin av_read(14'd1, v); timeout = timeout + 1; end
+                    while (!(v & 1) && timeout < 5000000) begin av_read(14'd1, v); timeout = timeout + 1; end
                 end
             join
         end
@@ -74,6 +77,7 @@ module tb_cam_capture;
 
     initial begin
         #100 reset_n = 1;
+        #13.7;                                    // desalinha a câmera do clock de 50 MHz
         av_read(14'd5, v); check(v == 32'h43414D31, "ID = CAM1");
         av_read(14'd1, v); check(v == 0, "STATUS ocioso = 0");
 
@@ -98,10 +102,11 @@ module tb_cam_capture;
                 end
             end
 
-        // ---- 2. fase 1 (U/V) → todos 0x80 ----
+        // ---- 2. fase 1 (U/V): pixel x guarda 0x80 ^ x — pega deslocamento de par de bytes ----
         capture(1, 120, 320);
-        av_read(14'h2000, v);   check(v == 32'h80808080, "fase 1: primeira palavra = U/V 0x80");
-        av_read(14'h2000 + 4799, v); check(v == 32'h80808080, "fase 1: última palavra = U/V 0x80");
+        av_read(14'h2000, v);   check(v == 32'h83828180, "fase 1: primeira palavra = 80 81 82 83");
+        av_read(14'h2000 + 4799, v);
+        check(v == {8'h80 ^ 8'd159, 8'h80 ^ 8'd158, 8'h80 ^ 8'd157, 8'h80 ^ 8'd156}, "fase 1: última palavra (x=156..159)");
         av_read(14'd0, v); check(v[1] == 1, "CTRL lê PHASE = 1");
 
         // ---- 3. linha curta (300 bytes): BPL = 300, linha seguinte começa alinhada ----
@@ -117,7 +122,7 @@ module tb_cam_capture;
         av_read(14'h2000 + (119 * 160 + 156) / 4, v);
         check(v[31:24] == ((159 + 3 * 119) & 8'hFF), "último pixel (159,119) correto mesmo com overflow");
 
-        if (errors == 0) $display("TB OK: cam_capture — quadro 160x120 pixel a pixel, fase, linha curta, overflow");
+        if (errors == 0) $display("TB OK (HALF=%0.1f ns): cam_capture — quadro 160x120 pixel a pixel, fase, linha curta, overflow", HALF);
         else $display("TB FALHOU: %0d erros", errors);
         $finish;
     end

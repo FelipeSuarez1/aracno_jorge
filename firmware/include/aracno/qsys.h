@@ -23,6 +23,8 @@ static const uint32_t SPI_LCD_BASE  = 0x1A0;   // S08: altera_avalon_spi, master
 static const uint32_t CAM_CAPTURE_BASE = 0x10000; // cam_capture: registradores + quadro (span 64 KiB)
 static const uint32_t PIO_CAM_BASE    = 0x1C0;    // saída, 4 bits, reset 0 (câmera em reset)
 static const uint32_t PIO_CAM_IN_BASE = 0x1D0;    // entrada, 4 bits
+static const uint32_t PIO_CAM_RESET_VALUE = 0;    // câmera em reset até o firmware soltar
+static const uint32_t CAM_CAPTURE_SPAN = 0x10000;  // 64 KiB: registradores + quadro a partir da palavra 0x2000
 // pio_cam (saída), índice do bit. *_LOW: 1 = drena o pino a 0, 0 = solta (pull-up 4,7 kΩ sobe).
 static const int PIO_CAM_BIT_SIOC_LOW = 0;
 static const int PIO_CAM_BIT_SIOD_LOW = 1;

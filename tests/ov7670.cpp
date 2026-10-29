@@ -111,13 +111,14 @@ int main() {
         CHECK(c.init_qqvga_yuv(), "init completo");
         CHECK(c.pid() == 0x76 && c.ver() == 0x73, "PID/VER lidos");
         CHECK(f.nw > 100 && f.wlog[0].reg == 0x12 && f.wlog[0].val == 0x80, "primeira escrita: COM7 = reset");
-        CHECK(f.wlog[f.nw - 1].reg == 0x11 && f.wlog[f.nw - 1].val == 0x01, "última escrita: CLKRC = 0x01 (÷2)");
+        CHECK(f.stray_writes == 0, "init não escreve fora de pio_cam/cam_capture (nada de PWM)");
+        CHECK(f.wlog[f.nw - 1].reg == 0x11 && f.wlog[f.nw - 1].val == 0x00, "última escrita: CLKRC = 0x00 (÷1, XCLK direto no prescaler)");
         struct { uint8_t reg, val; const char* nome; } want[] = {
             {0x12, 0x00, "COM7 YUV"}, {0x40, 0xC0, "COM15 00..FF"}, {0x3A, 0x04, "TSLB"}, {0x15, 0x00, "COM10"},
             {0x0C, 0x04, "COM3 DCW"}, {0x3E, 0x1A, "COM14 PCLK÷4"}, {0x72, 0x22, "DCWCTR 1:4"},
             {0x73, 0xF2, "PCLK_DIV ÷4"}, {0x70, 0xA0, "XSC (bit7 preservado)"}, {0x71, 0x20, "YSC"},
             {0x17, 0x17, "HSTART"}, {0x18, 0x05, "HSTOP"}, {0x32, 0x92, "HREF"}, {0x19, 0x02, "VSTART"},
-            {0x1A, 0x7A, "VSTOP"}, {0x03, 0x0F, "VREF"}, {0xA2, 0x02, "PCLK_DELAY"}, {0x11, 0x01, "CLKRC"},
+            {0x1A, 0x7A, "VSTOP"}, {0x03, 0x0F, "VREF"}, {0xA2, 0x02, "PCLK_DELAY"}, {0x11, 0x00, "CLKRC"},
             {0x13, 0xE5, "COM8 AGC/AEC"}, {0x10, 0x00, "AECH (COM2_SSLEEP da referência)"},
         };
         for (unsigned i = 0; i < sizeof want / sizeof want[0]; ++i) {

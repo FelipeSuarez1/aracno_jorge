@@ -28,6 +28,7 @@ struct FakeCamState {
     mutable uint32_t frame_reads;
     // contadores gerais
     unsigned writes_total;
+    unsigned stray_writes;
 };
 
 struct FakeCamFpga : public aracno::hal::RegIo, public FakeCamState {
@@ -119,6 +120,7 @@ struct FakeCamFpga : public aracno::hal::RegIo, public FakeCamState {
         ++writes_total;
         if (base == aracno::qsys::PIO_CAM_BASE && idx == 0) pio_write(v);
         else if (base == aracno::qsys::CAM_CAPTURE_BASE && idx == 0) { ctrl_last = v; ++ctrl_writes; }
+        else ++stray_writes;   // qualquer outro endereço (PWM, display...) — a câmera nunca deve escrever lá
     }
     virtual uint32_t read32(uint32_t base, uint32_t idx) const {
         using namespace aracno::qsys;

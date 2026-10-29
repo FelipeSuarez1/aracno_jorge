@@ -187,7 +187,7 @@ int cam_demo(unsigned seconds, int phase) {
                      hal::Sccb::error_name(cam.sccb().last_error()));
         return 2;
     }
-    std::printf("ov7670: QQVGA YUV, CLKRC ÷2, fase %d, init em %llu ms\n", cam.phase(),
+    std::printf("ov7670: QQVGA YUV, CLKRC ÷1, fase %d, init em %llu ms\n", cam.phase(),
                 static_cast<unsigned long long>((hal::now_us() - t0) / 1000u));
 
     static uint8_t y[cam::Ov7670::FRAME_PIXELS];
@@ -196,8 +196,9 @@ int cam_demo(unsigned seconds, int phase) {
     face::Sprite spr; spr.x = 0; spr.y = 0; spr.w = face::CANVAS_W; spr.h = face::CANVAS_H; spr.px = rgb;
     face::Rect full; full.x = 0; full.y = 0; full.w = face::CANVAS_W; full.h = face::CANVAS_H;
 
-    // Laço em pipeline: rearma logo depois de ler o quadro, e a FPGA grava o próximo enquanto o ARM
-    // converte e envia este ao display.
+    // Laço em pipeline: rearma logo depois de ler o quadro. O ARM só vale a partir da próxima borda de
+    // VSYNC, então a FPGA grava o quadro SEGUINTE ao que está em curso (um em cada dois quadros da câmera)
+    // enquanto o ARM converte e envia este ao display.
     unsigned shown = 0, timeouts = 0, overflows = 0;
     const uint32_t start = hal::now_ms(), end = start + seconds * 1000u;
     cam.arm();

@@ -47,6 +47,16 @@ int main() {
     CHECK(base_of("PIO_CAM") == static_cast<long>(qsys::PIO_CAM_BASE), "PIO_CAM (S09)");
     CHECK(base_of("PIO_CAM_IN") == static_cast<long>(qsys::PIO_CAM_IN_BASE), "PIO_CAM_IN (S09)");
     {
+        struct { const char* key; long want; const char* msg; } extra[] = {
+            {"#define PIO_CAM_RESET_VALUE ", static_cast<long>(qsys::PIO_CAM_RESET_VALUE), "PIO_CAM_RESET_VALUE (S09)"},
+            {"#define CAM_CAPTURE_SPAN ", static_cast<long>(qsys::CAM_CAPTURE_SPAN), "CAM_CAPTURE_SPAN (S09)"},
+        };
+        for (unsigned i = 0; i < 2; ++i) {
+            const char* q = std::strstr(text, extra[i].key);
+            CHECK(q && std::strtol(q + std::strlen(extra[i].key), 0, 0) == extra[i].want, extra[i].msg);
+        }
+    }
+    {
         const char* k = "#define PIO_LCD_RESET_VALUE ";
         const char* p = std::strstr(text, k);
         CHECK(p && std::strtol(p + std::strlen(k), 0, 0) == static_cast<long>(qsys::PIO_LCD_RESET_VALUE), "PIO_LCD_RESET_VALUE");

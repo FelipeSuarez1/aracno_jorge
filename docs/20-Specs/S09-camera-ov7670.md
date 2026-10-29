@@ -19,8 +19,8 @@ Rede neural de detecção de pessoa (fase 3, se a fase 2 não bastar). Cor (a fa
 - Ponte LW: janela de 2 MiB; leitura 32 bits por acesso.
 
 ## Design
-### FPGA (componente novo `cam_capture`, Verilog próprio + `_hw.tcl`, no Platform Designer em 0x10000, span 32 KiB)
-- **XCLK**: 50 MHz / 4 = 12,5 MHz, gerado no topo (contador), saída GPIO_0[15]. Com `CLKRC` da câmera dividindo por 2, PCLK ≈ 6,25 MHz.
+### FPGA (componente novo `cam_capture`, Verilog próprio + `_hw.tcl`, no Platform Designer em 0x10000, span 64 KiB)
+- **XCLK**: 50 MHz / 4 = 12,5 MHz, gerado no topo (contador), saída GPIO_0[15]. Com `CLKRC` = 0x00 (÷1) e o divisor de QQVGA, PCLK ≈ 3,1 MHz (16 amostras por período).
 - **Captura**: VSYNC, HREF, PCLK e D[7:0] sincronizados no domínio de 50 MHz (2 flip-flops); borda de subida de PCLK detectada por amostragem (8 amostras por período de PCLK). Formato YUV422: guarda só os bytes Y (um sim, um não). Ao "armar", espera o início do quadro (VSYNC), grava 160×120 bytes numa RAM M10K de porta dupla e levanta `done`.
 - **Registradores** (Avalon-MM, 32 bits): ver a seção "Contrato" (CTRL, STATUS, FRAMES, LINES, BYTES_PER_LINE, ID; quadro a partir da **palavra 0x2000 = byte 0x8000**).
 - **SCCB e controle**: `pio_cam` (saída) bit0 SIOC puxa para 0, bit1 SIOD puxa para 0 (open-drain: 1 = drena, 0 = solta), bit2 RESET_n, bit3 PWDN; `pio_cam_in` (entrada) bit0 SIOD lido. Pull-ups 4,7 kΩ na protoboard.

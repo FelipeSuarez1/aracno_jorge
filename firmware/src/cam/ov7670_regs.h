@@ -154,11 +154,13 @@ static const RegVal QQVGA_WINDOW[] = {
 };
 
 // ARACNO: CLKRC (reg 0x11; [PICO] ov7670.h: CLK_EXT 0x40 "Use ext clock directly", CLK_SCALE 0x3F "Int clock
-// prescale mask"): bit6 = 0 usa o prescaler, F_interno = XCLK / (bits[5:0] + 1) [INFERÊNCIA: fórmula do datasheet,
-// não conferida no PDF neste commit].
-// XCLK = 12,5 MHz (FPGA, 50 MHz / 4) ÷ 2 → 6,25 MHz interno; em QQVGA COM14/SCALING_PCLK_DIV dividem o PCLK
-// por mais 4 → PCLK ≈ 1,56 MHz, folgado para a amostragem a 50 MHz do cam_capture (limite ~6,25 MHz).
-// Quadros/s ≈ 30 × 6,25 / 24 ≈ 7,8 [INFERÊNCIA: 30 fps em VGA com relógio interno de 24 MHz; medir no LAB].
-static const uint8_t CLKRC_VALUE = 0x01;
+// prescale mask"): bit6 = 0 usa o prescaler, F_interno = XCLK / (bits[5:0] + 1) (datasheet OV7670 2006,
+// tabela de registradores, reg 0x11: "F(internal clock) = F(input clock)/(Bit[5:0]+1)").
+// XCLK = 12,5 MHz (FPGA, 50 MHz / 4) ÷ 1 → 12,5 MHz interno; em QQVGA COM14/SCALING_PCLK_DIV dividem o PCLK
+// por 4 → PCLK ≈ 3,1 MHz, 16 amostras por período na amostragem a 50 MHz do cam_capture (limite ~clk/6).
+// Quadros/s na câmera ≈ 30 × 12,5 / 24 ≈ 15,6 [INFERÊNCIA: 30 fps em VGA com 24 MHz interno; medir no LAB].
+// Era 0x01 (÷2, ~7,8 fps): RevisaoS09 mostrou que o demo, que rearma só depois de cada DONE e por isso perde
+// um quadro em cada dois, ficaria em ~3,9 fps (< 5 exigidos pela S09).
+static const uint8_t CLKRC_VALUE = 0x00;
 
 }}}  // namespace aracno::cam::regs
