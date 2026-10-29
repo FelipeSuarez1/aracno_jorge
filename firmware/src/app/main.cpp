@@ -4,6 +4,7 @@
 //             [--speed S] [--log ARQ] [--hz H] [--max-s S]
 //   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
 //   --spi-loopback | --face-demo [S]: bancada do display na FPGA (app/bench.h, S08); não tocam nos servos.
+//   --cam-id | --cam-raw | --cam-demo [S] [--phase 0|1]: bancada da câmera OV7670 (app/bench.h, S09); idem.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -84,6 +85,20 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--face-demo")) {
             unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 6u;
             return app::face_demo(sec);
+        }
+        else if (!std::strcmp(argv[i], "--cam-id")) return app::cam_id();
+        else if (!std::strcmp(argv[i], "--cam-raw")) return app::cam_raw();
+        else if (!std::strcmp(argv[i], "--cam-demo")) {
+            unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 10u;
+            int phase = 0;
+            if (i + 2 < argc && !std::strcmp(argv[i + 1], "--phase")) {
+                const char* p = argv[i + 2];
+                if ((p[0] != '0' && p[0] != '1') || p[1]) { std::fprintf(stderr, "--phase: 0 ou 1\n"); return 2; }
+                phase = p[0] - '0';
+                i += 2;
+            }
+            if (i + 1 < argc) { std::fprintf(stderr, "argumento desconhecido após --cam-demo: %s\n", argv[i + 1]); return 2; }
+            return app::cam_demo(sec, phase);
         }
         else if (!std::strcmp(argv[i], "--sensors") && i + 1 < argc) sensors_mask = static_cast<uint8_t>(std::strtoul(argv[++i], 0, 0));
         else if (!std::strcmp(argv[i], "--no-sensors")) sensors_mask = 0;
