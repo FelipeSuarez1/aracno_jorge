@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: [[00-Inbox/camera-ov7670-e-ble]]; depende do aceite de [[10-Decisoes/ADR-010-camera-na-fpga]]
 depende: [[20-Specs/S08-fpga-gpio0-display-cabeca]]
 ---
@@ -86,3 +86,4 @@ Captura: ARM → espera a borda de subida de VSYNC → grava as linhas seguintes
 ## Evidência
 - 2026-10-29 [PC]: `fpga/cam/sim.sh` TB OK nas 3 velocidades de PCLK; mutações (ordem de bytes, fase, realinhamento, pular par de bytes) detectadas. `make -C firmware test` verde (sccb, ov7670, qsys com 29 endereços + resets + span). Build do zero (`fpga/build.sh`): pinos da S08 inalterados, quadro em 4 M10K, `.rbf` SHA-256 `f19da863…`.
 - Revisão RevisaoS09: REPROVADO na 1ª rodada (CLKRC → fps < 5; testbench só síncrono) → corrigido em `df364a4`; rechecagem: **APROVADO**.
+- 2026-10-29 [LAB]: cartão com `soc_system.rbf` S09 (`f19da863…`), boot ok, firmware gravado. **Câmera ainda não testada**: o `stand` (alimentado pela SMK, bateria fraca) disparou o corte do CPLD e a DE0 ficou sem energia; ver [[50-Diario/2026-10-29-camera-s09]].
