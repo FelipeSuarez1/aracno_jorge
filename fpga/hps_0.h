@@ -319,7 +319,7 @@
 #define SYSID_QSYS_SPAN 8
 #define SYSID_QSYS_END 0x15f
 #define SYSID_QSYS_ID 0
-#define SYSID_QSYS_TIMESTAMP 1793229568
+#define SYSID_QSYS_TIMESTAMP 1793312634
 
 /*
  * Macros for device 'pwm18', class 'TERASIC_PWM_EX'
@@ -418,6 +418,65 @@
 #define SPI_LCD_SYNC_REG_DEPTH 2
 #define SPI_LCD_TARGETCLOCK 12500000
 #define SPI_LCD_TARGETSSDELAY "0.0"
+
+/*
+ * Macros for device 'pio_cam', class 'altera_avalon_pio'
+ * The macros are prefixed with 'PIO_CAM_'.
+ * The prefix is the slave descriptor.
+ */
+#define PIO_CAM_COMPONENT_TYPE altera_avalon_pio
+#define PIO_CAM_COMPONENT_NAME pio_cam
+#define PIO_CAM_BASE 0x1c0
+#define PIO_CAM_SPAN 16
+#define PIO_CAM_END 0x1cf
+#define PIO_CAM_BIT_CLEARING_EDGE_REGISTER 0
+#define PIO_CAM_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define PIO_CAM_CAPTURE 0
+#define PIO_CAM_DATA_WIDTH 4
+#define PIO_CAM_DO_TEST_BENCH_WIRING 0
+#define PIO_CAM_DRIVEN_SIM_VALUE 0
+#define PIO_CAM_EDGE_TYPE NONE
+#define PIO_CAM_FREQ 50000000
+#define PIO_CAM_HAS_IN 0
+#define PIO_CAM_HAS_OUT 1
+#define PIO_CAM_HAS_TRI 0
+#define PIO_CAM_IRQ_TYPE NONE
+#define PIO_CAM_RESET_VALUE 0
+
+/*
+ * Macros for device 'pio_cam_in', class 'altera_avalon_pio'
+ * The macros are prefixed with 'PIO_CAM_IN_'.
+ * The prefix is the slave descriptor.
+ */
+#define PIO_CAM_IN_COMPONENT_TYPE altera_avalon_pio
+#define PIO_CAM_IN_COMPONENT_NAME pio_cam_in
+#define PIO_CAM_IN_BASE 0x1d0
+#define PIO_CAM_IN_SPAN 16
+#define PIO_CAM_IN_END 0x1df
+#define PIO_CAM_IN_BIT_CLEARING_EDGE_REGISTER 0
+#define PIO_CAM_IN_BIT_MODIFYING_OUTPUT_REGISTER 0
+#define PIO_CAM_IN_CAPTURE 0
+#define PIO_CAM_IN_DATA_WIDTH 4
+#define PIO_CAM_IN_DO_TEST_BENCH_WIRING 0
+#define PIO_CAM_IN_DRIVEN_SIM_VALUE 0
+#define PIO_CAM_IN_EDGE_TYPE NONE
+#define PIO_CAM_IN_FREQ 50000000
+#define PIO_CAM_IN_HAS_IN 1
+#define PIO_CAM_IN_HAS_OUT 0
+#define PIO_CAM_IN_HAS_TRI 0
+#define PIO_CAM_IN_IRQ_TYPE NONE
+#define PIO_CAM_IN_RESET_VALUE 0
+
+/*
+ * Macros for device 'cam_capture', class 'cam_capture'
+ * The macros are prefixed with 'CAM_CAPTURE_'.
+ * The prefix is the slave descriptor.
+ */
+#define CAM_CAPTURE_COMPONENT_TYPE cam_capture
+#define CAM_CAPTURE_COMPONENT_NAME cam_capture
+#define CAM_CAPTURE_BASE 0x10000
+#define CAM_CAPTURE_SPAN 65536
+#define CAM_CAPTURE_END 0x1ffff
 
 
 #endif /* _ALTERA_HPS_0_H_ */
