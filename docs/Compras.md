@@ -1,18 +1,41 @@
-# Lista de compras (rota HPS, ADR-009)
+# Lista de procura no lab (rota FPGA, S08/S09) — atualizada 2026-10-28
 
-| Qtd | Item | Spec | Observação |
-|---|---|---|---|
-| ✅ | Display: Adafruit ILI9341 2,8" 320×240 com touch resistivo — **tem no lab** (também GC9A01 redondo e ST7789 1,3") | S04 | conferir jumpers IM1–3 e chip de touch |
-| 2 | BH1750 (breakout GY-302) | S03 | um em 0x23, outro em 0x5C (pino ADDR) |
-| 2 | VL53L1X (breakout com XSHUT exposto) | S03 | segundo endereço via XSHUT |
-| 1 | PIR HC-SR501 | S03 | |
-| 1 | **PCF8574** (expansor I2C, 0x20) | S03/S04 | XSHUT ×2, PIR, botão de parada, **D/C e RST do display** (o GPIO do header LTC é o seletor do mux, não está livre) — agora obrigatório para o display |
-| 1 | PCA9685 (16 canais PWM I2C) | S06 | servos da cabeça |
-| ✅/1 | Servos da cabeça: **2 MG996R reserva do kit**; falta o suporte pan/tilt para servo padrão | S06 | ou peça impressa no lab |
-| 4 | Resistores 4,7 kΩ | S03 | pull-up I2C1 (SDA/SCL) na cabeça e no corpo |
-| 1 | Botão NF para parada lógica + botão cogumelo NF (opcional) em série na bateria | S03 | |
-| 1 | Cabo-fita 10 vias ≥ 30 cm + conectores 2x7 (header LTC) e Dupont | S04/S06 | |
-| — | Pinça amperimétrica DC, luxímetro (ou app), trena, balança 1 g, paquímetro | S00 | lab do professor |
-| — | Osciloscópio 2 canais + shunt 10–20 mΩ | S00 | lab do professor |
+Fluxo: Luiz procura no lab → manda nome/foto → IA diz onde ligar e o que habilita → vira spec.
 
-Já temos (2026-10-22): Spider, DE0-Nano-SoC, Servo Motor Card, 2 packs + carregador, fontes 12 V e 5 V, dongle BT, cabos USB.
+## Já temos / já ligado
+| Item | Onde | Spec |
+|---|---|---|
+| Adafruit ILI9341 2,8" com touch | GPIO_0 (JP1) pinos 1–5, 11, 12 — **rosto funcionando** | S04/S08 |
+| Câmera OV7670 (sem FIFO) | GPIO_0 (JP1) pinos 13–30 — aguardando S09 | S09 |
+| 2× MG996R reserva (cabeça) | Servo Motor Card portas 3/4 (PWM18/19 já na FPGA) | S06/S08 |
+| Meia protoboard colada no acrílico | — | — |
+
+## Pinos livres
+- GPIO_0: pinos 31–40 (10) + 7–10 reservados (XSHUT ×2, PIR, botão)
+- Header Arduino: 16 I/O · Header ADC (LTC2308): 8 entradas analógicas · SMK: portas PWM 5–8
+
+## Procurar — 1. necessário (sem isso a IA não vê o mundo)
+| Item | Para quê | Substituto |
+|---|---|---|
+| VL53L0X/VL53L1X ×2 | obstáculo à frente e borda de mesa | HC-SR04 (FPGA mede o eco) |
+| BH1750 ×2 | achar o escuro | LDR + resistor no ADC |
+| PIR HC-SR501 | presença | (câmera ajuda) |
+| Botão NF | parada por software | botão comum |
+
+## 2. Cabeça
+| Suporte pan/tilt para servo padrão (ou impressão 3D) | cabeça que vira |
+|---|---|
+
+## 3. Personalidade (baratos)
+| Item | Efeito | Liga em |
+|---|---|---|
+| Buzzer/piezo | chiado no bote, sons de susto (não é voz, ADR-002) | 1 pino FPGA |
+| Fita WS2812 / LED RGB | olhos que brilham no escuro, cor do humor | 1 pino FPGA |
+| Microfone analógico (KY-037, MAX4466) | reage a palma/barulho | ADC |
+| 2 resistores (divisor) | tensão da bateria → humor "cansada" | ADC |
+| Receptor IR + controle | comando sem celular | 1 pino FPGA |
+
+## 4. Montagem e medição
+Placa perfurada · cabo flat IDC 2x20 · espaçadores M3 · multímetro · osciloscópio · pinça amperimétrica DC · balança 1 g · luxímetro (ou app).
+
+**Não precisa mais:** PCF8574 e PCA9685 (a FPGA faz o papel deles).
