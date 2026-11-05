@@ -5,6 +5,8 @@ status: rascunho
 ---
 # Bancada remota com Raspberry Pi 4
 
+> **2026-10-30:** com a [[00-Inbox/proposta-ADR-011-pi-ros-visao-na-fpga]] o Pi 4 passa a ir **em cima** da aranha, ligado à DE0 por Ethernet. Se for aceita, este rascunho vira parte da S10: o mesmo Pi dá ssh/Wi-Fi para a bancada remota.
+
 O Pi fica **ao lado** da aranha como instrumento de bancada, e não dentro do robô. Por isso não contradiz a decisão de "sem Raspberry Pi" na arquitetura (o robô continua só com DE0 + FPGA). Quando for implementar, vira spec (S10) e precisa de aprovação antes de qualquer compra.
 
 ## Montagem
