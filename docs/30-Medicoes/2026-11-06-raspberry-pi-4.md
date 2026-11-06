@@ -33,4 +33,5 @@ spec: (S10, a escrever — [[00-Inbox/proposta-ADR-011-pi-ros-visao-na-fpga]])
 - Rede: o Mapper é servidor DHCP (`192.168.11.1`, entrega `.200`, rota padrão e DNS `114.114.114.114`). No Pi, `eth0` aceita o IP mas ignora rota/DNS (`/etc/netplan/60-eth0-mapper.yaml`).
 - Protocolo SLAMWARE na porta 1445: JSON terminado em `\r\n\r\n` (`getpose`, `getlaserscan`, `getlocalizationquality`, `getsdpversion`). Implementado em `pi/mapper/mapper_scan.py`, sem o SDK da Slamtec. O formato RLE do `laser_points` foi deduzido na bancada e está documentado no script; o tamanho descomprimido confere exatamente com o declarado.
 - Primeira leitura: 706 pontos por volta (≈0,0089 rad entre pontos, sentido horário), 464 válidos, distância de 0,11 a 6,85 m. Pose x=0,853 m, y=1,020 m, yaw=55,5°. ![[2026-11-06-mapper-varredura.png]]
-- Pendente: mesma leitura com o Mapper ligado na `eth0` do Pi.
+- **Pelo Pi** (Mapper na `eth0`): o Pi recebe `192.168.11.201/24`, a rota padrão continua no `wlan0` (internet ok, ping 1.1.1.1 em 11 ms) e o ping ao Mapper leva 1,2 ms. `python3 ~/mapper_scan.py`: 713 pontos, 361 válidos, de 0,12 a 5,72 m. Pose x=0,704 m, y=1,512 m, yaw=26,2°. ![[2026-11-06-mapper-varredura-pelo-pi.png]]
+- `getlocalizationquality` = 0 nas duas leituras. [INFERÊNCIA] Ele ainda não construiu mapa suficiente nesta posição; verificar movendo o Mapper pela sala.
