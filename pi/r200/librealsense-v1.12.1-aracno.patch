@@ -1,0 +1,14 @@
+diff --git a/src/uvc-v4l2.cpp b/src/uvc-v4l2.cpp
+index e97dfda..3b9a569 100644
+--- a/src/uvc-v4l2.cpp
++++ b/src/uvc-v4l2.cpp
+@@ -151,7 +151,8 @@ namespace rsimpl
+                     if(errno == EINVAL) throw std::runtime_error(dev_name + " is no V4L2 device");
+                     else throw_error("VIDIOC_QUERYCAP");
+                 }
+-                if(!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) throw std::runtime_error(dev_name + " is no video capture device");
++                const __u32 node_caps = (cap.capabilities & V4L2_CAP_DEVICE_CAPS) ? cap.device_caps : cap.capabilities; // ARACNO: kernels >= 4.16 criam nós de metadados
++                if(!(node_caps & V4L2_CAP_VIDEO_CAPTURE)) throw std::runtime_error(dev_name + " is no video capture device");
+                 if(!(cap.capabilities & V4L2_CAP_STREAMING)) throw std::runtime_error(dev_name + " does not support streaming I/O");
+ 
+                 // Select video input, video standard and tune here.
