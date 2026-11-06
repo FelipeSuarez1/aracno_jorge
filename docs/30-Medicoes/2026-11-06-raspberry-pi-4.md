@@ -26,3 +26,11 @@ spec: (S10, a escrever — [[00-Inbox/proposta-ADR-011-pi-ros-visao-na-fpga]])
 - `pi/r200/r200_teste.cpp` (sudo): `Intel RealSense R200 serial 2511000542 firmware 1.0.71.06`. Profundidade 480×360 a **60 quadros/s**, escala 1 mm, emissor = 1. Com a câmera a ~0,5 m de uma pessoa: 12,5 % de pixels válidos, mín 0,50 m, mediana 2,12 m. O padrão de pontos do laser aparece no IR.
 - Imagem: ![[2026-11-06-r200-cor-prof-ir.png]] (cor | profundidade | IR). A câmera estava de ponta-cabeça; o tom azul da cor é troca RGB/BGR só na visualização.
 - A fazer: preset de profundidade (densidade baixa com os parâmetros padrão), rodar sem `sudo` (regra udev), medir consumo e temperatura com streaming contínuo.
+
+## LiDAR SLAMTEC Mapper (2026-11-06, ligado ao PC por Ethernet)
+- `GET http://192.168.11.1/service/system/product` → `{"model":"M1M1","name":"Slamtec Mapper 1 model 1","components":["cp0","lidar"]}`. Firmware `2.6.0_798_dev-sdp_vre-20190317`. Etiqueta/QR: `LH5004648`.
+- Datasheet M1M1 v1.2 (SparkFun DS-15870): alcance 20 m, 7000 amostras/s, atualização de pose e mapa a 8 Hz, inclinação máxima ±3° ao mapear, velocidade máxima 1 m/s, 5 V (partida 1,4–1,6 A; em uso 450–1000 mA), 230 g, Ethernet 10/100 e Wi-Fi.
+- Rede: o Mapper é servidor DHCP (`192.168.11.1`, entrega `.200`, rota padrão e DNS `114.114.114.114`). No Pi, `eth0` aceita o IP mas ignora rota/DNS (`/etc/netplan/60-eth0-mapper.yaml`).
+- Protocolo SLAMWARE na porta 1445: JSON terminado em `\r\n\r\n` (`getpose`, `getlaserscan`, `getlocalizationquality`, `getsdpversion`). Implementado em `pi/mapper/mapper_scan.py`, sem o SDK da Slamtec. O formato RLE do `laser_points` foi deduzido na bancada e está documentado no script; o tamanho descomprimido confere exatamente com o declarado.
+- Primeira leitura: 706 pontos por volta (≈0,0089 rad entre pontos, sentido horário), 464 válidos, distância de 0,11 a 6,85 m. Pose x=0,853 m, y=1,020 m, yaw=55,5°. ![[2026-11-06-mapper-varredura.png]]
+- Pendente: mesma leitura com o Mapper ligado na `eth0` do Pi.
