@@ -36,4 +36,10 @@ static const int PIO_CAM_IN_BIT_SIOC  = 1;
 static const int PIO_CAM_IN_BIT_VSYNC = 2;
 static const int PIO_CAM_IN_BIT_HREF  = 3;
 
+// S11 (medula: olhar que segue, reflexo de susto, watchdog de servos). Contrato em
+// docs/20-Specs/S11-medula-fpga.md. Num .rbf sem o bloco o endereço cai no pwm17: NADA de escrita antes
+// de conferir o registrador ID (medula::Medula::attach).
+static const uint32_t MEDULA_BASE = 0x20000;      // medula: registradores + FRAME + BG (span 128 KiB)
+static const uint32_t MEDULA_SPAN = 0x20000;
+
 }}  // namespace aracno::qsys
