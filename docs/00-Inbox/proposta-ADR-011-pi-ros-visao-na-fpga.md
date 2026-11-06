@@ -48,6 +48,18 @@ flowchart LR
 - **ROS 2:** Jazzy no Ubuntu 24.04 para o Pi 4 (aarch64, plataforma Tier 1). O PC é Fedora, então ROS 2 roda em container Ubuntu 24.04 (Docker já usado pelo projeto).
 - **Energia:** power bank USB-C ≥ 3 A só para o Pi + R200 (Pi 4 até ~3 A; R200 1,0–1,6 W, datasheet Tabela 6-3). Independente da bateria da SMK: o corte do CPLD não derruba o Pi.
 
+## Acréscimo 2026-11-06 — LiDAR SLAMTEC Mapper (do professor)
+- **Identificado na bancada:** ligado por Ethernet ao PC, responde como `SlamWare-6FFB95.local` em `192.168.11.1`. Ele mesmo é servidor DHCP (deu `192.168.11.200` ao PC), tem web "Slamtec Device Management" (porta 80), ssh (22) e a porta do SDK (1445). Modelo exato (M1M1/M2M2/M2M3) a confirmar na interface web.
+- **O que é:** não é um LiDAR simples. É um *LiDAR com SLAM embutido*. Pelo datasheet M2M2 v1.1, entrega varredura 360° (9200 pontos/s, até 40 m), mapa (resolução 0,05 m) e **pose (x, y, θ) a 10 Hz** calculados nele mesmo. Tem IMU de 9 eixos e foi feito para mapear na mão, sem odometria. Isso resolve o "se geolocalizar" (ADR-003) sem SLAM no Pi.
+- **Integração proposta:** Mapper ligado ao Pi. O Pi tem uma única Ethernet, que vai para a DE0, então o Mapper entra por Wi-Fi, por adaptador USB-Ethernet no Pi ou por um switch pequeno. O nó ROS da Slamtec (`slamware_ros_sdk`) publica scan, mapa e pose; para Mapper em ROS 2 o suporte ainda está [A VERIFICAR]. A DE0 recebe só um resumo (pose + distância à frente/ao chão) pelo mesmo enlace UDP da S10.
+- **Riscos:**
+  - O datasheet limita a inclinação a **±3°** durante o mapeamento, e a aranha balança ao andar: medir a qualidade do mapa andando.
+  - A janela óptica precisa de visão livre em 360°, e a cabeça/R200 não pode tapar.
+  - Alimentação 5 V (4,95–5,3 V, pico de partida 1,5 A, típico 750 mA): power bank do Pi, nunca a bateria da SMK.
+  - Peso a medir.
+  - Parafusos M2.5 da base ≤ 6 mm (datasheet).
+- **Efeito no plano:** pode substituir o HC-SR04 frontal (o de borda de mesa continua) e dá "casa" fixa no mapa em vez de "lugar mais escuro". Entra como spec própria depois da S10 (enlace) e da S12 (R200).
+
 ## Alternativas descartadas
 - **R200 direto na DE0:** a câmera é só USB 3.0 e a DE0 só tem USB 2.0 (testado).
 - **OV7670 na FPGA (ADR-010):** a FPGA e o firmware ficaram prontos (S09), mas a câmera não se comunicou na bancada (sem 3,3 V, provável), e o professor pediu Pi + ROS.
