@@ -1,5 +1,5 @@
 ---
-status: em-andamento
+status: suspensa
 origem: [[00-Inbox/camera-ov7670-e-ble]]; depende do aceite de [[10-Decisoes/ADR-010-camera-na-fpga]]
 depende: [[20-Specs/S08-fpga-gpio0-display-cabeca]]
 ---

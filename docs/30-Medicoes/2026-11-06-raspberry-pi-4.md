@@ -1,6 +1,6 @@
 ---
 data: 2026-11-06
-spec: (S10, a escrever — [[00-Inbox/proposta-ADR-011-pi-ros-visao-na-fpga]])
+spec: (S10, a escrever — [[10-Decisoes/ADR-011-pi-ros-visao-na-fpga]])
 ---
 # Raspberry Pi 4 da aranha — estado inicial
 
