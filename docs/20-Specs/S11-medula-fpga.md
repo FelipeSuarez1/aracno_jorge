@@ -1,5 +1,5 @@
 ---
-status: aprovada
+status: em-andamento
 origem: [[10-Decisoes/ADR-011-pi-ros-visao-na-fpga]]
 depende: [[20-Specs/S08-fpga-gpio0-display-cabeca]], [[20-Specs/S10-enlace-pi-de0]]
 ---
@@ -201,7 +201,38 @@ Todos os passos são `núcleo` (ADR-008): código de FPGA, de segurança (watchd
 Ordem de commit: 4, 6, 5, 7 (depois do APROVADO do passo 8), depois 9.
 
 ## Pendente
-(Sugestões não bloqueantes do passo 8 entram aqui.)
+Sugestões não bloqueantes da revisão Opus (`RevisaoS11`, `RevisaoPasso5`), para a próxima recompilação do RTL:
+- **Pulso colado na troca de fonte** (`fpga/medula/medula.v:436-437`): `sel_head` troca no primeiro ciclo com as duas fontes em 0; se a antiga caiu 1 ciclo antes e a nova sobe logo depois, sai pulso + 20 ns + pulso, que um servo pode ler como um pulso só, fora de [833, 2167] µs. Correção: trocar só depois de a fonte em uso estar em 0 há ≥ 50 000 ciclos (1 ms), com um contador por canal.
+- **`follow_pend`** (`medula.v:430`): o recentro em 1500/1500 no FOLLOW_EN 0→1 é aplicado no início do período seguinte, não na escrita. É desvio aceito (único jeito de cumprir "a largura só muda no início do período"), mas o TB não o cobre: antes de religar FOLLOW_EN, tirar `pan_us` de 1500 e conferir HEAD_US = 1500/1500 no período seguinte.
+- **TB sem três regras do contrato** (`tb_medula.v:295`): GO durante BUSY, BG_RESET sem GO, THRESH/REFLEX_CFG escritos durante BUSY. Correção: em F19, escrever `CTRL = 0x3 | modos` e THRESH durante BUSY e conferir que LATENCY, count e BG não mudam.
+- **Cadência mínima:** `--hz` passou a aceitar 20..200 (antes 10..200), porque o watchdog de 100 ms com laço a 10 Hz dispararia sozinho (bloqueio da revisão, corrigido em `730e16b`).
 
 ## Evidência
-(preencher)
+### [PC] 2026-11-09 — commits `e9c5fe9`, `7c8bf1f`, `2751e50`, `730e16b`
+Escrito por Sonnet (subagentes `task`); revisado por Opus (`reviewer`): passos 4, 6 e 7 **REPROVADO** (cadência `--hz 10` × watchdog de 100 ms) → corrigido → **APROVADO**; passo 5 **APROVADO** sem bloqueios.
+
+- **RTL** — `fpga/medula/sim.sh` (Questa FSE, ~80 s): `TB OK: medula — F0..F19 (centroide, bbox, reflexo, fundo), cabeça com slew, troca sem pulso deformado, watchdog`, exit 0. **LATENCY = 19 285 ciclos** (385,7 µs) com alvo; 19 205 no F0 sem pixels de primeiro plano (as 3 divisões são puladas). Watchdog disparou 20 000 041 ns após o último kick (WD_TIMEOUT_MS = 20).
+- **Mutações do RTL** (cópias temporárias; todas reprovaram o TB):
+  1. erosão sem `fg_raw(x,y-1)` → `FALHA F1: count: obtido 570, esperado 551`;
+  2. `(fi & 15) == 1` → `FALHA F15: BG(65,50) após F15: obtido 149, esperado 150`;
+  3. slew também com `reflex_active` → `FALHA F3: HEAD_US após F3 (tilt sem slew)`;
+  4. `gate` sem olhar TRIPPED → `FALHA F19: pwm_out = 0 em <= 125000 ciclos após TRIPPED: obtido 32` (canal 5 preso em 1 não cortado);
+  5. reflexo com subtração de 8 bits → `FALHA F4: REFLEX_COUNT: obtido 2, esperado 1`.
+- **Host** — `make -C firmware test`: `medula: 0 falhas`, `qsys: 30 endereços + reset do pio_lcd conferidos contra fpga/hps_0.h, 0 falhas`, `testes ok`. Mutação `cx - 80` → `cx - 79` no modelo: `FALHA F01: pan_target_us = 1462, esperado 1458` (20 falhas); restaurado, verde.
+- **Cross** — `tools/cross-build.sh`: `ELF 32-bit LSB executable, ARM, EABI5 version 1 (SYSV), statically linked, stripped`.
+- **Build FPGA** — `fpga/build.sh ~/dev/aracno_fpga_work/s11`:
+  - fit ok: **12 354 / 15 880 ALMs (78 %)** (S09: 10 706), **101 / 270 M10K (37 %)** (S09: 36), 4 / 84 DSP, 230 / 314 pinos;
+  - entidade `medula`: 1 081 ALMs, 1 640 registradores, 65 M10K (8 lanes × 8 + 1 do `altshift_taps` de 160 bits), 4 DSP; `medula_div` 36 ALMs;
+  - timing (SDC novo, `clk50_1..3` a 20 ns): pior caminho do `medula` **setup +8,892 ns**, **hold +0,236 ns**; projeto inteiro sem caminho negativo (`clk50_1` setup +6,416 / hold +0,126);
+  - pinos dos 248 sinais de usuário idênticos ao build S09;
+  - `hps_0.h`: `MEDULA_BASE 0x20000`, `MEDULA_SPAN 131072`;
+  - `.rbf` em `~/dev/aracno_fpga_work/soc_system_s11.rbf`, SHA-256 `cd7c6c921623b4cdbdd588a94bdee581b01194fa20cc681fae1c20ba5e1cd2a2`.
+
+### [LAB] roteiro (Luiz; nada aqui está verificado)
+1. Cartão da DE0 no PC; montar a partição 1.
+2. Copiar `~/dev/aracno_fpga_work/soc_system_s11.rbf` como `soc_system.rbf`, mantendo `soc_system.rbf.orig` (fábrica); `sync`.
+3. `udisksctl unmount -b /dev/mmcblk0p1` (**nunca** `power-off`).
+4. DE0 na fonte de 5 V do jack dela, **SMK desligada**.
+5. `python3 tools/uart.py push firmware/build/aracno /home/root/aracno`.
+6. Na placa: `./aracno --medula-id` (ID 0x4D454431), `./aracno --medula-test` (esperado `medula-test: 0 divergências`, hw ≈ 386 µs), `./aracno --medula-wd` (esperado disparo entre 100 e 150 ms), `./aracno --face-demo 6` (display como antes).
+7. Com a bateria carregada e a aranha suspensa: `./aracno --demo stand --sensors 0x20` e, em outro terminal, `kill -STOP` no processo → servos soltos em ≤ 150 ms.
