@@ -319,7 +319,7 @@
 #define SYSID_QSYS_SPAN 8
 #define SYSID_QSYS_END 0x15f
 #define SYSID_QSYS_ID 0
-#define SYSID_QSYS_TIMESTAMP 1793312634
+#define SYSID_QSYS_TIMESTAMP 1794003301
 
 /*
  * Macros for device 'pwm18', class 'TERASIC_PWM_EX'
@@ -477,6 +477,17 @@
 #define CAM_CAPTURE_BASE 0x10000
 #define CAM_CAPTURE_SPAN 65536
 #define CAM_CAPTURE_END 0x1ffff
+
+/*
+ * Macros for device 'medula', class 'medula'
+ * The macros are prefixed with 'MEDULA_'.
+ * The prefix is the slave descriptor.
+ */
+#define MEDULA_COMPONENT_TYPE medula
+#define MEDULA_COMPONENT_NAME medula
+#define MEDULA_BASE 0x20000
+#define MEDULA_SPAN 131072
+#define MEDULA_END 0x3ffff
 
 
 #endif /* _ALTERA_HPS_0_H_ */

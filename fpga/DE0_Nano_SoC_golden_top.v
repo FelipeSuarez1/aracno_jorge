@@ -121,40 +121,41 @@ module DE0_Nano_SoC_golden_top(
 //=======================================================
 //  REG/WIRE declarations
 //=======================================================
-wire [17:0]	pwm;
+// S11: pwm_raw = saída das 20 Terasic; pwm_safe = saída do medula (corte do watchdog e cabeça própria) -> pinos.
+wire [19:0]	pwm_raw, pwm_safe;
 //////////LegRF//////////
-assign  GPIO_1[9] = pwm[0];
-assign  GPIO_1[10] = pwm[1];
-assign  GPIO_1[11] = pwm[2];
+assign  GPIO_1[9] = pwm_safe[0];
+assign  GPIO_1[10] = pwm_safe[1];
+assign  GPIO_1[11] = pwm_safe[2];
 //////////LegRM////////////
-assign  GPIO_1[17] = pwm[3];
-assign  GPIO_1[16] = pwm[4];
-assign  GPIO_1[15] = pwm[5];
+assign  GPIO_1[17] = pwm_safe[3];
+assign  GPIO_1[16] = pwm_safe[4];
+assign  GPIO_1[15] = pwm_safe[5];
 //////////LegRB////////////
-assign  GPIO_1[14] = pwm[6];
-assign  GPIO_1[13] = pwm[7];
-assign  GPIO_1[12] = pwm[8];
+assign  GPIO_1[14] = pwm_safe[6];
+assign  GPIO_1[13] = pwm_safe[7];
+assign  GPIO_1[12] = pwm_safe[8];
 //////////LegLF////////////
-assign  GPIO_1[2] = pwm[9];
-assign  GPIO_1[1] = pwm[10];
-assign  GPIO_1[0] = pwm[11];
+assign  GPIO_1[2] = pwm_safe[9];
+assign  GPIO_1[1] = pwm_safe[10];
+assign  GPIO_1[0] = pwm_safe[11];
 //////////LegLM////////////
-assign  GPIO_1[18] = pwm[12];
-assign  GPIO_1[19] = pwm[13];
-assign  GPIO_1[20] = pwm[14];
+assign  GPIO_1[18] = pwm_safe[12];
+assign  GPIO_1[19] = pwm_safe[13];
+assign  GPIO_1[20] = pwm_safe[14];
 //////////LegLB////////////
-assign  GPIO_1[21] = pwm[15];
-assign  GPIO_1[22] = pwm[16];
-assign  GPIO_1[23] = pwm[17];
+assign  GPIO_1[21] = pwm_safe[15];
+assign  GPIO_1[22] = pwm_safe[16];
+assign  GPIO_1[23] = pwm_safe[17];
 
 // ---------------------------------------------------------------------------------------------
 // S08 (aracno_jorge): cabeça nas portas 3/4 da Servo Motor Card (GPIO_1[3]/[4]); display e
 // periféricos no GPIO_0 (JP1). Ver docs/20-Specs/S08-fpga-gpio0-display-cabeca.md.
-wire        pwm18_out, pwm19_out;
+// (pwm18/19 da cabeça: pwm_raw[18]/[19] -> medula -> pwm_safe[18]/[19])
 wire [7:0]  pio_lcd_out;          // bit0 D/C, bit1 RST (1 = liberado), bit2/3 XSHUT ToF
 wire        lcd_sclk, lcd_mosi, lcd_ss_n;
-assign  GPIO_1[3]  = pwm18_out;   // SMK porta 3: pan
-assign  GPIO_1[4]  = pwm19_out;   // SMK porta 4: tilt
+assign  GPIO_1[3]  = pwm_safe[18];   // SMK porta 3: pan
+assign  GPIO_1[4]  = pwm_safe[19];   // SMK porta 4: tilt
 assign  GPIO_0[0]  = lcd_sclk;    // JP1 pino 1: display CLK
 assign  GPIO_0[1]  = lcd_mosi;    // JP1 pino 2: display MOSI
 assign  GPIO_0[2]  = lcd_ss_n;    // JP1 pino 3: display CS
@@ -266,27 +267,27 @@ assign  GPIO_0[25] = pio_cam_out[3];                 // PWDN
         .dipsw_pio_external_connection_export  ( SW	),  //  dipsw_pio_external_connection.export
         .button_pio_external_connection_export ( KEY	), // button_pio_external_connection.export
         .hps_0_h2f_reset_reset_n               (1'b1 ),                //                hps_0_h2f_reset.reset_n        .pwm0_conduit_end_writeresponsevalid_n  (<connected-to-pwm0_conduit_end_writeresponsevalid_n>),  //               pwm0_conduit_end.writeresponsevalid_n
-        .pwm0_conduit_end_export  (pwm[0]),  //    
-		  .pwm1_conduit_end_export  (pwm[1]),  //               pwm1_conduit_end.writeresponsevalid_n
-        .pwm2_conduit_end_export  (pwm[2]),  //               pwm2_conduit_end.writeresponsevalid_n
-        .pwm3_conduit_end_export  (pwm[3]),  //               pwm3_conduit_end.writeresponsevalid_n
-        .pwm4_conduit_end_export  (pwm[4]),  //               pwm4_conduit_end.writeresponsevalid_n
-        .pwm5_conduit_end_export  (pwm[5]),  //               pwm5_conduit_end.writeresponsevalid_n
-        .pwm6_conduit_end_export  (pwm[6]),  //               pwm6_conduit_end.writeresponsevalid_n
-        .pwm7_conduit_end_export  (pwm[7]),  //               pwm7_conduit_end.writeresponsevalid_n
-        .pwm8_conduit_end_export  (pwm[8]),  //               pwm8_conduit_end.writeresponsevalid_n
-        .pwm9_conduit_end_export  (pwm[9]),  //               pwm9_conduit_end.writeresponsevalid_n
-        .pwm10_conduit_end_export (pwm[10]), //              pwm10_conduit_end.writeresponsevalid_n
-        .pwm11_conduit_end_export (pwm[11]), //              pwm11_conduit_end.writeresponsevalid_n
-        .pwm12_conduit_end_export (pwm[12]), //              pwm12_conduit_end.writeresponsevalid_n
-        .pwm13_conduit_end_export (pwm[13]), //              pwm13_conduit_end.writeresponsevalid_n
-        .pwm14_conduit_end_export (pwm[14]), //              pwm14_conduit_end.writeresponsevalid_n
-        .pwm15_conduit_end_export (pwm[15]), //              pwm15_conduit_end.writeresponsevalid_n
-        .pwm16_conduit_end_export (pwm[16]), //              pwm16_conduit_end.writeresponsevalid_n
-        .pwm17_conduit_end_export (pwm[17]),              // pwm17_conduit_end.writeresponsevalid_n
+        .pwm0_conduit_end_export  (pwm_raw[0]),
+        .pwm1_conduit_end_export  (pwm_raw[1]),
+        .pwm2_conduit_end_export  (pwm_raw[2]),
+        .pwm3_conduit_end_export  (pwm_raw[3]),
+        .pwm4_conduit_end_export  (pwm_raw[4]),
+        .pwm5_conduit_end_export  (pwm_raw[5]),
+        .pwm6_conduit_end_export  (pwm_raw[6]),
+        .pwm7_conduit_end_export  (pwm_raw[7]),
+        .pwm8_conduit_end_export  (pwm_raw[8]),
+        .pwm9_conduit_end_export  (pwm_raw[9]),
+        .pwm10_conduit_end_export (pwm_raw[10]),
+        .pwm11_conduit_end_export (pwm_raw[11]),
+        .pwm12_conduit_end_export (pwm_raw[12]),
+        .pwm13_conduit_end_export (pwm_raw[13]),
+        .pwm14_conduit_end_export (pwm_raw[14]),
+        .pwm15_conduit_end_export (pwm_raw[15]),
+        .pwm16_conduit_end_export (pwm_raw[16]),
+        .pwm17_conduit_end_export (pwm_raw[17]),
         // S08
-        .pwm18_conduit_end_export            (pwm18_out),
-        .pwm19_conduit_end_export            (pwm19_out),
+        .pwm18_conduit_end_export            (pwm_raw[18]),
+        .pwm19_conduit_end_export            (pwm_raw[19]),
         .pio_lcd_external_connection_export  (pio_lcd_out),
         .pio_in_external_connection_export   ({2'b00, GPIO_0[9], GPIO_0[8]}),  // bit0 PIR, bit1 botão
         .spi_lcd_external_MISO               (GPIO_0[5]),
@@ -299,8 +300,10 @@ assign  GPIO_0[25] = pio_cam_out[3];                 // PWDN
         .cam_capture_cam_pclk                   (GPIO_0[14]),
         .cam_capture_cam_href                   (GPIO_0[13]),
         .cam_capture_cam_vsync                  (GPIO_0[12]),
-        .cam_capture_cam_d                      (GPIO_0[23:16])
-
+        .cam_capture_cam_d                      (GPIO_0[23:16]),
+        // S11
+        .medula_pwm_pwm_in                      (pwm_raw),
+        .medula_pwm_pwm_out                     (pwm_safe)
 	);
 
 assign LED[7] = heart_beat[23];

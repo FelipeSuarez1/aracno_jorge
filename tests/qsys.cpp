@@ -46,12 +46,14 @@ int main() {
     CHECK(base_of("CAM_CAPTURE") == static_cast<long>(qsys::CAM_CAPTURE_BASE), "CAM_CAPTURE (S09)");
     CHECK(base_of("PIO_CAM") == static_cast<long>(qsys::PIO_CAM_BASE), "PIO_CAM (S09)");
     CHECK(base_of("PIO_CAM_IN") == static_cast<long>(qsys::PIO_CAM_IN_BASE), "PIO_CAM_IN (S09)");
+    CHECK(base_of("MEDULA") == static_cast<long>(qsys::MEDULA_BASE), "MEDULA (S11)");
     {
         struct { const char* key; long want; const char* msg; } extra[] = {
             {"#define PIO_CAM_RESET_VALUE ", static_cast<long>(qsys::PIO_CAM_RESET_VALUE), "PIO_CAM_RESET_VALUE (S09)"},
             {"#define CAM_CAPTURE_SPAN ", static_cast<long>(qsys::CAM_CAPTURE_SPAN), "CAM_CAPTURE_SPAN (S09)"},
+            {"#define MEDULA_SPAN ", static_cast<long>(qsys::MEDULA_SPAN), "MEDULA_SPAN (S11)"},
         };
-        for (unsigned i = 0; i < 2; ++i) {
+        for (unsigned i = 0; i < sizeof extra / sizeof extra[0]; ++i) {
             const char* q = std::strstr(text, extra[i].key);
             CHECK(q && std::strtol(q + std::strlen(extra[i].key), 0, 0) == extra[i].want, extra[i].msg);
         }
@@ -61,6 +63,6 @@ int main() {
         const char* p = std::strstr(text, k);
         CHECK(p && std::strtol(p + std::strlen(k), 0, 0) == static_cast<long>(qsys::PIO_LCD_RESET_VALUE), "PIO_LCD_RESET_VALUE");
     }
-    std::printf("qsys: 29 endereços + reset do pio_lcd conferidos contra fpga/hps_0.h, %d falhas\n", fails);
+    std::printf("qsys: 30 endereços + reset do pio_lcd conferidos contra fpga/hps_0.h, %d falhas\n", fails);
     return fails ? 1 : 0;
 }

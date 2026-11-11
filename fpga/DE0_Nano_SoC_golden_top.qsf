@@ -616,6 +616,7 @@ set_global_assignment -name QIP_FILE soc_system/synthesis/soc_system.qip
 set_global_assignment -name VERILOG_FILE DE0_Nano_SoC_golden_top.v
 set_global_assignment -name VERILOG_FILE ip/spider/PWM_Delay.v
 set_global_assignment -name VERILOG_FILE ip/spider/TERASIC_PWM_EX.v
+set_global_assignment -name SDC_FILE DE0_Nano_SoC_golden_top.sdc
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
 # S08 (aracno_jorge): pull-up fraco nas entradas do GPIO_0 (MISO solto, PIR, botão NF) — sem isso flutuam
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to GPIO_0[5]
