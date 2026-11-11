@@ -25,4 +25,18 @@ int cam_id();
 int cam_raw();
 int cam_demo(unsigned seconds, int phase);
 
+// Modos de bancada do bloco `medula` (S11: núcleo na FPGA, base qsys::MEDULA_BASE). Não escrevem em nenhum
+// registrador PWM. Todos leem o ID ANTES de qualquer escrita (num .rbf antigo 0x20000 cai no pwm17).
+// Código de saída: 0 ok, 1 FPGA/ponte, 3 medula ausente/divergente.
+//
+// --medula-id: imprime ID, FRAMES, STATUS, HEAD_US, HEAD_TARGET, WD_CTRL e REFLEX_COUNT. 3 se ausente.
+// --medula-test: roda as cenas F0..F19 da S11 no hardware e no modelo de referência e compara campo a
+//   campo; imprime a latência do hardware, a ponta a ponta (upload+GO+DONE+leitura) e a do modelo em
+//   software. 0 só com 0 divergências. A SMK deve estar desligada: a cabeça pode receber pulsos de 1 ms.
+// --medula-wd: kicks a cada 20 ms por 2 s (TRIPPED deve ficar 0); depois para e mede o tempo até
+//   TRIPPED = 1. 0 só se ficar entre 100 e 150 ms.
+int medula_id();
+int medula_test();
+int medula_wd();
+
 }}  // namespace aracno::app

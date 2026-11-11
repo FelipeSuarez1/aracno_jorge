@@ -1,10 +1,11 @@
 // aracno — laço de controle do HPS (S03).
 //   sensores → cérebro (demo/política) → segurança → servos, a 50 Hz, com watchdog e log.
 // Uso: aracno [--demo stand|walk N|turn N | --policy] [--sensors 0xMASK | --no-sensors] [--no-watchdog]
-//             [--speed S] [--log ARQ] [--hz H] [--max-s S]
+//             [--speed S] [--log ARQ] [--hz H] [--max-s S]   (--hz aceita 20..200: o watchdog da medula, 100 ms, exige >= 20 Hz; fora da faixa volta a 50)
 //   --policy: levanta (M_STAND) e depois entrega o comando à política aprendida (brain/weights.h).
 //   --spi-loopback | --face-demo [S]: bancada do display na FPGA (app/bench.h, S08); não tocam nos servos.
 //   --cam-id | --cam-raw | --cam-demo [S] [--phase 0|1]: bancada da câmera OV7670 (app/bench.h, S09); idem.
+//   --medula-id | --medula-test | --medula-wd: bancada do bloco medula na FPGA (app/bench.h, S11); idem.
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -26,6 +27,7 @@
 #include "safety/safety.h"
 #include "app/demo.h"
 #include "brain/policy.h"
+#include "medula/medula.h"
 #include "app/bench.h"
 
 #ifndef ARACNO_GIT_REV
@@ -87,6 +89,9 @@ int main(int argc, char** argv) {
             return app::face_demo(sec);
         }
         else if (!std::strcmp(argv[i], "--cam-id")) return app::cam_id();
+        else if (!std::strcmp(argv[i], "--medula-id")) return app::medula_id();
+        else if (!std::strcmp(argv[i], "--medula-test")) return app::medula_test();
+        else if (!std::strcmp(argv[i], "--medula-wd")) return app::medula_wd();
         else if (!std::strcmp(argv[i], "--cam-raw")) return app::cam_raw();
         else if (!std::strcmp(argv[i], "--cam-demo")) {
             unsigned sec = (i + 1 < argc && argv[i + 1][0] != '-') ? std::strtoul(argv[++i], 0, 0) : 10u;
@@ -110,7 +115,8 @@ int main(int argc, char** argv) {
         else if (!std::strcmp(argv[i], "--log") && i + 1 < argc) log_path = argv[++i];
         else { std::fprintf(stderr, "argumento desconhecido: %s\n", argv[i]); return 2; }
     }
-    if (hz < 10 || hz > 200) hz = 50;
+    // S11: o watchdog da medula (100 ms) e chutado a cada periodo do laco; abaixo de 20 Hz dispararia sozinho.
+    if (hz < 20 || hz > 200) hz = 50;
     if (mode == app::Demo::STAND && max_s == 0) max_s = 30;
     const uint64_t period_us = 1000000u / static_cast<uint64_t>(hz);
 
@@ -177,6 +183,14 @@ int main(int argc, char** argv) {
     uint32_t cycle = 0;
     uint8_t last_reason = safety::RS_OK;
     bool stood_msg = false;
+    int exit_code = 0;
+
+    // Watchdog de servos na FPGA (S11): armado IMEDIATAMENTE antes do laço, depois de toda a inicialização
+    // (nenhum `return` entre aqui e o laço: um return deixaria o watchdog armado sem quem o chute).
+    // wd_disable() antes zera um TRIPPED de execução anterior. Sem attach() (rbf antigo) nada é escrito.
+    static medula::Medula med;
+    if (med.attach(&bridge)) { med.wd_disable(); med.wd_enable(100); }
+    else std::printf("AVISO: medula ausente (rbf antigo): sem watchdog de servos em hardware\n");
 
     while (!g_stop) {
         hal::sleep_until_us(next);
@@ -235,6 +249,12 @@ int main(int argc, char** argv) {
         uint32_t leds = ((now_ms / 500u) & 1u) | (safety.latched() ? 0x40u : 0u) | (v.abort ? 0x20u : 0u);
         bridge.write32(LED_PIO_BASE, 0, leds);
         wd.kick();
+        med.wd_kick();
+        if (med.wd_tripped()) {
+            std::printf("medula: watchdog disparou (laço atrasou > 100 ms)\n");
+            g_stop = 1;
+            exit_code = 1;
+        }
 
         // 6. log
         if (log) {
@@ -256,12 +276,17 @@ int main(int argc, char** argv) {
     }
 
     // Saída: servos soltos, cão desarmado, log fechado.
+    // O ABORT da Terasic só vale no fim do período corrente do PWM (latch AbortEnable em PwmEnd, ver
+    // TERASIC_PWM_EX.v): espera 40 ms (> 20 ms) com o watchdog ainda armado para que nenhum pulso
+    // chegue a servos já soltos; só então o desliga.
     pwm.abort_all(true);
+    hal::sleep_ms(40);
+    med.wd_disable();
     bridge.write32(LED_PIO_BASE, 0, 0);
     wd.close_disarm();
     if (log) std::fclose(log);
     std::printf("ciclos=%u periodo nominal=%llu us p50=%u us p99=%u us max=%u us timeouts_passo=%u erros_i2c=%u\n",
                 cycle, static_cast<unsigned long long>(period_us), hist.pct(0.50), hist.pct(0.99), hist.max_us,
                 spider.step_timeouts(), sensors.i2c_errors());
-    return 0;
+    return exit_code;
 }

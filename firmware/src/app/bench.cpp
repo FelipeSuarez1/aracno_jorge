@@ -6,6 +6,8 @@
 #include "hal/clock.h"
 #include "hal/lwbridge.h"
 #include "cam/ov7670.h"
+#include "medula/medula.h"
+#include "medula/scenes.h"
 #include "face/face.h"
 #include "face/ili9341.h"
 #include "face/pio_ctrl.h"
@@ -223,6 +225,167 @@ int cam_demo(unsigned seconds, int phase) {
     std::printf("cam-demo: %u quadros em %u ms = %u.%u quadros/s, %u com OVERFLOW, FRAMES=%u\n", shown, ms,
                 ms ? shown * 1000u / ms : 0u, ms ? (shown * 10000u / ms) % 10u : 0u, overflows, cam.frames());
     return 0;
+}
+
+// ---- S11: bloco medula na FPGA ----------------------------------------------------------------------
+
+// Abre a ponte e confere o ID do medula (só leitura). Sem isso, nenhuma escrita na faixa 0x20000
+// (num .rbf antigo ela cairia no pwm17). 0 ok, 1 ponte, 3 medula ausente.
+static int open_medula(hal::LwBridge& br, medula::Medula& med) {
+    if (!br.open()) { std::fprintf(stderr, "ponte lightweight: /dev/mem falhou\n"); return 1; }
+    if (!med.attach(&br)) {
+        const uint32_t id = br.read32(qsys::MEDULA_BASE, medula::Medula::ID);
+        std::fprintf(stderr, "medula não responde (ID=0x%08x, esperado 0x%08x): o soc_system.rbf do cartão é o da S11?\n",
+                     id, medula::Medula::ID_VALUE);
+        return 3;
+    }
+    return 0;
+}
+
+int medula_id() {
+    hal::LwBridge br; medula::Medula med;
+    const int rc = open_medula(br, med);
+    if (rc) return rc;
+    using medula::Medula;
+    std::printf("medula: ID=0x%08x FRAMES=%u STATUS=0x%08x\n", br.read32(qsys::MEDULA_BASE, Medula::ID),
+                br.read32(qsys::MEDULA_BASE, Medula::FRAMES), br.read32(qsys::MEDULA_BASE, Medula::STATUS));
+    const uint32_t head = br.read32(qsys::MEDULA_BASE, Medula::HEAD_US);
+    const uint32_t tgt = br.read32(qsys::MEDULA_BASE, Medula::HEAD_TARGET);
+    std::printf("medula: HEAD_US pan=%u tilt=%u | HEAD_TARGET pan=%u tilt=%u | WD_CTRL=0x%x REFLEX_COUNT=%u\n",
+                head & 0xFFFFu, head >> 16, tgt & 0xFFFFu, tgt >> 16, br.read32(qsys::MEDULA_BASE, Medula::WD_CTRL),
+                br.read32(qsys::MEDULA_BASE, Medula::REFLEX_COUNT));
+    return 0;
+}
+
+// Lista de campos divergentes de um quadro: "nome[hw/sw],…".
+struct FieldDiff {
+    char buf[192];
+    size_t n;
+    int count;
+    FieldDiff() : n(0), count(0) { buf[0] = 0; }
+    void check(const char* name, unsigned hw, unsigned sw) {
+        if (hw == sw) return;
+        const int w = std::snprintf(buf + n, sizeof buf - n, "%s%s[%u/%u]", count ? "," : "", name, hw, sw);
+        if (w > 0 && n + static_cast<size_t>(w) < sizeof buf) n += static_cast<size_t>(w);
+        ++count;
+    }
+};
+
+int medula_test() {
+    hal::LwBridge br; medula::Medula med;
+    const int rc = open_medula(br, med);
+    if (rc) return rc;
+    std::printf("AVISO: SMK desligada (cabeça pode receber pulsos de 1 ms)\n");
+
+    // Sequência F0..F19 da S11 (tb_medula.v): cena e BG_RESET de cada quadro.
+    struct Step { int scene; bool bg_reset; };
+    static const Step SEQ[20] = {
+        {0, true},  {1, false}, {2, false}, {3, false}, {4, false},                                   // F0..F4
+        {3, false}, {3, false}, {3, false}, {3, false}, {3, false}, {3, false}, {3, false},           // F5..F11
+        {3, false}, {3, false}, {3, false}, {3, false},                                               // F12..F15
+        {3, false},                                                                                   // F16
+        {5, true},  {6, false}, {7, false}                                                            // F17..F19
+    };
+    const int NFRAMES = static_cast<int>(sizeof SEQ / sizeof SEQ[0]);
+
+    medula::Params p = medula::default_params();
+    p.hold_ms = 1;   // reflexo curto: a cabeça não fica presa no tilt máximo durante o teste
+    med.configure(p);
+    med.set_modes(false, true);
+    static medula::Model model;
+    static uint8_t scene[medula::N];
+    model.set_frames(med.frames());
+
+    int divergences = 0;
+    bool have_prev = false;
+    unsigned prev_pan = 0, prev_tilt = 0;   // HEAD_TARGET lido no quadro anterior
+    for (int f = 0; f < NFRAMES; ++f) {
+        medula::make_scene(SEQ[f].scene, scene);
+
+        const uint64_t t0 = hal::now_us();
+        medula::Result hw; std::memset(&hw, 0, sizeof hw);
+        const bool io_ok = med.upload(scene) && med.start(SEQ[f].bg_reset) && med.wait_done(50) && med.read_result(&hw);
+        const uint64_t t1 = hal::now_us();
+
+        medula::Result sw; std::memset(&sw, 0, sizeof sw);
+        const uint64_t t2 = hal::now_us();
+        model.process(scene, SEQ[f].bg_reset, p, &sw);
+        const uint64_t t3 = hal::now_us();
+
+        FieldDiff d;
+        if (!io_ok) {
+            d.check("io", 0, 1);   // upload/GO/DONE/leitura falhou (BUSY, timeout de 50 ms)
+        } else {
+            d.check("target", hw.target, sw.target);
+            d.check("count", hw.count, sw.count);
+            d.check("cx", hw.cx, sw.cx);
+            d.check("cy", hw.cy, sw.cy);
+            d.check("min_depth", hw.min_depth, sw.min_depth);
+            d.check("mean_depth", hw.mean_depth, sw.mean_depth);
+            d.check("x0", hw.x0, sw.x0);
+            d.check("y0", hw.y0, sw.y0);
+            d.check("x1", hw.x1, sw.x1);
+            d.check("y1", hw.y1, sw.y1);
+            d.check("reflex", hw.reflex, sw.reflex);
+            // O hardware guarda pan_t/tilt_t entre execuções e o modelo começa em 1500/1500: o alvo da
+            // cabeça só se compara com alvo nos dois. Sem alvo, o hardware tem de manter o valor da leitura
+            // anterior (no F0 da execução só registra). Regra válida para esta sequência: um quadro sem alvo
+            // logo depois de um reflexo mudaria o tilt efetivo (1778 → tilt_t) e daria falso DIVERGE.
+            if (hw.target && sw.target) {
+                d.check("pan_target_us", hw.pan_target_us, sw.pan_target_us);
+                d.check("tilt_target_us", hw.tilt_target_us, sw.tilt_target_us);
+            } else if (!hw.target && have_prev) {
+                d.check("pan_mantido", hw.pan_target_us, prev_pan);
+                d.check("tilt_mantido", hw.tilt_target_us, prev_tilt);
+            }
+            prev_pan = hw.pan_target_us; prev_tilt = hw.tilt_target_us; have_prev = true;
+        }
+        std::printf("F%02d hw %u us (LATENCY/50) | ponta a ponta %u us | sw %u us | %s%s\n", f,
+                    hw.latency_cycles / 50u, static_cast<unsigned>(t1 - t0), static_cast<unsigned>(t3 - t2),
+                    d.count ? "DIVERGE campo=" : "ok", d.count ? d.buf : "");
+        if (d.count) ++divergences;
+    }
+    std::printf("medula-test: %d divergências\n", divergences);
+    return divergences == 0 ? 0 : 3;
+}
+
+int medula_wd() {
+    hal::LwBridge br; medula::Medula med;
+    const int rc = open_medula(br, med);
+    if (rc) return rc;
+
+    med.wd_disable();   // zera um TRIPPED de execução anterior
+    med.wd_enable(100);
+    std::printf("medula-wd: timeout 100 ms, kicks a cada 20 ms por 2 s\n");
+    const uint32_t end = hal::now_ms() + 2000u;
+    while (hal::now_ms() < end) {
+        med.wd_kick();
+        if (med.wd_tripped()) {
+            med.wd_disable();
+            std::printf("medula-wd: disparou com kicks em dia (sleep de 20 ms atrasou > 100 ms?)\n");
+            return 3;
+        }
+        hal::sleep_ms(20);
+    }
+
+    // Para de chutar: o tempo medido parte do último kick.
+    med.wd_kick();
+    const uint64_t t0 = hal::now_us();
+    uint64_t x_us = 0;
+    bool tripped = false;
+    while ((x_us = hal::now_us() - t0) < 1000000u) {
+        if (med.wd_tripped()) { tripped = true; break; }
+        hal::sleep_ms(1);
+    }
+    med.wd_disable();
+    if (!tripped) {
+        std::printf("medula-wd: não disparou em 1 s\n");
+        return 3;
+    }
+    const unsigned x_ms = static_cast<unsigned>((x_us + 500u) / 1000u);   // ms inteiros mais próximos
+    std::printf("medula-wd: disparou em %u ms (%u.%03u)\n", x_ms, static_cast<unsigned>(x_us / 1000u),
+                static_cast<unsigned>(x_us % 1000u));
+    return (x_ms >= 100 && x_ms <= 150) ? 0 : 3;
 }
 
 }}  // namespace aracno::app
